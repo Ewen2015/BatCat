@@ -1,4 +1,4 @@
-GossipCat, A Cat Looks Like A Cat
+GossipCat, A Cat Looks Like A Bat
 ========================================
 
 😸😹😺😻😼😽😾😿🙀🐱
