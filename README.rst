@@ -10,7 +10,7 @@ Story of the BatCat
 
 The package names after a cat of my friend, Clara. 
 
-image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
+.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
 
 License
 -------

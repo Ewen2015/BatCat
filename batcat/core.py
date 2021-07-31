@@ -14,7 +14,7 @@ s3 = boto3.client('s3')
 
 
 def get_bucket_key(event):
-	"""
+    """
     arg:
         event: s3 trigger event
     return:
