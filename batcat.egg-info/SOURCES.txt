@@ -1,0 +1,10 @@
+README.rst
+setup.py
+batcat/__init__.py
+batcat/__version__.py
+batcat/core.py
+batcat.egg-info/PKG-INFO
+batcat.egg-info/SOURCES.txt
+batcat.egg-info/dependency_links.txt
+batcat.egg-info/requires.txt
+batcat.egg-info/top_level.txt
