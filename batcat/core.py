@@ -9,9 +9,21 @@ license:    Apache License 2.0
 import boto3
 from io import StringIO, BytesIO
 import pandas as pd 
+from datetime import datetime
 
 s3 = boto3.client('s3')
 
+
+def print_event(event):
+    """
+    arg:
+        event: s3 trigger event
+    return:
+        None
+    """
+    import json
+    print("Received event: " + json.dumps(event, indent=2))
+    return None
 
 def get_bucket_key(event):
     """
@@ -24,6 +36,24 @@ def get_bucket_key(event):
     key = event["Records"][0]["s3"]["object"]["key"]
     return bucket, key 
 
+
+def SuccessSignal(bucket, key='.success'):
+    """
+    arg:
+        bucket: target bucket to receive a signal
+        key: signal file
+    return:
+        statue: HTTPS status code
+    """
+    with StringIO() as buffer:
+        buffer.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S %f'))
+        response = s3.put_object(Bucket=bucket, 
+                                 Key=key, 
+                                 Body=buffer.getvalue())
+        status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
+    return status
+
+
 def read_csv_from_bucket(bucket, key):
     """
     arg:
@@ -35,7 +65,7 @@ def read_csv_from_bucket(bucket, key):
     df = pd.read_csv(BytesIO(response['Body'].read()))
     return df
 
-def read_excel_from_bucket(bucket, key, sheet_name=0):
+def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
     """
     arg:
         bucket, key: data source in s3
@@ -44,7 +74,9 @@ def read_excel_from_bucket(bucket, key, sheet_name=0):
         df: raw data, pandas.DataFrame
     """
     response = s3.get_object(Bucket=bucket, Key=key)
-    df = pd.read_excel(BytesIO(response['Body'].read()), sheet_name=sheet_name)
+    df = pd.read_excel(BytesIO(response['Body'].read()), 
+                       sheet_name=sheet_name, 
+                       header=header)
     return df 
 
 def save_to_bucket(df, bucket, key):
@@ -62,4 +94,3 @@ def save_to_bucket(df, bucket, key):
                                  Body=csv_buffer.getvalue())
         status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
     return status
-
