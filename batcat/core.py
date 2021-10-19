@@ -6,10 +6,10 @@ author:     Ewen Wang
 email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
-import boto3
 from io import StringIO, BytesIO
-import pandas as pd 
 from datetime import datetime
+import pandas as pd
+import boto3
 
 s3 = boto3.client('s3')
 
@@ -78,6 +78,40 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
                        sheet_name=sheet_name, 
                        header=header)
     return df 
+
+def get_data_from_athena(query, 
+                         date_start=None, 
+                         date_end=None,
+                         region,
+                         s3_staging_dir):
+    """
+    arg: 
+        query: querry to obtain data from Athena, str
+        date_start: date to start, strftime('%Y/%m/%d')
+        date_start: date to end, strftime('%Y/%m/%d')
+        region: region of the AWS environment, eg. "cn-northwest-1"
+        s3_staging_dir: s3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY"
+    """
+    from pyathena import connect
+    from pyathena.pandas.cursor import PandasCursor
+    
+    cursor = connect(s3_staging_dir=s3_staging_dir,
+                     region_name=region,
+                     cursor_class=PandasCursor).cursor()
+    
+    query = query.format(date_start, date_end) 
+    df = cursor.execute(query).as_pandas()
+    return df
+
+def get_date_with_delta(delta):
+    """ Get the date delta days ago.
+    arg:
+        delta: the number of days ago, int
+    return:
+        date: strftime('%Y/%m/%d')
+    """
+    from datetime import date, timedelta
+    return (date.today() - timedelta(days=delta)).strftime('%Y/%m/%d')
 
 def save_to_bucket(df, bucket, key):
     """
