@@ -80,8 +80,8 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
     return df 
 
 def get_data_from_athena(query, 
-                         date_start=None, 
-                         date_end=None,
+                         date_start, 
+                         date_end,
                          region,
                          s3_staging_dir):
     """
