@@ -1,9 +1,12 @@
-BatCat, A Cat Looks Like A Cat
+BatCat, a cat with a bat face!
 ========================================
 
 😸😹😺😻😼😽😾😿🙀🐱
 
-BatCat is designed to help data scientists handle data from Amazon Simple Storage Service (s3) in AWS Lambda.
+BatCat is designed to help data scientists to handle data on Amazon Web Services (AWS). Services covered:
+- Lambda
+- S3 (Simple Storage Service)
+- Athena
 
 Story of the BatCat
 ----------------------

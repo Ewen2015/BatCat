@@ -3,7 +3,10 @@ GossipCat, A Cat Looks Like A Bat
 
 😸😹😺😻😼😽😾😿🙀🐱
 
-BatCat is designed to help data scientists to handle data from Amazon S3 (Simple Storage Service) in AWS Lambda.
+BatCat is designed to help data scientists to handle data on Amazon Web Services (AWS). Services covered:
+- Lambda
+- S3 (Simple Storage Service)
+- Athena
 
 Story of the BatCat
 ----------------------
