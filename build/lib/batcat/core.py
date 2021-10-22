@@ -79,6 +79,22 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
                        header=header)
     return df 
 
+def save_to_bucket(df, bucket, key):
+    """
+    arg:
+        bucket, key: target data destination in s3
+        df: a pandas.DataFrame
+    return:
+        statues: HTTPS status code
+    """
+    with StringIO() as csv_buffer:
+        df.to_csv(csv_buffer, index=False)
+        response = s3.put_object(Bucket=bucket, 
+                                 Key=key, 
+                                 Body=csv_buffer.getvalue())
+        status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
+    return status
+    
 def get_data_from_athena(query, 
                          date_start, 
                          date_end,
@@ -113,18 +129,38 @@ def get_date_with_delta(delta):
     from datetime import date, timedelta
     return (date.today() - timedelta(days=delta)).strftime('%Y/%m/%d')
 
-def save_to_bucket(df, bucket, key):
+def get_data_from_redshit(query, 
+                          date_start, 
+                          date_end,
+                          host,
+                          password,
+                          port=5439,
+                          database='dev',
+                          user='awsuser'):
     """
-    arg:
-        bucket, key: target data destination in s3
-        df: a pandas.DataFrame
+    arg: 
+        query: querry to obtain data from Redshift, str
+        date_start: date to start, strftime('%Y/%m/%d')
+        date_start: date to end, strftime('%Y/%m/%d')
+        host: Redshift configuration
+        password: Redshift configuration
+        port: Redshift configuration
+        database: Redshift configuration
+        user: Redshift configuration
     return:
-        statues: HTTPS status code
+        df: target dataframe
     """
-    with StringIO() as csv_buffer:
-        df.to_csv(csv_buffer, index=False)
-        response = s3.put_object(Bucket=bucket, 
-                                 Key=key, 
-                                 Body=csv_buffer.getvalue())
-        status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
-    return status
+    from redshift_connector import connect
+    
+    cursor = connect(host=host,
+                    port=port,
+                    database=database,
+                    user=user,
+                    password=password).cursor()
+    
+    query = query.format(date_start, date_end) 
+    cursor.execute(query)
+    
+    df = cursor.fetch_dataframe()
+    return df
+

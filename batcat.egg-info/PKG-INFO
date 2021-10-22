@@ -1,18 +1,21 @@
 Metadata-Version: 1.1
 Name: batcat
-Version: 0.0.5
+Version: 0.0.6
 Summary: BatCat, A Cat Looks Like A Cat.
 Home-page: https://github.com/Ewen2015/BatpCat
 Author: Ewen Wang
 Author-email: wolfgangwong2012@gmail.com
 License: Apache License 2.0
 Description: 
-        BatCat, A Cat Looks Like A Cat
+        BatCat, a cat with a bat face!
         ========================================
         
         😸😹😺😻😼😽😾😿🙀🐱
         
-        BatCat is designed to help data scientists handle data from Amazon Simple Storage Service (s3) in AWS Lambda.
+        BatCat is designed to help data scientists to handle data on Amazon Web Services (AWS). Services covered:
+        - Lambda
+        - S3 (Simple Storage Service)
+        - Athena
         
         Story of the BatCat
         ----------------------
