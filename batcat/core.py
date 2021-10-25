@@ -164,3 +164,33 @@ def get_data_from_redshit(query,
     df = cursor.fetch_dataframe()
     return df
 
+def save_df_to_redshift(df,
+                        table_name,
+                        host,
+                        password,
+                        port=5439,
+                        database='dev',
+                        user='awsuser',
+                        if_exists='replace'):
+    """
+    arg: 
+        df: target dataframe
+        table_name: target table name'
+        if_exists: {‘fail’, ‘replace’, ‘append’}, default ‘fail’
+            How to behave if the table already exists.
+            fail: Raise a ValueError.
+            replace: Drop the table before inserting new values.
+            append: Insert new values to the existing table.
+        host: Redshift configuration
+        password: Redshift configuration
+        port: Redshift configuration
+        database: Redshift configuration
+        user: Redshift configuration
+    return:
+        None
+    """
+    from sqlalchemy import create_engine
+    
+    con = create_engine('postgresql+psycopg2://{}:{}@{}:{}/{}'.format(USER, PASSWORD, HOST, PORT, DATABASE))
+    df.to_sql(table_name, con, index=False, if_exists=if_exists)
+    return None
