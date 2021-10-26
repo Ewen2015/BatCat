@@ -166,8 +166,9 @@ def get_data_from_redshit(query,
 
 def save_df_to_redshift(df,
                         table_name,
-                        host,
-                        password,
+                        dtype=None,
+                        host=None,
+                        password=None,
                         port=5439,
                         database='dev',
                         user='awsuser',
@@ -176,6 +177,12 @@ def save_df_to_redshift(df,
     arg: 
         df: target dataframe
         table_name: target table name'
+        dtype: dict or scalar, optional
+            Specifying the datatype for columns. If a dictionary 
+            is used, the keys should be the column names and the 
+            values should be the SQLAlchemy types or strings for 
+            the sqlite3 legacy mode. If a scalar is provided, it 
+            will be applied to all columns.
         if_exists: {‘fail’, ‘replace’, ‘append’}, default ‘fail’
             How to behave if the table already exists.
             fail: Raise a ValueError.
@@ -186,11 +193,9 @@ def save_df_to_redshift(df,
         port: Redshift configuration
         database: Redshift configuration
         user: Redshift configuration
-    return:
-        None
     """
     from sqlalchemy import create_engine
     
     con = create_engine('postgresql+psycopg2://{}:{}@{}:{}/{}'.format(USER, PASSWORD, HOST, PORT, DATABASE))
-    df.to_sql(table_name, con, index=False, if_exists=if_exists)
+    df.to_sql(name=table_name, con=con, schema=None, if_exists=if_exists, index=False, index_label=None, chunksize=None, dtype=dtype, method=None)
     return None
