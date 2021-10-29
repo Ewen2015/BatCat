@@ -119,7 +119,7 @@ def get_data_from_athena(query,
     df = cursor.execute(query).as_pandas()
     return df
 
-def get_date_with_delta(delta):
+def get_date_with_delta(delta, format='%Y/%m/%d'):
     """ Get the date delta days ago.
     arg:
         delta: the number of days ago, int
@@ -127,7 +127,7 @@ def get_date_with_delta(delta):
         date: strftime('%Y/%m/%d')
     """
     from datetime import date, timedelta
-    return (date.today() - timedelta(days=delta)).strftime('%Y/%m/%d')
+    return (date.today() - timedelta(days=delta)).strftime(format)
 
 def get_data_from_redshit(query, 
                           date_start, 
