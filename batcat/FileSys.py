@@ -29,7 +29,7 @@ def FileSys():
     os.mkdir(pn)
     os.chdir(pn)
 
-    subdir = ['train', 'predict', 'apply', 'scripts']
+    subdir = ['train', 'predict', 'apply', 'scripts', 'notebooks', 'deploy']
     for d in subdir:
         os.mkdir(d)
 
