@@ -1,6 +1,7 @@
 LICENSE
 README.rst
 setup.py
+batcat/FileSys.py
 batcat/__init__.py
 batcat/__version__.py
 batcat/core.py
