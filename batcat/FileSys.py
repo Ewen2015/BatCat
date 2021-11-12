@@ -41,7 +41,7 @@ def FileSys():
         except Exception as e:
             pass 
 
-    os.chdir('5_deploy')
+    os.chdir('deploy')
     deploy = 'deploy.sh'
     with open(deploy, 'a') as f:
         try:
@@ -52,7 +52,7 @@ def FileSys():
             pass
     os.chdir('../')
 
-    os.chdir('4_script')
+    os.chdir('scripts')
     config = 'config.json'
     with open(config, 'a') as f:
         try:
