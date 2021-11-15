@@ -95,18 +95,18 @@ def save_to_bucket(df, bucket, key):
         status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
     return status
     
-def get_data_from_athena(query, 
-                         date_start, 
-                         date_end,
+def read_data_from_athena(query, 
                          region,
-                         s3_staging_dir):
+                         s3_staging_dir,
+                         date_start=None, 
+                         date_end=None):
     """
     arg: 
         query: querry to obtain data from Athena, str
-        date_start: date to start, strftime('%Y/%m/%d')
-        date_start: date to end, strftime('%Y/%m/%d')
         region: region of the AWS environment, eg. "cn-northwest-1"
         s3_staging_dir: s3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY"
+        date_start: date to start, strftime('%Y/%m/%d')
+        date_start: date to end, strftime('%Y/%m/%d')
     """
     from pyathena import connect
     from pyathena.pandas.cursor import PandasCursor
@@ -129,24 +129,49 @@ def get_date_with_delta(delta, format='%Y/%m/%d'):
     from datetime import date, timedelta
     return (date.today() - timedelta(days=delta)).strftime(format)
 
-def get_data_from_redshit(query, 
-                          date_start, 
-                          date_end,
+def read_data_from_bd(query, 
+                      host,
+                      user, 
+                      port,
+                      database,
+                      password):
+    """ get data from abc database
+    arg:
+        query: sql 
+        username: database username
+        password: database password
+    return:
+        df: dataframe
+    """
+    import pymysql
+    
+    connection = pymysql.connect(host=host,
+                                 user=user,
+                                 port=port,
+                                 db=database,
+                                 password=password)
+    
+    df = pd.read_sql(query, connection)
+    return df
+
+def read_data_from_redshit(query, 
                           host,
                           password,
                           port=5439,
                           database='dev',
-                          user='awsuser'):
+                          user='awsuser',
+                          date_start=None, 
+                          date_end=None):
     """
     arg: 
         query: querry to obtain data from Redshift, str
-        date_start: date to start, strftime('%Y/%m/%d')
-        date_start: date to end, strftime('%Y/%m/%d')
         host: Redshift configuration
         password: Redshift configuration
         port: Redshift configuration
         database: Redshift configuration
         user: Redshift configuration
+        date_start: date to start, strftime('%Y/%m/%d')
+        date_start: date to end, strftime('%Y/%m/%d')
     return:
         df: target dataframe
     """
