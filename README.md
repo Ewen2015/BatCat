@@ -1,10 +1,5 @@
-BatCat, A Cat Looks Like A Bat
+GossipCat, A Cat Looks Like A Bat
 ===
-
-[![GitHub version](https://badge.fury.io/gh/ewen2015%2Fbatcat.svg)](https://badge.fury.io/gh/ewen2015%2Fbatcat)
-![GitHub](https://img.shields.io/github/license/ewen2015/batcat)
-[![PyPI version](https://badge.fury.io/py/batcat.svg)](https://badge.fury.io/py/batcat)
-[![Python Versions](https://img.shields.io/pypi/pyversions/batcat.svg)](https://pypi.python.org/pypi/batcat)
 
 😸😹😺😻😼😽😾😿🙀🐱
 
@@ -30,7 +25,7 @@ BatCat practices MLOps in **3 layers (ASA)**:
 Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
 
 <p align="center">
-<img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
+<img width="600" src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
 </p>
 
 <p align="center">

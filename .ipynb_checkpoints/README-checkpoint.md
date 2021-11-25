@@ -25,7 +25,7 @@ BatCat practices MLOps in **3 layers (ASA)**:
 Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
 
 <p align="center">
-<img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
+<img width="600" src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
 </p>
 
 <p align="center">
