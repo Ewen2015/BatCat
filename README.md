@@ -29,7 +29,7 @@ Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://
 </p>
 
 <p align="center">
-<img width="600" height="400" src='https://www.tensorflow.org/tensorboard/images/tensorboard.gif'>
+<img width="600" height="400" src='https://github.com/Ewen2015/BatCat/blob/master/tensorboard.gif'>
 </p>
 
 #### 2. System level
