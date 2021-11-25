@@ -1,6 +1,9 @@
 GossipCat, A Cat Looks Like A Bat
 ===
 
+[![PyPI version](https://badge.fury.io/py/batcat.svg)](https://badge.fury.io/py/batcat)
+[![Python Versions](https://img.shields.io/pypi/pyversions/batcat.svg)](https://pypi.python.org/pypi/batcat)
+
 😸😹😺😻😼😽😾😿🙀🐱
 
 BatCat is designed to help data scientists to practice machine learning operations (MLOps) on Amazon Web Services (AWS). 
