@@ -1,4 +1,4 @@
-GossipCat, A Cat Looks Like A Bat
+BatCat, A Cat Looks Like A Bat
 ===
 
 [![GitHub version](https://badge.fury.io/gh/ewen2015%2Fbatcat.svg)](https://badge.fury.io/gh/ewen2015%2Fbatcat)
