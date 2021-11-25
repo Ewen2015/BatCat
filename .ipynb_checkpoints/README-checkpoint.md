@@ -34,12 +34,25 @@ Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://
 </p>
 
 <p align="center">
-<img width="600" height="400" src='https://github.com/Ewen2015/BatCat/blob/master/tensorboard.gif'>
+<img width="600" height="400" src='https://www.tensorflow.org/tensorboard/images/tensorboard.gif'>
 </p>
 
 #### 2. System level
 
-Tool: AWS Cloudwatch
+Tool: AWS CloudWatch
+
+AWS CloudWatch provides standard monitoring and operational data with dashboards, which satisfies the requirements of MLOps in system level. Generally, the following operational data are presented in the dashboard:
+
+- SageMaker CPU Ultilization
+- S3 bucket size
+- Lambda
+    - invocations
+    - erros
+- StepFunction
+    - execution time
+    - execution failed
+- Cost
+- Log group
 
 <p align="center">
 <img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png'>
