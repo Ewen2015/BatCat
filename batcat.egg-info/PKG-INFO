@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: batcat
-Version: 0.1.0
+Version: 0.1.1
 Summary: BatCat, A Cat Looks Like A Cat.
 Home-page: https://github.com/Ewen2015/BatpCat
 Author: Ewen Wang
@@ -8,27 +8,79 @@ Author-email: wolfgangwong2012@gmail.com
 License: Apache License 2.0
 Description: 
         BatCat, a cat with a bat face!
-        ========================================
+        ===
         
         😸😹😺😻😼😽😾😿🙀🐱
         
-        BatCat is designed to help data scientists to handle data on Amazon Web Services (AWS). Services covered:
+        BatCat is designed to help data scientists to practice machine learning operations (MLOps) on Amazon Web Services (AWS). 
+        
+        Services of AWS covered:
+        - AWS Lambda: a serverless, event-driven compute service
+        - AWS S3 (Simple Storage Service): provides object storage service
+        - Amazon Athena: a serverless, interactive query service on S3
+        - Amazon Redshift: a data warehouse product
+        
+        Philosophy of BatCat's MLOps
+        ---
+        
+        BatCat practices MLOps in **3 layers (ASA)**:
+        
+        1. **Algorithm level**: which is on machine learning algorithm itself, it cares about learning curve, iteration rounds, metrics, etc. 
+        2. **System level**: which treats the machine learning project as a system itself, it focuses on resources ultized and health of the machine learning pipeline.
+        3. **Application level**: which put the machine learning system as one of parts in a large process, it connects data producers from upstream and data consumers from downstreams. 
+        
+        #### 1. Algorithm level
+        
+        Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
+        
+        <p align="center">
+        <img width="600" src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
+        </p>
+        
+        <p align="center">
+        <img width="600" height="400" src='https://www.tensorflow.org/tensorboard/images/tensorboard.gif'>
+        </p>
+        
+        #### 2. System level
+        
+        Tool: AWS CloudWatch
+        
+        AWS CloudWatch provides standard monitoring and operational data with dashboards, which satisfies the requirements of MLOps in system level. Generally, the following operational data are presented in the dashboard:
+        
+        - SageMaker CPU Ultilization
+        - S3 bucket size
         - Lambda
-        - S3 (Simple Storage Service)
-        - Athena
+            - invocations
+            - erros
+        - StepFunction
+            - execution time
+            - execution failed
+        - Cost
+        - Log group
+        
+        <p align="center">
+        <img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png'>
+        </p>
+        
+        #### 3. Application level
+        
+        Tool: DataOps
+        
+        BatCat realizes application level MLOps by monitoring the distributions of data inputs (data source) and data outputs (predictions). As the applicaiton levle MLOps is a part of the whole DataOps, it should algin with the practice of DataOps according to each organziation or company.
         
         Story of the BatCat
-        ----------------------
+        ---
         
         The package names after a cat of my friend, Clara. 
         
-        .. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
+        <p align="center">
+        <img width="500" height="500" src="https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg">
+        </p>
         
         License
-        -------
+        ---
         
-        BatCat is licensed under the MIT License © Contributors, 2021.
-        
+        BatCat is licensed under the [MIT License](https://github.com/Ewen2015/BatCat/blob/master/LICENSE). © Contributors, 2022.
 Platform: UNKNOWN
 Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Programming Language :: Python :: 3.7

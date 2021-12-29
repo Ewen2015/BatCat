@@ -154,14 +154,14 @@ def read_data_from_bd(query,
     df = pd.read_sql(query, connection)
     return df
 
-def read_data_from_redshit(query, 
-                          host,
-                          password,
-                          port=5439,
-                          database='dev',
-                          user='awsuser',
-                          date_start=None, 
-                          date_end=None):
+def read_data_from_redshift(query, 
+                            host,
+                            password,
+                            port=5439,
+                            database='dev',
+                            user='awsuser',
+                            date_start=None, 
+                            date_end=None):
     """
     arg: 
         query: querry to obtain data from Redshift, str
