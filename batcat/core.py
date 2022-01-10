@@ -37,6 +37,26 @@ def get_bucket_key(event):
     return bucket, key 
 
 
+def list_bucket_files(bucket, prefix, suffix) -> list:
+    """
+    arg:
+        bucket: target s3 bucket
+        prefix: file prefix
+        suffix: file suffix
+    return:
+        file list
+    """
+    my_bucket = s3.Bucket(bucket)
+    
+    fl = []
+    for obj in my_bucket.objects.filter(Prefix=prefix):
+        if obj.key.endswith(suffix):
+            fl.append(obj.key)
+            print(obj.key)
+    return fl
+
+
+
 def SuccessSignal(bucket, key='.success'):
     """
     arg:
