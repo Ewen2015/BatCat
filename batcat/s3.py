@@ -13,25 +13,7 @@ import boto3
 
 s3 = boto3.client('s3')
 
-def list_bucket_files(bucket, prefix, suffix) -> list:
-    """
-    arg:
-        bucket: target s3 bucket
-        prefix: file prefix
-        suffix: file suffix
-    return:
-        file list
-    """
-    s3 = boto3.resource('s3')
-    my_bucket = s3.Bucket(bucket)
-    
-    fl = []
-    for obj in my_bucket.objects.filter(Prefix=prefix):
-        if obj.key.endswith(suffix):
-            fl.append(obj.key)
-            print(obj.key)
-    return fl
-
+## i/o
 
 def read_csv_from_bucket(bucket, key) -> pd.DataFrame:
     """
@@ -41,7 +23,7 @@ def read_csv_from_bucket(bucket, key) -> pd.DataFrame:
         df: raw data, pandas.DataFrame
     """    
     response = s3.get_object(Bucket=bucket, Key=key)
-    df = pd.read_csv(BytesIO(response['Body'].read()))
+    df = pd.read_csv(BytesIO(response['Body'].read()), error_bad_lines=False, warn_bad_lines=False)
     return df
 
 def read_excel_from_bucket(bucket, key, sheet_name=0, header=0) -> pd.DataFrame:
@@ -74,7 +56,59 @@ def save_to_bucket(df, bucket, key):
         status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
     return status
 
+
+## multiple 
+
+def list_bucket_files(bucket, prefix, suffix) -> list:
+    """
+    arg:
+        bucket: target s3 bucket
+        prefix: file prefix
+        suffix: file suffix
+    return:
+        file list
+    """
+    s3 = boto3.resource('s3')
+    my_bucket = s3.Bucket(bucket)
     
+    fl = []
+    for obj in my_bucket.objects.filter(Prefix=prefix):
+        if obj.key.endswith(suffix):
+            fl.append(obj.key)
+            print(obj.key)
+    return fl
+
+def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, target_suffix, key_sub):
+    """
+    arg:
+        bucket: source bucket
+        prefix: prefix of source files
+        suffix: suffix of source files
+        target_bucket: target bucket
+        target_prefix: prefix of target files
+        target_suffix: suffix of target files
+        key_sub: information to substract from source keys, a tuple
+    return:
+        None
+    """
+    import boto3
+    s3 = boto3.resource('s3')
+    source_bucket = s3.Bucket(bucket)
+    
+    for obj in source_bucket.objects.filter(Prefix=prefix):
+        if obj.key.endswith(suffix):
+            print(obj.key)
+            copy_source_object = {'Bucket': bucket, 'Key': obj.key}
+            target_key = "{}{}{}".format(target_prefix, obj.key[key_sub[0]:key_sub[1]], target_suffix)
+            
+            s3_client = boto3.client("s3")
+            s3_client.copy_object(CopySource=copy_source_object, Bucket=target_bucket, Key=target_key)
+            print('copied {}'.format(target_key))     
+    return None
+
+
+## signal
+
 def SuccessSignal(bucket, key='.success'):
     """
     arg:
