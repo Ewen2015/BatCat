@@ -107,9 +107,9 @@ def StepFunction(project,
                             source=s3CodePath,
                             destination='/opt/ml/processing/input/code',
                             input_name='code')],
-        outputs=[ProcessingOutput(output_name=PURPOSE,
+        outputs=[ProcessingOutput(output_name=purpose,
                         destination = execution_input["ResultPath"],
-                        source='/opt/ml/processing/{}'.format(PURPOSE))],
+                        source='/opt/ml/processing/{}'.format(purpose))],
         container_entrypoint=["python3", "/opt/ml/processing/input/code/"+script_dir],
     )
 
@@ -145,7 +145,7 @@ def StepFunction(project,
 # test
 # ========================================================================================
 
-def test_workflow(workflow, result_path):
+def test_workflow(workflow, result_path, project, purpose):
     """
     arg:
         workflow: a stepfunctions.workflow.Workflow instance
@@ -158,7 +158,7 @@ def test_workflow(workflow, result_path):
     import time
 
     job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
+    job_name = "{}-{}-{}".format(project, purpose, job)
     
     # Execute workflow
     execution = workflow.execute(
