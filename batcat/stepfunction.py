@@ -17,20 +17,28 @@ from sagemaker.processing import ScriptProcessor
 from smexperiments.experiment import Experiment
 
 
-def StepFunction(project,
-                 purpose,
-                 workflow_execution_role, 
-                 script_dir,
-                 ecr_repository,
-                 workflow_name):
-    """ 
+config = {    
+    "WORKFLOW_EXECUTION_ROLE": "",
+    "ECR_REPOSITORY": "",
+    "PROJECT": "",
+    "PURPOSE": "",
+    "SCRIPT_DIR": "",
+    "WORKFLOW_NAME": "",
+    "RESULT_PATH": ""}
+
+
+def setup_workflow(project,
+                   purpose,
+                   workflow_execution_role, 
+                   script_dir,
+                   ecr_repository):
+    """ to setup all needed for a step function with sagemaker.
     arg: 
         project: project name under sagemaker
         purpose: subproject
         workflow_execution_role: arn to execute step functions
         script_dir: processing file name, like a .py file
         ecr_repository: ecr repository name
-        workflow_name: workflow name to register in step functions
     return:
         workflow: a stepfunctions.workflow.Workflow instance  
     example: 
@@ -39,7 +47,6 @@ def StepFunction(project,
         WORKFLOW_EXECUTION_ROLE = "arn:aws-cn:iam::[*********]:role/[**************]"
         SCRIPT_DIR = "[processing].py"
         ECR_REPOSITORY = '[ecr-2022]'
-        WORKFLOW_NAME='[DEPTMT-PROJECT-SUBPROJECT-WORKFLOW]'
     """
 
     # SageMaker Session setup
@@ -130,6 +137,7 @@ def StepFunction(project,
     # ========================================================================================
     optimizing_step.add_catch(catch_state_processing)
 
+    workflow_name = workflow_name = "workflow-{}-{}".format(project, purpose).upper()
     workflow_graph = steps.Chain([optimizing_step])
 
     workflow = Workflow(
@@ -142,31 +150,78 @@ def StepFunction(project,
     return workflow
 
 
-# test
-# ========================================================================================
-
-def test_workflow(workflow, result_path, project, purpose):
-    """
+def inner_path(purpose, local=False):
+    """ setup a result path within container.
     arg:
-        workflow: a stepfunctions.workflow.Workflow instance
-        result_path: s3 result path
+        purpose: subproject
+        local: if set the path to local for test
     return:
-        None
-    example:
-        RESULT_PATH = "s3://[****]/[****]"
+        path: a csv path for later usage
     """
+    job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+    path = '/opt/ml/processing/{}/{}_{}.csv'.format(purpose, purpose, job)
+    if local:
+        path = '{}_{}.csv'.format(purpose, job)
+    return path
+
+
+def test_templete():
+    templete = """
+    def test(workflow):
+        import time
+
+        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+        job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
+        
+        # Execute workflow
+        execution = workflow.execute(
+            inputs={
+                "ProcessingJobName": job_name,
+                "ResultPath": RESULT_PATH, 
+            }
+        )
+        execution_output = execution.get_output(wait=True)
+
+        return None
+    """
+    print(test_templete)
+    return None
+
+
+def lambda_templete():
+    templete = """
+    import json
+    import boto3
+    import uuid
     import time
 
-    job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    job_name = "{}-{}-{}".format(project, purpose, job)
-    
-    # Execute workflow
-    execution = workflow.execute(
+    WORKFLOWARN = 'arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]'
+    PROJECT = '[****]'
+    PURPOSE = '[****]'
+    RESULT_PATH = "s3://[****]/[****]"
+    client = boto3.client('stepfunctions')
+
+    def lambda_handler(event, context):  
+        transactionId = str(uuid.uuid1())
+
+        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+        job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
+
         inputs={
             "ProcessingJobName": job_name,
-            "ResultPath": result_path, 
+            "ResultPath": RESULT_PATH, 
         }
-    )
-    execution_output = execution.get_output(wait=True)
+        
+        response = client.start_execution(
+                stateMachineArn = WORKFLOWARN,
+                name = transactionId,
+                input = json.dumps(inputs)
+            )
 
+        return {
+           'statusCode': 200,
+           'body': json.dumps('succeeded!')
+       }
+    """
+    print(templete)
     return None
