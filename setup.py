@@ -9,7 +9,7 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 NAME = 'batcat'
-DESCRIPTION = 'BatCat, A Cat Looks Like A Cat.'
+DESCRIPTION = 'BatCat, A Cat Looks Like A Bat.'
 URL = 'https://github.com/Ewen2015/BatpCat'
 EMAIL = 'wolfgangwong2012@gmail.com'
 AUTHOR = 'Ewen Wang'
