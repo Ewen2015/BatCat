@@ -101,7 +101,7 @@ def setup_workflow(project,
                                        image_uri=ecr_repository_uri,
                                        role=role,
                                        instance_count=1,
-                                       instance_type='ml.c5.xlarge')
+                                       instance_type='ml.m5.4xlarge')
 
     # Step
     # ========================================================================================
