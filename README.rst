@@ -1,5 +1,5 @@
-BatCat, a cat with a bat face!
-===
+BatCat, A Cat with A Bat Face!
+==============================
 
 😸😹😺😻😼😽😾😿🙀🐱
 
@@ -24,13 +24,9 @@ BatCat practices MLOps in **3 layers (ASA)**:
 
 Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
 
-<p align="center">
-<img width="600" src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
-</p>
+.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png
 
-<p align="center">
-<img width="600" height="400" src='https://www.tensorflow.org/tensorboard/images/tensorboard.gif'>
-</p>
+.. image:: https://www.tensorflow.org/tensorboard/images/tensorboard.gif
 
 #### 2. System level
 
@@ -49,9 +45,7 @@ AWS CloudWatch provides standard monitoring and operational data with dashboards
 - Cost
 - Log group
 
-<p align="center">
-<img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png'>
-</p>
+.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png
 
 #### 3. Application level
 
@@ -64,11 +58,9 @@ Story of the BatCat
 
 The package names after a cat of my friend, Clara. 
 
-<p align="center">
-<img width="500" height="500" src="https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg">
-</p>
+.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
 
 License
 ---
 
-BatCat is licensed under the [MIT License](https://github.com/Ewen2015/BatCat/blob/master/LICENSE). © Contributors, 2022.
+BatCat is licensed under the MIT License. © Contributors, 2022.
