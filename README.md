@@ -5,6 +5,8 @@ BatCat, a cat with a bat face!
 ![GitHub](https://img.shields.io/github/license/ewen2015/batcat)
 [![PyPI version](https://badge.fury.io/py/batcat.svg)](https://badge.fury.io/py/batcat)
 [![Python Versions](https://img.shields.io/pypi/pyversions/batcat.svg)](https://pypi.python.org/pypi/batcat)
+[![Documentation Status](https://readthedocs.org/projects/batcat/badge/?version=latest)](https://batcat.readthedocs.io/en/latest/?badge=latest)
+
 
 😸😹😺😻😼😽😾😿🙀🐱
 
