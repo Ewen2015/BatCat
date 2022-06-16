@@ -1,4 +1,6 @@
-# BatCat Documentation
+####################
+BatCat Documentation
+####################
 
 **BatCat** is designed to help data scientists to practice **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
 
