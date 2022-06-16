@@ -29,7 +29,7 @@ def FileSys():
     os.mkdir(pn)
     os.chdir(pn)
 
-    subdir = ['train', 'predict', 'apply', 'scripts', 'notebooks', 'deploy', 'data', 'model']
+    subdir = ['doc', 'data', 'notebook', 'script', 'deploy', 'model', 'test', 'report', 'log']
     for d in subdir:
         os.mkdir(d)
 
@@ -52,7 +52,7 @@ def FileSys():
             pass
     os.chdir('../')
 
-    os.chdir('scripts')
+    os.chdir('script')
     config = 'config.json'
     with open(config, 'a') as f:
         try:
@@ -61,10 +61,16 @@ def FileSys():
         except Exception as e:
             pass 
     os.chdir('../')
-   
+
+    os.chdir('data')
+    dir_data = ['raw', 'train', 'test', 'result', 'tmp']
+    for d in dir_data:
+        os.mkdir(d)
+    os.chdir('../')
+
+    
     tree(os.getcwd())
     return None
-
 def main():
     FileSys()
 
