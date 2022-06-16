@@ -1,5 +1,6 @@
+##############################
 BatCat, A Cat with A Bat Face!
-==============================
+##############################
 
 😸😹😺😻😼😽😾😿🙀🐱
 
@@ -12,7 +13,7 @@ Services of AWS covered:
 - Amazon Redshift: a data warehouse product
 
 Philosophy of BatCat's MLOps
----
+============================
 
 BatCat practices MLOps in **3 layers (ASA)**:
 
@@ -20,15 +21,21 @@ BatCat practices MLOps in **3 layers (ASA)**:
 2. **System level**: which treats the machine learning project as a system itself, it focuses on resources ultized and health of the machine learning pipeline.
 3. **Application level**: which put the machine learning system as one of parts in a large process, it connects data producers from upstream and data consumers from downstreams. 
 
-#### 1. Algorithm level
+1. Algorithm level
+------------------
 
-Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
+Tool: `GossipCat <https://github.com/Ewen2015/GossipCat>`_, `TensorBoard <https://www.tensorflow.org/tensorboard>`_
 
 .. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png
+    :width: 600
+    :align: center
 
 .. image:: https://www.tensorflow.org/tensorboard/images/tensorboard.gif
+    :width: 600
+    :align: center
 
-#### 2. System level
+2. System level
+---------------
 
 Tool: AWS CloudWatch
 
@@ -46,21 +53,26 @@ AWS CloudWatch provides standard monitoring and operational data with dashboards
 - Log group
 
 .. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png
+    :width: 600
+    :align: center
 
-#### 3. Application level
+3. Application level
+--------------------
 
 Tool: DataOps
 
 BatCat realizes application level MLOps by monitoring the distributions of data inputs (data source) and data outputs (predictions). As the applicaiton levle MLOps is a part of the whole DataOps, it should algin with the practice of DataOps according to each organziation or company.
 
 Story of the BatCat
----
+===================
 
 The package names after a cat of my friend, Clara. 
 
 .. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
+    :width: 400
+    :align: center
 
 License
----
+=======
 
 BatCat is licensed under the MIT License. © Contributors, 2022.
