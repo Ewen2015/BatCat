@@ -165,63 +165,74 @@ def inner_path(purpose, local=False):
     return path
 
 
-def test_templete():
-    templete = """
-    def test(workflow):
-        import time
 
-        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-        job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
-        
-        # Execute workflow
-        execution = workflow.execute(
-            inputs={
-                "ProcessingJobName": job_name,
-                "ResultPath": RESULT_PATH, 
-            }
-        )
-        execution_output = execution.get_output(wait=True)
-
-        return None
+def test(workflow, project=None, purpose=None, result_path=None):
+    """ to test a step function workflow.
+    arg:
+        workflow: a stepfunctions.workflow.Workflow instance
+        project: project name under sagemaker
+        purpose: subproject
+        result_path: a local path to save results
+    return:
+        None
     """
-    print(test_templete)
+    job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+    job_name = "{}-{}-{}".format(project, purpose, job)
+    
+    # Execute workflow
+    execution = workflow.execute(
+        inputs={
+            "ProcessingJobName": job_name,
+            "ResultPath": result_path, 
+        }
+    )
+    execution_output = execution.get_output(wait=True)
     return None
 
 
-def lambda_templete():
-    templete = """
-    import json
-    import boto3
-    import uuid
-    import time
 
-    WORKFLOWARN = 'arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]'
-    PROJECT = '[****]'
-    PURPOSE = '[****]'
-    RESULT_PATH = "s3://[****]/[****]"
-    client = boto3.client('stepfunctions')
+def lambda_templete(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
+                    project=None, 
+                    purpose=None, 
+                    result_path="s3://[****]/[****]"):
+    templete = \
+"""#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import json
+import boto3
+import uuid
+import time
 
-    def lambda_handler(event, context):  
-        transactionId = str(uuid.uuid1())
+WORKFLOWARN = {}
+PROJECT = {}
+PURPOSE = {}
+RESULT_PATH = {}
+client = boto3.client('stepfunctions')
 
-        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-        job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
+def lambda_handler(event, context):  
+    transactionId = str(uuid.uuid1())
 
-        inputs={
-            "ProcessingJobName": job_name,
-            "ResultPath": RESULT_PATH, 
-        }
-        
-        response = client.start_execution(
-                stateMachineArn = WORKFLOWARN,
-                name = transactionId,
-                input = json.dumps(inputs)
-            )
+    job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+    job_name = "{}-{}-{}".format(PROJECT, PURPOSE, job)
 
-        return {
-           'statusCode': 200,
-           'body': json.dumps('succeeded!')
-       }
-    """
-    print(templete)
+    inputs={
+        "ProcessingJobName": job_name,
+        "ResultPath": RESULT_PATH, 
+    }
+    
+    response = client.start_execution(
+            stateMachineArn = WORKFLOWARN,
+            name = transactionId,
+            input = json.dumps(inputs)
+        )
+
+    return {
+       'statusCode': 200,
+       'body': json.dumps('succeeded!')
+   }
+""".format(workflowarn, project, purpose, result_path)
+    
+    with open('trigger.py', 'w') as writer:
+        writer.write(templete)
+
     return None
