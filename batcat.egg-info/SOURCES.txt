@@ -1,6 +1,7 @@
 LICENSE
 README.rst
 setup.py
+batcat/Docker.py
 batcat/FileSys.py
 batcat/__init__.py
 batcat/__version__.py
@@ -9,7 +10,7 @@ batcat/core.py
 batcat/lambda.py
 batcat/redshift.py
 batcat/s3.py
-batcat/stepfunction.py
+batcat/stepfunctions.py
 batcat.egg-info/PKG-INFO
 batcat.egg-info/SOURCES.txt
 batcat.egg-info/dependency_links.txt
