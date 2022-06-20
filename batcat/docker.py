@@ -9,7 +9,7 @@ license:    Apache License 2.0
 
 def docker(ecr_repository, uri_suffix='amazonaws.com.cn', pip_image=True, python_version='3.7-slim-buster'):
     if pip_image:
-        pip_image = "-i https://pypi.douban.com/simple/"
+        pip_image = "-i https://pypi.douban.com/simple/ --trusted-host=pypi.douban.com/simple"
     templete_docker=\
 """#!/bin/bash
 
@@ -72,9 +72,6 @@ redshift_connector==2.0.888
 sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
-catboost==1.0.5
-shap==0.40.0
-mlxtend==0.19.0
 gossipcat==0.3.2
 batcat==0.1.6
 """
