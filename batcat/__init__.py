@@ -8,4 +8,7 @@ license:    Apache License 2.0
 """
 from .core import *
 from .FileSys import *
+from .s3 import *
+from .redshift import *
+from .athena import *
 from .Docker import *
