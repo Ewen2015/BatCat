@@ -190,8 +190,47 @@ def test(workflow, project=None, purpose=None, result_path=None):
     return None
 
 
+def templete_setup_stepfunctions(workflow_execution_role="arn:aws-cn:iam::[****]:role/[****]",
+                                 ecr_repository=None,    
+                                 project=None,
+                                 purpose=None,
+                                 script_dir="[****].py",
+                                 result_path="s3://[****]/[****]"):
+    templete = \
+"""#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-def lambda_templete(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
+from batcat.stepfunctions import setup_workflow
+from batcat.stepfunctions import test
+
+if __name__ == '__main__':
+
+    WORKFLOW_EXECUTION_ROLE = {}
+    ECR_REPOSITORY = {}
+    PROJECT = {}
+    PURPOSE = {}
+
+    SCRIPT_DIR = {}
+    RESULT_PATH = {}
+    
+    workflow = setup_workflow(project=PROJECT,
+                                purpose=PURPOSE,
+                                workflow_execution_role=WORKFLOW_EXECUTION_ROLE,
+                                script_dir=SCRIPT_DIR,
+                                ecr_repository=ECR_REPOSITORY)
+
+    test(workflow, project=PROJECT, purpose=PURPOSE, result_path=RESULT_PATH)
+
+    # workflow.delete()
+""".format(workflow_execution_role, ecr_repository, project, purpose, script_dir, result_path)
+    
+    with open('setup_stepfuncions_{}.py'.format(purpose), 'w') as writer:
+        writer.write(templete)
+
+    return None
+
+
+def templete_lambda(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
                     project=None, 
                     purpose=None, 
                     result_path="s3://[****]/[****]"):
