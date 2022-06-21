@@ -21,7 +21,6 @@ REQUIRED = [
     'sagemaker==2.59.8', 
     'stepfunctions==2.2.0',
     'sagemaker-experiments==0.1.35', 
-    'sagemaker-training==3.9.2', 
     'pyathena==2.3.0', 
     'redshift_connector==2.0.888', 
     'sqlalchemy==1.3.23', 
