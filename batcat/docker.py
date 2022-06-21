@@ -19,7 +19,7 @@ uri_suffix="{}"
 
 # INSTALL PYTHON PACKAGES
 # ========================================================================================================
-python3 -m pip install --upgrade batcat {}
+python3 -m pip install batcat==0.1.16 {}
 
 # DOCKER
 # ========================================================================================================
@@ -73,7 +73,7 @@ sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
 gossipcat==0.3.2
-batcat==0.1.15
+batcat==0.1.16
 """
     with open('requirement.txt', 'w') as writer:
         writer.write(templete_req_docker)
