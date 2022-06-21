@@ -14,9 +14,19 @@ URL = 'https://github.com/Ewen2015/BatpCat'
 EMAIL = 'wolfgangwong2012@gmail.com'
 AUTHOR = 'Ewen Wang'
 REQUIRED = [
-    'pandas', 'boto3', 'awscli', 'requests', 'sagemaker', 'stepfunctions',
-    'sagemaker-experiments', 'sagemaker-training', 'pyathena', 
-    'redshift_connector', 'sqlalchemy', 'psycopg2', 'psycopg2-binary'
+    'pandas', 
+    'boto3==1.18.57', 
+    'awscli==1.20.57', 
+    'requests==2.26.0', 
+    'sagemaker==2.59.8', 
+    'stepfunctions==2.2.0',
+    'sagemaker-experiments==0.1.35', 
+    'sagemaker-training==3.9.2', 
+    'pyathena==2.3.0', 
+    'redshift_connector==2.0.888', 
+    'sqlalchemy==1.3.23', 
+    'psycopg2==2.7.7', 
+    'psycopg2-binary==2.9.1'
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
