@@ -150,7 +150,7 @@ def setup_workflow(project,
     return workflow
 
 
-def inner_path(purpose, local=False):
+def processing_inner_path(purpose, sub, local=False):
     """ setup a result path within container.
     arg:
         purpose: subproject
@@ -159,9 +159,9 @@ def inner_path(purpose, local=False):
         path: a csv path for later usage
     """
     job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    path = '/opt/ml/processing/{}/{}_{}.csv'.format(purpose, purpose, job)
+    path = '/opt/ml/processing/{}/{}_{}.csv'.format(purpose, sub, job)
     if local:
-        path = '{}_{}.csv'.format(purpose, job)
+        path = '{}_{}.csv'.format(sub, job)
     return path
 
 
@@ -275,3 +275,6 @@ def lambda_handler(event, context):
         writer.write(templete)
 
     return None
+
+if __name__ == '__main__':
+    main()
