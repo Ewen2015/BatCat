@@ -97,3 +97,6 @@ batcat==0.1.6
     with open('requirements.txt', 'w') as writer:
         writer.write(templete_req)
     return None
+
+if __name__ == '__main__':
+    main()

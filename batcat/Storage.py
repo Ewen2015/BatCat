@@ -124,3 +124,6 @@ def SuccessSignal(bucket, key='.success'):
                                  Body=buffer.getvalue())
         status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
     return status
+
+if __name__ == '__main__':
+    main()

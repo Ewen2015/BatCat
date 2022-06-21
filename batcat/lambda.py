@@ -28,3 +28,6 @@ def get_bucket_key(event):
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     key = event["Records"][0]["s3"]["object"]["key"]
     return bucket, key 
+
+if __name__ == '__main__':
+    main()

@@ -82,8 +82,5 @@ def save_df_to_redshift(df,
     return None
 
 
-
-
-
-
-
+if __name__ == '__main__':
+    main()

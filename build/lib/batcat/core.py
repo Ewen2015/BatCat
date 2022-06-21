@@ -43,3 +43,5 @@ def read_data_from_bd(query,
     df = pd.read_sql(query, connection)
     return df
 
+if __name__ == '__main__':
+    main()
