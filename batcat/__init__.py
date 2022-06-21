@@ -8,7 +8,9 @@ license:    Apache License 2.0
 """
 from .core import *
 from .FileSys import *
-from .s3 import *
-from .redshift import *
-from .athena import *
+from .Storage import *
+from .Redshift import *
+from .Athena import *
 from .Docker import *
+from .Stepfunctions import *
+from .Lambda import *
