@@ -1,2 +1,13 @@
 pandas
 boto3
+awscli
+requests
+sagemaker
+stepfunctions
+sagemaker-experiments
+sagemaker-training
+pyathena
+redshift_connector
+sqlalchemy
+psycopg2
+psycopg2-binary
