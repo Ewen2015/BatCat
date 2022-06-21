@@ -19,13 +19,13 @@ uri_suffix="{}"
 
 # INSTALL PYTHON PACKAGES
 # ========================================================================================================
-python3 -m pip install -r requirements.txt {}
+python3 -m pip install batcat==0.1.15
 
 # DOCKER
 # ========================================================================================================
 # WRITE DOCKER FILE
 mkdir -p docker
-cp requirements_docker.txt docker/requirements.txt
+cp requirements.txt docker/requirements.txt
 cd docker
 rm Dockerfile
 cat <<EOF >> Dockerfile
@@ -73,29 +73,11 @@ sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
 gossipcat==0.3.2
-batcat==0.1.6
+batcat==0.1.15
 """
-    with open('requirements_docker.txt', 'w') as writer:
+    with open('requirement.txt', 'w') as writer:
         writer.write(templete_req_docker)
-    
-    templete_req=\
-"""awscli==1.20.57
-boto3==1.18.57
-requests==2.26.0
-sagemaker==2.59.8
-stepfunctions==2.2.0
-sagemaker-experiments==0.1.35
-sagemaker-training==3.9.2 
-boto3==1.18.57
-pyathena==2.3.0
-redshift_connector==2.0.888
-sqlalchemy==1.3.23
-psycopg2==2.7.7
-psycopg2-binary==2.9.1
-batcat==0.1.6
-"""
-    with open('requirements.txt', 'w') as writer:
-        writer.write(templete_req)
+
     return None
 
 if __name__ == '__main__':
