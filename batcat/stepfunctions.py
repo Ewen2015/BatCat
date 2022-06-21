@@ -150,23 +150,29 @@ def setup_workflow(project,
     return workflow
 
 
-def processing_inner_path(purpose, sub, local=False):
+def processing_inner_path(purpose, filename, timestamp=True, local=False):
     """ setup a result path within container.
     arg:
-        purpose: subproject
+        purpose: a purpose under a project
+        filename: a specific file under a purpose
+        timestamp: whether a timestamp in file name is needed
         local: if set the path to local for test
     return:
         path: a csv path for later usage
     """
-    job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    path = '/opt/ml/processing/{}/{}_{}.csv'.format(purpose, sub, job)
+    if timestamp:
+        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+        job = '_{}'.format(job)
+    else:
+        job = ''
+    path = '/opt/ml/processing/{}/{}{}.csv'.format(purpose, filename, job)
     if local:
-        path = '{}_{}.csv'.format(sub, job)
+        path = '{}{}.csv'.format(filename, job)
     return path
 
 
 
-def test(workflow, project=None, purpose=None, result_path=None):
+def test_workflow(workflow, project=None, purpose=None, result_path=None):
     """ to test a step function workflow.
     arg:
         workflow: a stepfunctions.workflow.Workflow instance
