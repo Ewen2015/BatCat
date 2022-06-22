@@ -1,6 +1,5 @@
-####################
-BatCat Documentation
-####################
+BatCat Introduction
+===================
 
 
 **BatCat** is designed to help data scientists to practice **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
@@ -37,10 +36,10 @@ BatCat provides one-line command to setup a well-organized file structure for da
     bc.FileSys()
 
 
-Import Data
-===========
+Storage: Data Loading and Saving 
+================================
 
-BatCat supports importing data from S3, Redshift, and Athena.
+BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.
 
 .. code-block:: Python
     
@@ -56,4 +55,24 @@ BatCat supports importing data from S3, Redshift, and Athena.
                                port,
                                database,
                                user)
+
+Compute: Docker and Step Functions Setup
+========================================
+
+BatCat provides templetes for docker and Step Functions setup. 
+
+
+.. code-block:: Python
+
+    bc.docker(ecr_repository)
+
+    bc.templete_setup_stepfunctions()
+
+    bc.templete_lambda()
+
+
+
+
+
+
 
