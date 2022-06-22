@@ -20,26 +20,27 @@ def tree(path=os.getcwd()):
             print('{}{}'.format(subindent, f))
     return None
 
-def FileSys():
+def FileSys(project_name=True):
     """To establish a machine learning project file system.
     """
-    print("hi, there! please write down your machine learning project's name.")
-    name = input("project's name: ")
-    pn = 'project_'+name
-    os.mkdir(pn)
-    os.chdir(pn)
+    if project_name:
+        print("hi, there! please write down your machine learning project's name.")
+        name = input("project's name: ")
+        pn = 'project_'+name
+        os.mkdir(pn)
+        os.chdir(pn)
+
+        readme = 'README.md'
+        with open(readme, 'a') as f:
+            try:
+                f.write("# {}".format(name))
+                os.utime(readme, None)
+            except Exception as e:
+                pass 
 
     subdir = ['doc', 'data', 'notebook', 'script', 'deploy', 'model', 'test', 'report', 'log']
     for d in subdir:
         os.mkdir(d)
-
-    readme = 'README.md'
-    with open(readme, 'a') as f:
-        try:
-            f.write("# {}".format(name))
-            os.utime(readme, None)
-        except Exception as e:
-            pass 
 
     os.chdir('deploy')
     deploy = 'deploy.sh'
@@ -68,9 +69,16 @@ def FileSys():
         os.mkdir(d)
     os.chdir('../')
 
+    with open('.gitignore', 'a') as f:
+        try:
+            f.write("data/*")
+            os.utime(deploy, None)
+        except Exception as e:
+            pass
     
     tree(os.getcwd())
     return None
+
 def main():
     FileSys()
 
