@@ -1,4 +1,4 @@
-VERSION = (0, 1, 20)
+VERSION = (0, 1, 21)
 
 __version__ = '.'.join(map(str, VERSION))
 
@@ -6,6 +6,3 @@ __version__ = '.'.join(map(str, VERSION))
 # python3 -m twine upload dist/*
 
 # pip3 install dist/my-project.whl
-
-if __name__ == '__main__':
-    main()

@@ -7,10 +7,10 @@ email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
 
-from .__version__ import *
-
-
-def docker(ecr_repository, uri_suffix='amazonaws.com.cn', pip_image=True, python_version='3.7-slim-buster'):
+def docker(ecr_repository, 
+           uri_suffix='amazonaws.com.cn', 
+           pip_image=True, 
+           python_version='3.7-slim-buster'):
     """To establish a machine learning project file system.
     args:
         ecr_repository: name of an AWS ECR repository to be setup
@@ -82,8 +82,8 @@ sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
 gossipcat==0.3.2
-batcat=={}
-""".format(__version__)
+batcat
+"""
 
     with open('requirement.txt', 'w') as writer:
         writer.write(templete_req_docker)
