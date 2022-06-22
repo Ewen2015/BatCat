@@ -22,6 +22,10 @@ def tree(path=os.getcwd()):
 
 def FileSys(project_name=True):
     """To establish a machine learning project file system.
+    args:
+        project_name: if a project name is needed, default True
+    return:
+        None
     """
     if project_name:
         print("hi, there! please write down your machine learning project's name.")
