@@ -7,19 +7,29 @@ email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
 
+from __version__ import *
+
+
 def docker(ecr_repository, uri_suffix='amazonaws.com.cn', pip_image=True, python_version='3.7-slim-buster'):
+    """To establish a machine learning project file system.
+    args:
+        ecr_repository: name of an AWS ECR repository to be setup
+        uri_suffix: suffix of URL, default 'amazonaws.com.cn'
+        pip_image: whether a pip image is needed, default True and use douban image
+        python_version: Python version, default '3.7-slim-buster'
+    return:
+        None
+    """
+
     if pip_image:
         pip_image = "-i https://pypi.douban.com/simple/ --trusted-host=pypi.douban.com/simple"
+
     templete_docker=\
 """#!/bin/bash
 
 account_id=$(aws sts get-caller-identity --query Account --output text)
 region=$(aws configure get region)
 uri_suffix="{}"
-
-# INSTALL PYTHON PACKAGES
-# ========================================================================================================
-python3 -m pip install batcat==0.1.16 {}
 
 # DOCKER
 # ========================================================================================================
@@ -65,7 +75,6 @@ ipython==7.26.0
 ipywidgets==7.6.3  
 traitlets==5.0.5
 numba==0.52.0
-sagemaker-training==3.9.2 
 boto3==1.18.57
 pyathena==2.3.0
 redshift_connector==2.0.888
@@ -73,8 +82,9 @@ sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
 gossipcat==0.3.2
-batcat==0.1.16
-"""
+batcat=={}
+""".format(__version__)
+
     with open('requirement.txt', 'w') as writer:
         writer.write(templete_req_docker)
 
