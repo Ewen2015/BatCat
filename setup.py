@@ -23,8 +23,7 @@ REQUIRED = [
     'sagemaker-experiments==0.1.35', 
     'pyathena==2.3.0', 
     'redshift_connector==2.0.888', 
-    'sqlalchemy==1.3.23', 
-    'psycopg2==2.7.7', 
+    'sqlalchemy==1.3.23',
     'psycopg2-binary==2.9.1'
 ]
 
