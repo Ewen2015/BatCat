@@ -7,7 +7,7 @@ email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
 
-from __version__ import *
+from .__version__ import *
 
 
 def docker(ecr_repository, uri_suffix='amazonaws.com.cn', pip_image=True, python_version='3.7-slim-buster'):
