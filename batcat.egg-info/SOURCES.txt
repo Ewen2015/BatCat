@@ -5,6 +5,7 @@ batcat/Athena.py
 batcat/Docker.py
 batcat/FileSys.py
 batcat/Lambda.py
+batcat/Logging.py
 batcat/Redshift.py
 batcat/Stepfunctions.py
 batcat/Storage.py
