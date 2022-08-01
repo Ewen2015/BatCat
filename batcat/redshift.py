@@ -215,7 +215,7 @@ def read_data_by_secret(secret_name=None, query=None):
     ## Read data
     res = client_redshift.execute_statement(Database = secret['db'], 
                                             SecretArn = secret['arn'], 
-                                            Sql = QUERY, 
+                                            Sql = query, 
                                             ClusterIdentifier = secret['dbClusterIdentifier'])
 
     ## Reset the 'delay' attribute of the waiter back to 2 seconds.
