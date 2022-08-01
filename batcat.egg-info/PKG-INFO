@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: batcat
-Version: 0.1.22
+Version: 0.1.23
 Summary: BatCat, A Cat Looks Like A Bat.
 Home-page: https://github.com/Ewen2015/BatCat
 Author: Ewen Wang
@@ -30,9 +30,11 @@ Philosophy of BatCat's MLOps
 
 BatCat practices MLOps in **3 layers (ASA)**:
 
-1. **Algorithm level**: which is on machine learning algorithm itself, it cares about learning curve, iteration rounds, metrics, etc. 
-2. **System level**: which treats the machine learning project as a system itself, it focuses on resources ultized and health of the machine learning pipeline.
-3. **Application level**: which put the machine learning system as one of parts in a large process, it connects data producers from upstream and data consumers from downstreams. 
+- **AWS Lambda**: a serverless, event-driven compute service
+- **AWS S3 (Simple Storage Service)**: provides object storage service
+- **Amazon Athena**: a serverless, interactive query service on S3
+- **Amazon Redshift**: a data warehouse product
+- **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
 
 1. Algorithm level
 ------------------
