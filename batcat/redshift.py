@@ -93,6 +93,9 @@ def save_df_to_redshift(df,
     return None
 
 
+
+
+
 def _get_db_info(secret_name):
     secret = dict()
     secret['name'] = secret_name
@@ -186,7 +189,7 @@ def _make_datarow(output):
         res.append(a)
         a = []
     return res
-    
+
 
 def read_data_by_secret(secret_name=None, query=None):
 
