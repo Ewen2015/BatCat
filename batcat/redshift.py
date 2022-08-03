@@ -96,12 +96,12 @@ def save_df_to_redshift(df,
 
 
 
-def _get_db_info(secret_name):
+def _get_db_info(secret_name, region):
     secret = dict()
     secret['name'] = secret_name
-    
+    secret['region'] = region
+
     session = boto3.session.Session()
-    secret['region'] = session.region_name
     
     client = session.client(
             service_name='secretsmanager',
@@ -191,9 +191,9 @@ def _make_datarow(output):
     return res
 
 
-def read_data_by_secret(secret_name=None, query=None):
+def read_data_from_redshift_by_secret(secret_name=None, region=None, query=None):
 
-    secret = _get_db_info(secret_name)
+    secret = _get_db_info(secret_name, region)
 
     ## Data API client
     bc_session = Session.get_session()
