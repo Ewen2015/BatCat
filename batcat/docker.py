@@ -40,9 +40,9 @@ cd docker
 rm Dockerfile
 cat <<EOF >> Dockerfile
 FROM python:{}
-RUN apt -y update && apt install -y --no-install-recommends \
-    libgomp1 build-essential \
-    && apt clean    
+RUN apt update -y && \
+    apt install -y --no-install-recommends libgomp1 build-essential && \
+    apt clean 
 COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip3 install -r requirements.txt {}
