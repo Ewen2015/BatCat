@@ -17,6 +17,7 @@ REQUIRED = [
     'pandas', 
     'boto3==1.18.57',
     'botocore==1.21.57',
+    'protobuf==3.20.*',
     'awscli==1.20.57', 
     'requests==2.26.0', 
     'sagemaker==2.59.8', 

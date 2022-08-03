@@ -38,16 +38,18 @@ mkdir -p docker
 cp requirements.txt docker/requirements.txt
 cd docker
 rm Dockerfile
-cat <<EOF >> Dockerfile
+cat <<EOF>> Dockerfile
 FROM python:{}
 RUN apt update -y && \
     apt install -y --no-install-recommends libgomp1 build-essential && \
-    apt clean 
+    apt clean
 COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
+RUN /usr/local/bin/python -m pip install --upgrade pip {}
 RUN pip3 install -r requirements.txt {}
 COPY . /opt/app 
 ENV PYTHONUNBUFFERED=TRUE
+RUN export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 EOF
 cd ..
 
@@ -62,7 +64,7 @@ $(aws ecr get-login --region $region --registry-ids $account_id --no-include-ema
 aws ecr create-repository --repository-name $ecr_repository
 docker tag $ecr_repository$tag $repository_uri
 docker push $repository_uri
-""".format(uri_suffix, pip_image, python_version, pip_image, ecr_repository)
+""".format(uri_suffix, pip_image, python_version, pip_image, pip_image, ecr_repository)
     with open('setup_docker.sh', 'w') as writer:
         writer.write(templete_docker)
 
@@ -76,6 +78,8 @@ ipywidgets==7.6.3
 traitlets==5.0.5
 numba==0.52.0
 boto3==1.18.57
+botocore==1.21.57
+protobuf==3.20.*
 pyathena==2.3.0
 redshift_connector==2.0.888
 sqlalchemy==1.3.23
