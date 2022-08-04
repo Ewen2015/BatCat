@@ -7,7 +7,7 @@ email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
 
-def docker(ecr_repository, 
+def template_docker(ecr_repository, 
            uri_suffix='amazonaws.com.cn', 
            pip_image=True, 
            python_version='3.7-slim-buster'):
@@ -24,7 +24,7 @@ def docker(ecr_repository,
     if pip_image:
         pip_image = "-i https://pypi.douban.com/simple/ --trusted-host=pypi.douban.com/simple"
 
-    templete_docker=\
+    template_docker=\
 """#!/bin/bash
 
 account_id=$(aws sts get-caller-identity --query Account --output text)
@@ -66,9 +66,9 @@ docker tag $ecr_repository$tag $repository_uri
 docker push $repository_uri
 """.format(uri_suffix, pip_image, python_version, pip_image, pip_image, ecr_repository)
     with open('setup_docker.sh', 'w') as writer:
-        writer.write(templete_docker)
+        writer.write(template_docker)
 
-    templete_req_docker=\
+    template_req_docker=\
 """numpy==1.21.1 
 pandas==1.3.4
 matplotlib==3.3.2
@@ -97,7 +97,7 @@ batcat
 """
 
     with open('requirement.txt', 'w') as writer:
-        writer.write(templete_req_docker)
+        writer.write(template_req_docker)
 
     return None
 

@@ -27,6 +27,28 @@ config = {
     "RESULT_PATH": ""}
 
 
+def processing_output_path(purpose, filename, timestamp=True, local=False):
+    """ setup a result path within container.
+    arg:
+        purpose: a purpose under a project
+        filename: a specific file under a purpose
+        timestamp: whether a timestamp in file name is needed
+        local: if set the path to local for test
+    return:
+        path: a csv path for later usage
+    """
+    if timestamp:
+        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+        job = '_{}'.format(job)
+    else:
+        job = ''
+    path = '/opt/ml/processing/{}/{}{}.csv'.format(purpose, filename, job)
+    if local:
+        path = '{}{}.csv'.format(filename, job)
+    return path
+
+
+
 def setup_workflow(project,
                    purpose,
                    workflow_execution_role, 
@@ -150,28 +172,6 @@ def setup_workflow(project,
     return workflow
 
 
-def processing_inner_path(purpose, filename, timestamp=True, local=False):
-    """ setup a result path within container.
-    arg:
-        purpose: a purpose under a project
-        filename: a specific file under a purpose
-        timestamp: whether a timestamp in file name is needed
-        local: if set the path to local for test
-    return:
-        path: a csv path for later usage
-    """
-    if timestamp:
-        job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-        job = '_{}'.format(job)
-    else:
-        job = ''
-    path = '/opt/ml/processing/{}/{}{}.csv'.format(purpose, filename, job)
-    if local:
-        path = '{}{}.csv'.format(filename, job)
-    return path
-
-
-
 def test_workflow(workflow, project=None, purpose=None, result_path=None):
     """ to test a step function workflow.
     arg:
@@ -196,18 +196,19 @@ def test_workflow(workflow, project=None, purpose=None, result_path=None):
     return None
 
 
-def templete_setup_stepfunctions(workflow_execution_role="arn:aws-cn:iam::[****]:role/[****]",
-                                 ecr_repository=None,    
-                                 project=None,
-                                 purpose=None,
-                                 script_dir="[****].py",
-                                 result_path="s3://[****]/[****]"):
-    templete = \
+
+def template_stepfunctions(workflow_execution_role="arn:aws-cn:iam::[****]:role/[****]",
+                           ecr_repository=None,    
+                           project=None,
+                           purpose=None,
+                           script_dir="[****].py",
+                           result_path="s3://[****]/[****]"):
+    template = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from batcat.stepfunctions import setup_workflow
-from batcat.stepfunctions import test
+from batcat.stepfunctions import test_workflow
 
 if __name__ == '__main__':
 
@@ -225,22 +226,22 @@ if __name__ == '__main__':
                                 script_dir=SCRIPT_DIR,
                                 ecr_repository=ECR_REPOSITORY)
 
-    test(workflow, project=PROJECT, purpose=PURPOSE, result_path=RESULT_PATH)
+    test_workflow(workflow, project=PROJECT, purpose=PURPOSE, result_path=RESULT_PATH)
 
     # workflow.delete()
 """.format(workflow_execution_role, ecr_repository, project, purpose, script_dir, result_path)
     
     with open('setup_stepfuncions_{}.py'.format(purpose), 'w') as writer:
-        writer.write(templete)
+        writer.write(template)
 
     return None
 
 
-def templete_lambda(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
+def template_lambda(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
                     project=None, 
                     purpose=None, 
                     result_path="s3://[****]/[****]"):
-    templete = \
+    template = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import json
@@ -278,7 +279,7 @@ def lambda_handler(event, context):
 """.format(workflowarn, project, purpose, result_path)
     
     with open('trigger.py', 'w') as writer:
-        writer.write(templete)
+        writer.write(template)
 
     return None
 

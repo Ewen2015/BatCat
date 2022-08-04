@@ -96,7 +96,7 @@ def save_df_to_redshift(df,
 
 
 
-def _get_db_info(secret_name, region):
+def get_secret(secret_name, region):
     secret = dict()
     secret['name'] = secret_name
     secret['region'] = region
@@ -193,7 +193,7 @@ def _make_datarow(output):
 
 def read_data_from_redshift_by_secret(secret_name=None, region=None, query=None):
 
-    secret = _get_db_info(secret_name, region)
+    secret = get_secret(secret_name, region)
 
     ## Data API client
     bc_session = Session.get_session()
