@@ -64,7 +64,7 @@ $(aws ecr get-login --region $region --registry-ids $account_id --no-include-ema
 aws ecr create-repository --repository-name $ecr_repository
 docker tag $ecr_repository$tag $repository_uri
 docker push $repository_uri
-""".format(uri_suffix, pip_image, python_version, pip_image, pip_image, ecr_repository)
+""".format(uri_suffix, python_version, pip_image, pip_image, ecr_repository)
     with open('setup_docker.sh', 'w') as writer:
         writer.write(template_docker)
 
@@ -96,7 +96,7 @@ gossipcat==0.3.2
 batcat
 """
 
-    with open('requirement.txt', 'w') as writer:
+    with open('requirements.txt', 'w') as writer:
         writer.write(template_req_docker)
 
     return None
