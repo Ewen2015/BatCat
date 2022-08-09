@@ -206,8 +206,8 @@ def template_stepfunctions(project='[project]',
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from batcat.stepfunctions import setup_workflow
-from batcat.stepfunctions import test_workflow
+from batcat import setup_workflow
+from batcat import test_workflow
 
 if __name__ == '__main__':
 
