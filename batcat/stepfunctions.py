@@ -17,21 +17,10 @@ from sagemaker.processing import ScriptProcessor
 from smexperiments.experiment import Experiment
 
 
-config = {    
-    "WORKFLOW_EXECUTION_ROLE": "",
-    "ECR_REPOSITORY": "",
-    "PROJECT": "",
-    "PURPOSE": "",
-    "SCRIPT_DIR": "",
-    "WORKFLOW_NAME": "",
-    "RESULT_PATH": ""}
-
-
-def processing_output_path(purpose, filename, timestamp=True, local=False):
+def processing_output_path(purpose, timestamp=True, local=False):
     """ setup a result path within container.
     arg:
         purpose: a purpose under a project
-        filename: a specific file under a purpose
         timestamp: whether a timestamp in file name is needed
         local: if set the path to local for test
     return:
@@ -42,18 +31,16 @@ def processing_output_path(purpose, filename, timestamp=True, local=False):
         job = '_{}'.format(job)
     else:
         job = ''
-    path = '/opt/ml/processing/{}/{}{}.csv'.format(purpose, filename, job)
+    path = '/opt/ml/processing/{}/{}{}.csv'.format(purpose, purpose, job)
     if local:
-        path = '{}{}.csv'.format(filename, job)
+        path = '{}{}.csv'.format(purpose, job)
     return path
 
 
 
-def setup_workflow(project,
-                   purpose,
-                   workflow_execution_role, 
-                   script_dir,
-                   ecr_repository):
+def setup_workflow(project='[project]',
+                   purpose='[purpose]',
+                   workflow_execution_role='arn:aws-cn:iam::[account-id]:role/[role-name]'):
     """ to setup all needed for a step function with sagemaker.
     arg: 
         project: project name under sagemaker
@@ -66,7 +53,7 @@ def setup_workflow(project,
     example: 
         PROJECT = '[dpt-proj-2022]'
         PURPOSE = '[processing]'
-        WORKFLOW_EXECUTION_ROLE = "arn:aws-cn:iam::[*********]:role/[**************]"
+        WORKFLOW_EXECUTION_ROLE = "arn:aws-cn:iam::[account-id]:role/[role-name]"
         SCRIPT_DIR = "[processing].py"
         ECR_REPOSITORY = '[ecr-2022]'
     """
@@ -91,6 +78,7 @@ def setup_workflow(project,
     s3CodePath = 's3://{}/{}/code'.format(s3_output, s3_prefix)   
 
     ## preprocess & prediction
+    script_dir = '{}.py'.format(purpose)
     script_list = [script_dir]
 
     for script in script_list:
@@ -100,6 +88,7 @@ def setup_workflow(project,
 
     # ECR environment
     # ====================================
+    ecr_repository = project
     uri_suffix = 'amazonaws.com.cn'
     tag = ':latest'
     ecr_repository_uri = '{}.dkr.ecr.{}.{}/{}'.format(account_id, region, uri_suffix, ecr_repository + tag)
@@ -159,7 +148,7 @@ def setup_workflow(project,
     # ========================================================================================
     optimizing_step.add_catch(catch_state_processing)
 
-    workflow_name = workflow_name = "workflow-{}-{}".format(project, purpose).upper()
+    workflow_name = "workflow-{}-{}".format(project, purpose).upper()
     workflow_graph = steps.Chain([optimizing_step])
 
     workflow = Workflow(
@@ -172,18 +161,19 @@ def setup_workflow(project,
     return workflow
 
 
-def test_workflow(workflow, project=None, purpose=None, result_path=None):
+def test_workflow(workflow, project='[project]', purpose='[purpose]', result_s3_bucket='[s3-bucket]'):
     """ to test a step function workflow.
     arg:
         workflow: a stepfunctions.workflow.Workflow instance
         project: project name under sagemaker
         purpose: subproject
-        result_path: a local path to save results
+        result_s3_bucket: S3 bucket for saving results
     return:
         None
     """
     job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     job_name = "{}-{}-{}".format(project, purpose, job)
+    result_path="s3://{}/{}".format(result_s3_bucket, purpose)
     
     # Execute workflow
     execution = workflow.execute(
@@ -197,12 +187,21 @@ def test_workflow(workflow, project=None, purpose=None, result_path=None):
 
 
 
-def template_stepfunctions(workflow_execution_role="arn:aws-cn:iam::[****]:role/[****]",
-                           ecr_repository=None,    
-                           project=None,
-                           purpose=None,
-                           script_dir="[****].py",
-                           result_path="s3://[****]/[****]"):
+def template_stepfunctions(project='[project]',
+                           purpose='[purpose]',
+                           result_s3_bucket='[s3-bucket]',
+                           workflow_execution_role='arn:[partition]:iam::[account-id]:role/[role-name]'):
+    """ A template for setting up Step Functions.
+    arg:
+        project: project name under sagemaker
+        purpose: subproject
+        result_s3_bucket: S3 bucket for saving results
+        workflow_execution_role: execution role arn
+    return:
+        None
+    """
+    result_path="s3://{}/{}".format(result_s3_bucket, purpose)
+
     template = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -212,13 +211,13 @@ from batcat.stepfunctions import test_workflow
 
 if __name__ == '__main__':
 
-    WORKFLOW_EXECUTION_ROLE = {}
-    ECR_REPOSITORY = {}
-    PROJECT = {}
-    PURPOSE = {}
+    WORKFLOW_EXECUTION_ROLE = '{}'
+    ECR_REPOSITORY = '{}'
+    PROJECT = '{}'
+    PURPOSE = '{}'
 
-    SCRIPT_DIR = {}
-    RESULT_PATH = {}
+    SCRIPT_DIR = '{}.py'
+    RESULT_PATH = '{}'
     
     workflow = setup_workflow(project=PROJECT,
                                 purpose=PURPOSE,
@@ -229,7 +228,7 @@ if __name__ == '__main__':
     test_workflow(workflow, project=PROJECT, purpose=PURPOSE, result_path=RESULT_PATH)
 
     # workflow.delete()
-""".format(workflow_execution_role, ecr_repository, project, purpose, script_dir, result_path)
+""".format(workflow_execution_role, project, project, purpose, purpose, result_path)
     
     with open('setup_stepfuncions_{}.py'.format(purpose), 'w') as writer:
         writer.write(template)
@@ -237,11 +236,28 @@ if __name__ == '__main__':
     return None
 
 
-def template_lambda(workflowarn='arn:aws-cn:states:cn-northwest-1:[****]:stateMachine:[****]', 
-                    project=None, 
-                    purpose=None, 
-                    result_path="s3://[****]/[****]"):
-    template = \
+def template_lambda(project='[project]', 
+                    purpose='[purpose]', 
+                    result_s3_bucket='[s3-bucket]',
+                    partition='aws-cn'):
+    """ A template for setting up Lambda.
+    arg:
+        project: project name under sagemaker
+        purpose: subproject
+        result_s3_bucket: S3 bucket for saving results
+        partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as 'aws-cn'.
+    return:
+        None
+    """    
+    region = boto3.session.Session().region_name
+    account = boto3.client('sts').get_caller_identity().get('Account')
+
+    stateMachineName = "workflow-{}-{}".format(project, purpose).upper()
+    workflowarn = 'arn:{}:states:{}:{}:stateMachine:{}'.format(partition, region, account, stateMachineName)
+
+    result_path="s3://{}/{}".format(result_s3_bucket, purpose)
+
+    template1 = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import json
@@ -249,12 +265,15 @@ import boto3
 import uuid
 import time
 
-WORKFLOWARN = {}
-PROJECT = {}
-PURPOSE = {}
-RESULT_PATH = {}
-client = boto3.client('stepfunctions')
+WORKFLOWARN = '{}'
+PROJECT = '{}'
+PURPOSE = '{}'
+RESULT_PATH = '{}'
 
+client = boto3.client('stepfunctions')
+""".format(workflowarn, project, purpose, result_path)
+    template2 = \
+"""
 def lambda_handler(event, context):  
     transactionId = str(uuid.uuid1())
 
@@ -276,8 +295,8 @@ def lambda_handler(event, context):
        'statusCode': 200,
        'body': json.dumps('succeeded!')
    }
-""".format(workflowarn, project, purpose, result_path)
-    
+"""
+    template = template1 + template2
     with open('trigger.py', 'w') as writer:
         writer.write(template)
 
