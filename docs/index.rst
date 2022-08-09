@@ -65,10 +65,10 @@ BatCat supports importing data from S3 bucket (directly by Athena or Redshift) a
                                          region=None, 
                                          query=None)
 
-Compute: Docker and Step Functions Setup
+Compute: Docker, Step Functions, and Lambda Setup
 ========================================
 
-BatCat provides templetes for docker and Step Functions setup. 
+BatCat provides templetes for docker, Step Functions, and Lambda setup. 
 
 
 .. code-block:: Python
