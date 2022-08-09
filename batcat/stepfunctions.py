@@ -6,6 +6,7 @@ author:     Ewen Wang
 email:      wolfgangwong2012@gmail.com
 license:    Apache License 2.0
 """
+import os
 import time
 import boto3
 from stepfunctions import steps
@@ -200,35 +201,31 @@ def template_stepfunctions(project='[project]',
     return:
         None
     """
-    result_path="s3://{}/{}".format(result_s3_bucket, purpose)
 
     template = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from batcat import setup_workflow
-from batcat import test_workflow
+from batcat.Stepfunctions import setup_workflow
+from batcat.Stepfunctions import test_workflow
 
 if __name__ == '__main__':
 
     WORKFLOW_EXECUTION_ROLE = '{}'
-    ECR_REPOSITORY = '{}'
+
     PROJECT = '{}'
     PURPOSE = '{}'
 
-    SCRIPT_DIR = '{}.py'
-    RESULT_PATH = '{}'
+    RESULT_S3_BUCKET = '{}'
     
-    workflow = setup_workflow(project=PROJECT,
-                                purpose=PURPOSE,
-                                workflow_execution_role=WORKFLOW_EXECUTION_ROLE,
-                                script_dir=SCRIPT_DIR,
-                                ecr_repository=ECR_REPOSITORY)
+    workflow = setup_workflow(project=PROJECT, 
+                              purpose=PURPOSE, 
+                              workflow_execution_role=WORKFLOW_EXECUTION_ROLE)
 
-    test_workflow(workflow, project=PROJECT, purpose=PURPOSE, result_path=RESULT_PATH)
+    test_workflow(workflow, project=PROJECT, purpose=PURPOSE, result_s3_bucket=RESULT_S3_BUCKET)
 
     # workflow.delete()
-""".format(workflow_execution_role, project, project, purpose, purpose, result_path)
+""".format(workflow_execution_role, project, purpose, result_s3_bucket)
     
     with open('setup_stepfuncions_{}.py'.format(purpose), 'w') as writer:
         writer.write(template)
@@ -248,7 +245,9 @@ def template_lambda(project='[project]',
         partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as 'aws-cn'.
     return:
         None
-    """    
+    """
+    file_name = '{}-{}-trigger/lambda_function.py'.format(project, purpose)
+    
     region = boto3.session.Session().region_name
     account = boto3.client('sts').get_caller_identity().get('Account')
 
@@ -297,7 +296,8 @@ def lambda_handler(event, context):
    }
 """
     template = template1 + template2
-    with open('trigger.py', 'w') as writer:
+    os.makedirs(os.path.dirname(file_name), exist_ok=True)
+    with open(file_name, 'w') as writer:
         writer.write(template)
 
     return None
