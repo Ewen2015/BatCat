@@ -44,17 +44,26 @@ BatCat supports importing data from S3 bucket (directly by Athena or Redshift) a
 .. code-block:: Python
     
     bc.read_csv_from_bucket(bucket, key)
+    bc.save_to_bucket(df, bucket, key)
     
     bc.read_data_from_athena(query, 
                              region,
-                             s3_staging_dir)
+                             s3_staging_dir,
+                             date_start=None, 
+                             date_end=None)
 
     bc.read_data_from_redshift(query, 
                                host,
                                password,
-                               port,
-                               database,
-                               user)
+                               port=5439,
+                               database='dev',
+                               user='awsuser',
+                               date_start=None, 
+                               date_end=None)
+
+    bc.read_data_from_redshift_by_secret(secret_name=None, 
+                                         region=None, 
+                                         query=None)
 
 Compute: Docker and Step Functions Setup
 ========================================
@@ -64,11 +73,20 @@ BatCat provides templetes for docker and Step Functions setup.
 
 .. code-block:: Python
 
-    bc.docker(ecr_repository)
+    bc.template_docker(project='[project]', 
+                       uri_suffix='amazonaws.com.cn', 
+                       pip_image=True, 
+                       python_version='3.7-slim-buster')
 
-    bc.templete_setup_stepfunctions()
+    bc.template_stepfunctions(project='[project]',
+                              purpose='[purpose]',
+                              result_s3_bucket='[s3-bucket]',
+                              workflow_execution_role='arn:[partition]:iam::[account-id]:role/[role-name]')
 
-    bc.templete_lambda()
+    bc.template_lambda(project='[project]', 
+                       purpose='[purpose]', 
+                       result_s3_bucket='[s3-bucket]',
+                       partition='aws-cn')
 
 
 
