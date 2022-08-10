@@ -9,20 +9,32 @@ license:    Apache License 2.0
 import json
 
 def print_event(event):
-    """
-    arg:
+    """Print Lambda event name.
+
+    Parameters
+    ----------
+
         event: s3 trigger event
-    return:
+
+    Returns
+    -------
+
         None
     """
     print("Received event: " + json.dumps(event, indent=2))
     return None
 
 def get_bucket_key(event):
-    """
-    arg:
+    """Get S3 the bucket and key from event.
+
+    Parameters
+    ----------
+
         event: s3 trigger event
-    return:
+
+    Returns
+    -------
+
         bucket, key: bucket and key of the event
     """
     bucket = event["Records"][0]["s3"]["bucket"]["name"]

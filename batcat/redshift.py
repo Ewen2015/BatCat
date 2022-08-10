@@ -29,9 +29,12 @@ def read_data_from_redshift(query,
                             database='dev',
                             user='awsuser',
                             date_start=None, 
-                            date_end=None) -> pd.DataFrame:
-    """
-    arg: 
+                            date_end=None):
+    """Read DataFrame from RedShift with host and password.
+    
+    Parameters
+    ----------
+
         query: querry to obtain data from Redshift, str
         host: Redshift configuration
         password: Redshift configuration
@@ -40,7 +43,11 @@ def read_data_from_redshift(query,
         user: Redshift configuration
         date_start: date to start, strftime('%Y/%m/%d')
         date_start: date to end, strftime('%Y/%m/%d')
-    return:
+
+
+    Returns
+    -------
+
         df: target dataframe
     """
     
@@ -65,8 +72,11 @@ def save_df_to_redshift(df,
                         database='dev',
                         user='awsuser',
                         if_exists='replace'):
-    """
-    arg: 
+    """Save pd.DataFrame to RedShift with host and password.
+    
+    Parameters
+    ----------
+
         df: target dataframe
         table_name: target table name'
         dtype: dict or scalar, optional
@@ -85,6 +95,12 @@ def save_df_to_redshift(df,
         port: usually 5439
         database: Redshift configuration
         user: Redshift configuration
+
+
+    Returns
+    -------
+
+        None
     """
     from sqlalchemy import create_engine
     
@@ -191,8 +207,23 @@ def _make_datarow(output):
     return res
 
 
-def read_data_from_redshift_by_secret(secret_name=None, region=None, query=None):
+def read_data_from_redshift_by_secret(secret_name=None, 
+                                      region=None, 
+                                      query=None):
+    """Read DataFrame from RedShift with AWS Screte Manager.
+    
+    Parameters
+    ----------
 
+        secret_nam: the name of AWS Screte Manager
+        region: AWS region
+        query: querry to obtain data from Redshift, str
+
+    Returns
+    -------
+
+        df: target dataframe
+    """
     secret = get_secret(secret_name, region)
 
     ## Data API client

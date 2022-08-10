@@ -15,24 +15,36 @@ s3 = boto3.client('s3')
 
 ## i/o
 
-def read_csv_from_bucket(bucket, key) -> pd.DataFrame:
-    """
-    arg:
+def read_csv_from_bucket(bucket, key):
+    """Read csv from AWS S3.
+
+    Parameters
+    ----------
+
         bucket, key: data source in s3
-    return:
-        df: raw data, pandas.DataFrame
+
+    Returns
+    -------
+
+        df: pandas.DataFrame
     """    
     response = s3.get_object(Bucket=bucket, Key=key)
     df = pd.read_csv(BytesIO(response['Body'].read()), error_bad_lines=False, warn_bad_lines=False)
     return df
 
-def read_excel_from_bucket(bucket, key, sheet_name=0, header=0) -> pd.DataFrame:
-    """
-    arg:
+def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
+    """Read Excel from AWS S3.
+
+    Parameters
+    ----------
+
         bucket, key: data source in s3
         sheet_name: target sheet name of the excel
-    return:
-        df: raw data, pandas.DataFrame
+
+    Returns
+    -------
+
+        df: pandas.DataFrame
     """
     response = s3.get_object(Bucket=bucket, Key=key)
     df = pd.read_excel(BytesIO(response['Body'].read()), 
@@ -41,11 +53,17 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0) -> pd.DataFrame:
     return df 
 
 def save_to_bucket(df, bucket, key):
-    """
-    arg:
+    """Save DataFrame to AWS S3.
+
+    Parameters
+    ----------
+
         bucket, key: target data destination in s3
         df: a pandas.DataFrame
-    return:
+
+    Returns
+    -------
+
         statues: HTTPS status code
     """
     with StringIO() as csv_buffer:
@@ -60,12 +78,18 @@ def save_to_bucket(df, bucket, key):
 ## multiple 
 
 def list_bucket_files(bucket, prefix, suffix) -> list:
-    """
-    arg:
+    """Read multiple csv file names from AWS S3.
+
+    Parameters
+    ----------
+
         bucket: target s3 bucket
         prefix: file prefix
         suffix: file suffix
-    return:
+
+    Returns
+    -------
+
         file list
     """
     s3 = boto3.resource('s3')
@@ -80,7 +104,9 @@ def list_bucket_files(bucket, prefix, suffix) -> list:
 
 def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, target_suffix, key_sub):
     """
-    arg:
+    Parameters
+    ----------
+
         bucket: source bucket
         prefix: prefix of source files
         suffix: suffix of source files
@@ -88,7 +114,10 @@ def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, targ
         target_prefix: prefix of target files
         target_suffix: suffix of target files
         key_sub: information to substract from source keys, a tuple
-    return:
+
+    Returns
+    -------
+
         None
     """
     import boto3
@@ -111,10 +140,15 @@ def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, targ
 
 def SuccessSignal(bucket, key='.success'):
     """
-    arg:
+    Parameters
+    ----------
+
         bucket: target bucket to receive a signal
         key: signal file
-    return:
+
+    Returns
+    -------
+
         statue: HTTPS status code
     """
     with StringIO() as buffer:
