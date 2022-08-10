@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>batcat.Stepfunctions &mdash; BatCat 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> BatCat
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BatCat</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>batcat.Stepfunctions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for batcat.Stepfunctions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">author:     Ewen Wang</span>
+<span class="sd">email:      wolfgangwong2012@gmail.com</span>
+<span class="sd">license:    Apache License 2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">from</span> <span class="nn">stepfunctions</span> <span class="kn">import</span> <span class="n">steps</span>
+<span class="kn">from</span> <span class="nn">stepfunctions.workflow</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<span class="kn">from</span> <span class="nn">stepfunctions.inputs</span> <span class="kn">import</span> <span class="n">ExecutionInput</span>
+<span class="kn">import</span> <span class="nn">sagemaker</span>
+<span class="kn">from</span> <span class="nn">sagemaker.processing</span> <span class="kn">import</span> <span class="n">ProcessingInput</span><span class="p">,</span> <span class="n">ProcessingOutput</span>
+<span class="kn">from</span> <span class="nn">sagemaker.processing</span> <span class="kn">import</span> <span class="n">ScriptProcessor</span>
+<span class="kn">from</span> <span class="nn">smexperiments.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+
+
+<span class="k">def</span> <span class="nf">processing_output_path</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; setup a result path within container.</span>
+<span class="sd">    arg:</span>
+<span class="sd">        purpose: a purpose under a project</span>
+<span class="sd">        timestamp: whether a timestamp in file name is needed</span>
+<span class="sd">        local: if set the path to local for test</span>
+<span class="sd">    return:</span>
+<span class="sd">        path: a csv path for later usage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">timestamp</span><span class="p">:</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H%M%S&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/opt/ml/processing/</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+
+<span class="k">def</span> <span class="nf">setup_workflow</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+                   <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
+                   <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:aws-cn:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; to setup all needed for a step function with sagemaker.</span>
+<span class="sd">    arg: </span>
+<span class="sd">        project: project name under sagemaker</span>
+<span class="sd">        purpose: subproject</span>
+<span class="sd">        workflow_execution_role: arn to execute step functions</span>
+<span class="sd">        script_dir: processing file name, like a .py file</span>
+<span class="sd">        ecr_repository: ecr repository name</span>
+<span class="sd">    return:</span>
+<span class="sd">        workflow: a stepfunctions.workflow.Workflow instance  </span>
+<span class="sd">    example: </span>
+<span class="sd">        PROJECT = &#39;[dpt-proj-2022]&#39;</span>
+<span class="sd">        PURPOSE = &#39;[processing]&#39;</span>
+<span class="sd">        WORKFLOW_EXECUTION_ROLE = &quot;arn:aws-cn:iam::[account-id]:role/[role-name]&quot;</span>
+<span class="sd">        SCRIPT_DIR = &quot;[processing].py&quot;</span>
+<span class="sd">        ECR_REPOSITORY = &#39;[ecr-2022]&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># SageMaker Session setup</span>
+    <span class="c1"># ========================================================================================</span>
+    <span class="c1"># SageMaker Session</span>
+    <span class="c1"># ====================================</span>
+    <span class="n">account_id</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;sts&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_caller_identity</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">)</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="n">sagemaker</span><span class="o">.</span><span class="n">get_execution_role</span><span class="p">()</span>
+    
+    <span class="c1"># Storage</span>
+    <span class="c1"># ====================================</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">sagemaker</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">boto_region_name</span>
+    <span class="n">s3_output</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">default_bucket</span><span class="p">()</span>
+
+    <span class="c1"># Code storage</span>
+    <span class="c1"># ==================</span>
+    <span class="n">s3_prefix</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
+    <span class="n">s3_prefix_code</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/code&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s3_prefix</span><span class="p">)</span>
+    <span class="n">s3CodePath</span> <span class="o">=</span> <span class="s1">&#39;s3://</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">/code&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s3_output</span><span class="p">,</span> <span class="n">s3_prefix</span><span class="p">)</span>   
+
+    <span class="c1">## preprocess &amp; prediction</span>
+    <span class="n">script_dir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.py&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">)</span>
+    <span class="n">script_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">script_dir</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">script</span> <span class="ow">in</span> <span class="n">script_list</span><span class="p">:</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">upload_data</span><span class="p">(</span><span class="n">script</span><span class="p">,</span>
+                            <span class="n">bucket</span><span class="o">=</span><span class="n">session</span><span class="o">.</span><span class="n">default_bucket</span><span class="p">(),</span>
+                            <span class="n">key_prefix</span><span class="o">=</span><span class="n">s3_prefix_code</span><span class="p">)</span>
+
+    <span class="c1"># ECR environment</span>
+    <span class="c1"># ====================================</span>
+    <span class="n">ecr_repository</span> <span class="o">=</span> <span class="n">project</span>
+    <span class="n">uri_suffix</span> <span class="o">=</span> <span class="s1">&#39;amazonaws.com.cn&#39;</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;:latest&#39;</span>
+    <span class="n">ecr_repository_uri</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.dkr.ecr.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">uri_suffix</span><span class="p">,</span> <span class="n">ecr_repository</span> <span class="o">+</span> <span class="n">tag</span><span class="p">)</span>
+
+    <span class="c1"># SageMaker Experiments setup</span>
+    <span class="c1"># ========================================================================================</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">Experiment</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">experiment_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())),</span> 
+                                   <span class="n">description</span><span class="o">=</span><span class="s2">&quot;machine learning project&quot;</span><span class="p">,</span> 
+                                   <span class="n">sagemaker_boto_client</span><span class="o">=</span><span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;sagemaker&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
+
+    <span class="n">execution_input</span> <span class="o">=</span> <span class="n">ExecutionInput</span><span class="p">(</span>
+        <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;ProcessingJobName&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="s2">&quot;ResultPath&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># setup script processor</span>
+    <span class="n">script_processor</span> <span class="o">=</span> <span class="n">ScriptProcessor</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;python3&#39;</span><span class="p">],</span>
+                                       <span class="n">image_uri</span><span class="o">=</span><span class="n">ecr_repository_uri</span><span class="p">,</span>
+                                       <span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="p">,</span>
+                                       <span class="n">instance_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                       <span class="n">instance_type</span><span class="o">=</span><span class="s1">&#39;ml.m5.4xlarge&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Step</span>
+    <span class="c1"># ========================================================================================</span>
+    
+    <span class="n">optimizing_step</span> <span class="o">=</span> <span class="n">steps</span><span class="o">.</span><span class="n">ProcessingStep</span><span class="p">(</span>
+        <span class="s2">&quot;Processing Step&quot;</span><span class="p">,</span>
+        <span class="n">processor</span><span class="o">=</span><span class="n">script_processor</span><span class="p">,</span>
+        <span class="n">job_name</span><span class="o">=</span><span class="n">execution_input</span><span class="p">[</span><span class="s2">&quot;ProcessingJobName&quot;</span><span class="p">],</span>
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">ProcessingInput</span><span class="p">(</span>
+                            <span class="n">source</span><span class="o">=</span><span class="n">s3CodePath</span><span class="p">,</span>
+                            <span class="n">destination</span><span class="o">=</span><span class="s1">&#39;/opt/ml/processing/input/code&#39;</span><span class="p">,</span>
+                            <span class="n">input_name</span><span class="o">=</span><span class="s1">&#39;code&#39;</span><span class="p">)],</span>
+        <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">ProcessingOutput</span><span class="p">(</span><span class="n">output_name</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
+                        <span class="n">destination</span> <span class="o">=</span> <span class="n">execution_input</span><span class="p">[</span><span class="s2">&quot;ResultPath&quot;</span><span class="p">],</span>
+                        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;/opt/ml/processing/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">))],</span>
+        <span class="n">container_entrypoint</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span> <span class="s2">&quot;/opt/ml/processing/input/code/&quot;</span><span class="o">+</span><span class="n">script_dir</span><span class="p">],</span>
+    <span class="p">)</span>
+
+
+    <span class="c1"># Fail Sate</span>
+    <span class="c1"># ========================================================================================</span>
+    <span class="n">failed_state</span> <span class="o">=</span> <span class="n">steps</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">Fail</span><span class="p">(</span>
+        <span class="s2">&quot;Processing Workflow failed&quot;</span><span class="p">,</span> 
+        <span class="n">cause</span><span class="o">=</span><span class="s2">&quot;SageMakerProcessingJobFailed&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">catch_state_processing</span> <span class="o">=</span> <span class="n">steps</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">Catch</span><span class="p">(</span>
+        <span class="n">error_equals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;States.TaskFailed&quot;</span><span class="p">],</span>
+        <span class="n">next_step</span><span class="o">=</span><span class="n">failed_state</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create Workflow</span>
+    <span class="c1"># ========================================================================================</span>
+    <span class="n">optimizing_step</span><span class="o">.</span><span class="n">add_catch</span><span class="p">(</span><span class="n">catch_state_processing</span><span class="p">)</span>
+
+    <span class="n">workflow_name</span> <span class="o">=</span> <span class="s2">&quot;workflow-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">workflow_graph</span> <span class="o">=</span> <span class="n">steps</span><span class="o">.</span><span class="n">Chain</span><span class="p">([</span><span class="n">optimizing_step</span><span class="p">])</span>
+
+    <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">workflow_name</span><span class="p">,</span>
+        <span class="n">definition</span><span class="o">=</span><span class="n">workflow_graph</span><span class="p">,</span>
+        <span class="n">role</span><span class="o">=</span><span class="n">workflow_execution_role</span>
+    <span class="p">)</span>
+
+    <span class="n">workflow</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">workflow</span>
+
+
+<span class="k">def</span> <span class="nf">test_workflow</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; to test a step function workflow.</span>
+<span class="sd">    arg:</span>
+<span class="sd">        workflow: a stepfunctions.workflow.Workflow instance</span>
+<span class="sd">        project: project name under sagemaker</span>
+<span class="sd">        purpose: subproject</span>
+<span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
+<span class="sd">    return:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">job</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H%M%S&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+    <span class="n">job_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
+    <span class="n">result_path</span><span class="o">=</span><span class="s2">&quot;s3://</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result_s3_bucket</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
+    
+    <span class="c1"># Execute workflow</span>
+    <span class="n">execution</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">inputs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;ProcessingJobName&quot;</span><span class="p">:</span> <span class="n">job_name</span><span class="p">,</span>
+            <span class="s2">&quot;ResultPath&quot;</span><span class="p">:</span> <span class="n">result_path</span><span class="p">,</span> 
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">execution_output</span> <span class="o">=</span> <span class="n">execution</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+
+<div class="viewcode-block" id="template_stepfunctions"><a class="viewcode-back" href="../../index.html#batcat.template_stepfunctions">[docs]</a><span class="k">def</span> <span class="nf">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+                           <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
+                           <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
+                           <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A template for setting up Step Functions.</span>
+<span class="sd">    arg:</span>
+<span class="sd">        project: project name under sagemaker</span>
+<span class="sd">        purpose: subproject</span>
+<span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
+<span class="sd">        workflow_execution_role: execution role arn</span>
+<span class="sd">    return:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">template</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;#!/usr/bin/env python3</span>
+<span class="sd"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">from batcat.Stepfunctions import setup_workflow</span>
+<span class="sd">from batcat.Stepfunctions import test_workflow</span>
+
+<span class="sd">if __name__ == &#39;__main__&#39;:</span>
+
+<span class="sd">    WORKFLOW_EXECUTION_ROLE = &#39;{}&#39;</span>
+
+<span class="sd">    PROJECT = &#39;{}&#39;</span>
+<span class="sd">    PURPOSE = &#39;{}&#39;</span>
+
+<span class="sd">    RESULT_S3_BUCKET = &#39;{}&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    workflow = setup_workflow(project=PROJECT, </span>
+<span class="sd">                              purpose=PURPOSE, </span>
+<span class="sd">                              workflow_execution_role=WORKFLOW_EXECUTION_ROLE)</span>
+
+<span class="sd">    test_workflow(workflow, project=PROJECT, purpose=PURPOSE, result_s3_bucket=RESULT_S3_BUCKET)</span>
+
+<span class="sd">    # workflow.delete()</span>
+<span class="sd">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workflow_execution_role</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">result_s3_bucket</span><span class="p">)</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;setup_stepfuncions_</span><span class="si">{}</span><span class="s1">.py&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="template_lambda"><a class="viewcode-back" href="../../index.html#batcat.template_lambda">[docs]</a><span class="k">def</span> <span class="nf">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> 
+                    <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> 
+                    <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
+                    <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A template for setting up Lambda.</span>
+<span class="sd">    arg:</span>
+<span class="sd">        project: project name under sagemaker</span>
+<span class="sd">        purpose: subproject</span>
+<span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
+<span class="sd">        partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as &#39;aws-cn&#39;.</span>
+<span class="sd">    return:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">-trigger/lambda_function.py&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
+    
+    <span class="n">region</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span><span class="o">.</span><span class="n">region_name</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;sts&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_caller_identity</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">)</span>
+
+    <span class="n">stateMachineName</span> <span class="o">=</span> <span class="s2">&quot;workflow-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">workflowarn</span> <span class="o">=</span> <span class="s1">&#39;arn:</span><span class="si">{}</span><span class="s1">:states:</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">:stateMachine:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">partition</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">stateMachineName</span><span class="p">)</span>
+
+    <span class="n">result_path</span><span class="o">=</span><span class="s2">&quot;s3://</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result_s3_bucket</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
+
+    <span class="n">template1</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;#!/usr/bin/env python3</span>
+<span class="sd"># -*- coding: utf-8 -*-</span>
+<span class="sd">import json</span>
+<span class="sd">import boto3</span>
+<span class="sd">import uuid</span>
+<span class="sd">import time</span>
+
+<span class="sd">WORKFLOWARN = &#39;{}&#39;</span>
+<span class="sd">PROJECT = &#39;{}&#39;</span>
+<span class="sd">PURPOSE = &#39;{}&#39;</span>
+<span class="sd">RESULT_PATH = &#39;{}&#39;</span>
+
+<span class="sd">client = boto3.client(&#39;stepfunctions&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workflowarn</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">result_path</span><span class="p">)</span>
+    <span class="n">template2</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def lambda_handler(event, context):  </span>
+<span class="sd">    transactionId = str(uuid.uuid1())</span>
+
+<span class="sd">    job = time.strftime(&#39;%Y%m%d%H%M%S&#39;,time.localtime(time.time()))</span>
+<span class="sd">    job_name = &quot;{}-{}-{}&quot;.format(PROJECT, PURPOSE, job)</span>
+
+<span class="sd">    inputs={</span>
+<span class="sd">        &quot;ProcessingJobName&quot;: job_name,</span>
+<span class="sd">        &quot;ResultPath&quot;: RESULT_PATH, </span>
+<span class="sd">    }</span>
+<span class="sd">    </span>
+<span class="sd">    response = client.start_execution(</span>
+<span class="sd">            stateMachineArn = WORKFLOWARN,</span>
+<span class="sd">            name = transactionId,</span>
+<span class="sd">            input = json.dumps(inputs)</span>
+<span class="sd">        )</span>
+
+<span class="sd">    return {</span>
+<span class="sd">       &#39;statusCode&#39;: 200,</span>
+<span class="sd">       &#39;body&#39;: json.dumps(&#39;succeeded!&#39;)</span>
+<span class="sd">   }</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">template1</span> <span class="o">+</span> <span class="n">template2</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_name</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Ewen Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

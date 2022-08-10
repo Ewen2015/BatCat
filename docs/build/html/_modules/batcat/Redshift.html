@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>batcat.Redshift &mdash; BatCat 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> BatCat
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BatCat</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>batcat.Redshift</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for batcat.Redshift</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">author:     Ewen Wang</span>
+<span class="sd">email:      wolfgangwong2012@gmail.com</span>
+<span class="sd">license:    Apache License 2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span><span class="p">,</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">redshift_connector</span> <span class="kn">import</span> <span class="n">connect</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">botocore.session</span> <span class="k">as</span> <span class="nn">Session</span>
+<span class="kn">from</span> <span class="nn">botocore.exceptions</span> <span class="kn">import</span> <span class="n">WaiterError</span>
+<span class="kn">from</span> <span class="nn">botocore.waiter</span> <span class="kn">import</span> <span class="n">WaiterModel</span>
+<span class="kn">from</span> <span class="nn">botocore.waiter</span> <span class="kn">import</span> <span class="n">create_waiter_with_client</span>
+
+<div class="viewcode-block" id="read_data_from_redshift"><a class="viewcode-back" href="../../index.html#batcat.read_data_from_redshift">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> 
+                            <span class="n">host</span><span class="p">,</span>
+                            <span class="n">password</span><span class="p">,</span>
+                            <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
+                            <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
+                            <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                            <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                            <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    arg: </span>
+<span class="sd">        query: querry to obtain data from Redshift, str</span>
+<span class="sd">        host: Redshift configuration</span>
+<span class="sd">        password: Redshift configuration</span>
+<span class="sd">        port: Redshift configuration</span>
+<span class="sd">        database: Redshift configuration</span>
+<span class="sd">        user: Redshift configuration</span>
+<span class="sd">        date_start: date to start, strftime(&#39;%Y/%m/%d&#39;)</span>
+<span class="sd">        date_start: date to end, strftime(&#39;%Y/%m/%d&#39;)</span>
+<span class="sd">    return:</span>
+<span class="sd">        df: target dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+                    <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+                    <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+                    <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span> 
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetch_dataframe</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="k">def</span> <span class="nf">save_df_to_redshift</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                        <span class="n">table_name</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
+                        <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
+                        <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                        <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    arg: </span>
+<span class="sd">        df: target dataframe</span>
+<span class="sd">        table_name: target table name&#39;</span>
+<span class="sd">        dtype: dict or scalar, optional</span>
+<span class="sd">            Specifying the datatype for columns. If a dictionary </span>
+<span class="sd">            is used, the keys should be the column names and the </span>
+<span class="sd">            values should be the SQLAlchemy types or strings for </span>
+<span class="sd">            the sqlite3 legacy mode. If a scalar is provided, it </span>
+<span class="sd">            will be applied to all columns.</span>
+<span class="sd">        if_exists: {‘fail’, ‘replace’, ‘append’}, default ‘fail’</span>
+<span class="sd">            How to behave if the table already exists.</span>
+<span class="sd">            fail: Raise a ValueError.</span>
+<span class="sd">            replace: Drop the table before inserting new values.</span>
+<span class="sd">            append: Insert new values to the existing table.</span>
+<span class="sd">        host: in the form [name].[id].[region].redshift.amazonaws.com</span>
+<span class="sd">        password: Redshift configuration</span>
+<span class="sd">        port: usually 5439</span>
+<span class="sd">        database: Redshift configuration</span>
+<span class="sd">        user: Redshift configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+    
+    <span class="n">con</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;postgresql+psycopg2://</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">@</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">USER</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">,</span> <span class="n">DATABASE</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+
+
+
+<span class="k">def</span> <span class="nf">get_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="n">secret</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">secret_name</span>
+    <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
+
+    <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+    
+    <span class="n">client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+            <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;secretsmanager&#39;</span><span class="p">,</span>
+            <span class="n">region_name</span><span class="o">=</span><span class="n">secret</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">get_secret_value_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">(</span>
+                <span class="n">SecretId</span><span class="o">=</span><span class="n">secret_name</span>
+            <span class="p">)</span>
+        <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;arn&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">get_secret_value_response</span><span class="p">[</span><span class="s1">&#39;ARN&#39;</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error retrieving secret. Error: &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Error&#39;</span><span class="p">][</span><span class="s1">&#39;Message&#39;</span><span class="p">])</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Depending on whether the secret is a string or binary, one of these fields will be populated.</span>
+        <span class="k">if</span> <span class="s1">&#39;SecretString&#39;</span> <span class="ow">in</span> <span class="n">get_secret_value_response</span><span class="p">:</span>
+            <span class="n">Secret</span> <span class="o">=</span> <span class="n">get_secret_value_response</span><span class="p">[</span><span class="s1">&#39;SecretString&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Secret</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">get_secret_value_response</span><span class="p">[</span><span class="s1">&#39;SecretBinary&#39;</span><span class="p">])</span>
+
+    <span class="n">secret</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">secret</span><span class="p">,</span> <span class="o">**</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Secret</span><span class="p">)}</span>
+
+    <span class="k">return</span> <span class="n">secret</span>
+
+<span class="k">def</span> <span class="nf">_get_waiter</span><span class="p">(</span><span class="n">waiter_name</span><span class="p">):</span>
+    <span class="c1">### initiating waiter</span>
+    <span class="n">delay</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span>
+
+    <span class="c1">#Configure the waiter settings</span>
+    <span class="n">waiter_config</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s1">&#39;waiters&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;DataAPIExecution&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;operation&#39;</span><span class="p">:</span> <span class="s1">&#39;DescribeStatement&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">,</span>
+          <span class="s1">&#39;maxAttempts&#39;</span><span class="p">:</span> <span class="n">max_attempts</span><span class="p">,</span>
+          <span class="s1">&#39;acceptors&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">&quot;matcher&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="s2">&quot;FINISHED&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="s2">&quot;matcher&quot;</span><span class="p">:</span> <span class="s2">&quot;pathAny&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PICKED&quot;</span><span class="p">,</span><span class="s2">&quot;STARTED&quot;</span><span class="p">,</span><span class="s2">&quot;SUBMITTED&quot;</span><span class="p">],</span>
+              <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;retry&quot;</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="s2">&quot;matcher&quot;</span><span class="p">:</span> <span class="s2">&quot;pathAny&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;FAILED&quot;</span><span class="p">,</span><span class="s2">&quot;ABORTED&quot;</span><span class="p">],</span>
+              <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="s2">&quot;Status&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;failure&quot;</span>
+            <span class="p">}</span>
+          <span class="p">],</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="c1"># set random seeds for reproducibility</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">waiter_model</span> <span class="o">=</span> <span class="n">WaiterModel</span><span class="p">(</span><span class="n">waiter_config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">waiter_config</span><span class="p">,</span> <span class="n">waiter_model</span>
+
+<span class="k">def</span> <span class="nf">_make_datarow</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;Records&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;stringValue&#39;</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;doubleValue&#39;</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;longValue&#39;</span><span class="p">])</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<div class="viewcode-block" id="read_data_from_redshift_by_secret"><a class="viewcode-back" href="../../index.html#batcat.read_data_from_redshift_by_secret">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">secret</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
+
+    <span class="c1">## Data API client</span>
+    <span class="n">bc_session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+
+    <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span>
+            <span class="n">botocore_session</span><span class="o">=</span><span class="n">bc_session</span><span class="p">,</span>
+            <span class="n">region_name</span><span class="o">=</span><span class="n">secret</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="c1">## Setup the client</span>
+    <span class="n">client_redshift</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;redshift-data&quot;</span><span class="p">)</span>
+
+    <span class="c1">## Setup waiter</span>
+    <span class="n">waiter_name</span> <span class="o">=</span> <span class="s1">&#39;DataAPIExecution&#39;</span>
+    <span class="n">waiter_config</span><span class="p">,</span> <span class="n">waiter_model</span> <span class="o">=</span> <span class="n">_get_waiter</span><span class="p">(</span><span class="n">waiter_name</span><span class="p">)</span>
+
+    <span class="n">custom_waiter</span> <span class="o">=</span> <span class="n">create_waiter_with_client</span><span class="p">(</span><span class="n">waiter_name</span><span class="p">,</span> <span class="n">waiter_model</span><span class="p">,</span> <span class="n">client_redshift</span><span class="p">)</span>
+
+    <span class="c1">## Read data</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">client_redshift</span><span class="o">.</span><span class="n">execute_statement</span><span class="p">(</span><span class="n">Database</span> <span class="o">=</span> <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;db&#39;</span><span class="p">],</span> 
+                                            <span class="n">SecretArn</span> <span class="o">=</span> <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;arn&#39;</span><span class="p">],</span> 
+                                            <span class="n">Sql</span> <span class="o">=</span> <span class="n">query</span><span class="p">,</span> 
+                                            <span class="n">ClusterIdentifier</span> <span class="o">=</span> <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;dbClusterIdentifier&#39;</span><span class="p">])</span>
+
+    <span class="c1">## Reset the &#39;delay&#39; attribute of the waiter back to 2 seconds.</span>
+    <span class="n">waiter_config</span><span class="p">[</span><span class="s2">&quot;waiters&quot;</span><span class="p">][</span><span class="s2">&quot;DataAPIExecution&quot;</span><span class="p">][</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">waiter_model</span> <span class="o">=</span> <span class="n">WaiterModel</span><span class="p">(</span><span class="n">waiter_config</span><span class="p">)</span>
+    <span class="n">custom_waiter</span> <span class="o">=</span> <span class="n">create_waiter_with_client</span><span class="p">(</span><span class="n">waiter_name</span><span class="p">,</span> <span class="n">waiter_model</span><span class="p">,</span> <span class="n">client_redshift</span><span class="p">)</span>
+
+    <span class="c1">## Waiter in try block and wait for DATA API to return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">custom_waiter</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Id</span><span class="o">=</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done waiting to finish Data API.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">WaiterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">client_redshift</span><span class="o">.</span><span class="n">get_statement_result</span><span class="p">(</span><span class="n">Id</span><span class="o">=</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">])</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;ColumnMetadata&quot;</span><span class="p">])</span>
+
+    <span class="n">resrows</span> <span class="o">=</span> <span class="n">_make_datarow</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="n">col_labels</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">):</span> 
+        <span class="n">col_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;ColumnMetadata&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resrows</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">col_labels</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span> </div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Ewen Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

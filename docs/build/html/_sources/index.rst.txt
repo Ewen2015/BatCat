@@ -47,29 +47,16 @@ Storage: Data Loading and Saving
 
 BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.
 
-.. code-block:: Python
-    
-    bc.read_csv_from_bucket(bucket, key)
-    bc.save_to_bucket(df, bucket, key)
-    
-    bc.read_data_from_athena(query, 
-                             region,
-                             s3_staging_dir,
-                             date_start=None, 
-                             date_end=None)
 
-    bc.read_data_from_redshift(query, 
-                               host,
-                               password,
-                               port=5439,
-                               database='dev',
-                               user='awsuser',
-                               date_start=None, 
-                               date_end=None)
+.. autofunction:: batcat.read_csv_from_bucket
 
-    bc.read_data_from_redshift_by_secret(secret_name=None, 
-                                         region=None, 
-                                         query=None)
+.. autofunction:: batcat.save_to_bucket
+
+.. autofunction:: batcat.read_data_from_athena
+
+.. autofunction:: batcat.read_data_from_redshift
+
+.. autofunction:: batcat.read_data_from_redshift_by_secret
 
 
 Compute: Docker, Step Functions, and Lambda Setup
@@ -77,23 +64,11 @@ Compute: Docker, Step Functions, and Lambda Setup
 
 BatCat provides templetes for docker, Step Functions, and Lambda setup. 
 
+.. autofunction:: batcat.template_docker
 
-.. code-block:: Python
+.. autofunction:: batcat.template_stepfunctions
 
-    bc.template_docker(project='[project]', 
-                       uri_suffix='amazonaws.com.cn', 
-                       pip_image=True, 
-                       python_version='3.7-slim-buster')
-
-    bc.template_stepfunctions(project='[project]',
-                              purpose='[purpose]',
-                              result_s3_bucket='[s3-bucket]',
-                              workflow_execution_role='arn:[partition]:iam::[account-id]:role/[role-name]')
-
-    bc.template_lambda(project='[project]', 
-                       purpose='[purpose]', 
-                       result_s3_bucket='[s3-bucket]',
-                       partition='aws-cn')
+.. autofunction:: batcat.template_lambda
 
 Indices and tables
 ==================

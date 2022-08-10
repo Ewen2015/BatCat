@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to BatCat’s documentation! &mdash; BatCat 0.2.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -73,7 +72,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-batcat-s-documentation">
+  <div class="section" id="welcome-to-batcat-s-documentation">
 <h1>Welcome to BatCat’s documentation!<a class="headerlink" href="#welcome-to-batcat-s-documentation" title="Permalink to this heading"></a></h1>
 <p><strong>BatCat</strong> is designed to help data scientists to practice <strong>machine learning operations (MLOps)</strong> on <strong>Amazon Web Services (AWS)</strong>.</p>
 <p>Services of AWS covered:</p>
@@ -86,76 +85,161 @@
 </ul>
 <div class="toctree-wrapper compound">
 </div>
-</section>
-<section id="installation-guide">
+</div>
+<div class="section" id="installation-guide">
 <h1>Installation Guide<a class="headerlink" href="#installation-guide" title="Permalink to this heading"></a></h1>
 <p>BatCat can be installed from <a class="reference external" href="https://pypi.org/project/batcat/">PyPI</a> .</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install batcat
 </pre></div>
 </div>
-</section>
-<section id="batcat-tutorials">
+</div>
+<div class="section" id="batcat-tutorials">
 <h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
-<section id="file-structure">
+<div class="section" id="file-structure">
 <h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
 <p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
-</section>
-<section id="storage-data-loading-and-saving">
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.FileSys">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">FileSys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/FileSys.html#FileSys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.FileSys" title="Permalink to this definition"></a></dt>
+<dd><p>To establish a machine learning project file system.
+args:</p>
+<blockquote>
+<div><p>project_name: if a project name is needed, default True</p>
+</div></blockquote>
+<dl class="simple">
+<dt>return:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="storage-data-loading-and-saving">
 <h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
 <p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-<span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.read_csv_from_bucket">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_csv_from_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/batcat/Storage.html#read_csv_from_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_csv_from_bucket" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>arg:</dt><dd><p>bucket, key: data source in s3</p>
+</dd>
+<dt>return:</dt><dd><p>df: raw data, pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
-                         <span class="n">region</span><span class="p">,</span>
-                         <span class="n">s3_staging_dir</span><span class="p">,</span>
-                         <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.save_to_bucket">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">save_to_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Storage.html#save_to_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.save_to_bucket" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>arg:</dt><dd><p>bucket, key: target data destination in s3
+df: a pandas.DataFrame</p>
+</dd>
+<dt>return:</dt><dd><p>statues: HTTPS status code</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
-                           <span class="n">host</span><span class="p">,</span>
-                           <span class="n">password</span><span class="p">,</span>
-                           <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
-                           <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
-                           <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
-                           <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                           <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.read_data_from_athena">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_athena</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_staging_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/batcat/Athena.html#read_data_from_athena"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_athena" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>arg: </dt><dd><p>query: querry to obtain data from Athena, str
+region: region of the AWS environment, eg. “cn-northwest-1”
+s3_staging_dir: s3 staging directory, eg. “s3://#####-###-###-queryresult/ATHENA_QUERY”
+date_start: date to start, strftime(‘%Y/%m/%d’)
+date_start: date to end, strftime(‘%Y/%m/%d’)</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                     <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                     <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.read_data_from_redshift">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5439</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'awsuser'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/batcat/Redshift.html#read_data_from_redshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>arg: </dt><dd><p>query: querry to obtain data from Redshift, str
+host: Redshift configuration
+password: Redshift configuration
+port: Redshift configuration
+database: Redshift configuration
+user: Redshift configuration
+date_start: date to start, strftime(‘%Y/%m/%d’)
+date_start: date to end, strftime(‘%Y/%m/%d’)</p>
+</dd>
+<dt>return:</dt><dd><p>df: target dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.read_data_from_redshift_by_secret">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </div>
-</section>
-<section id="compute-docker-step-functions-and-lambda-setup">
+<div class="section" id="compute-docker-step-functions-and-lambda-setup">
 <h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
 <p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bc</span><span class="o">.</span><span class="n">template_docker</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
-                   <span class="n">uri_suffix</span><span class="o">=</span><span class="s1">&#39;amazonaws.com.cn&#39;</span><span class="p">,</span>
-                   <span class="n">pip_image</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.7-slim-buster&#39;</span><span class="p">)</span>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.template_docker">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">template_docker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[project]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amazonaws.com.cn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pip_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">python_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3.7-slim-buster'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Docker.html#template_docker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.template_docker" title="Permalink to this definition"></a></dt>
+<dd><p>To establish a machine learning project file system.
+args:</p>
+<blockquote>
+<div><p>project: used as a name of an AWS ECR repository to be setup
+uri_suffix: suffix of URL, default ‘amazonaws.com.cn’
+pip_image: whether a pip image is needed, default True and use douban image
+python_version: Python version, default ‘3.7-slim-buster’</p>
+</div></blockquote>
+<dl class="simple">
+<dt>return:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="n">bc</span><span class="o">.</span><span class="n">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
-                          <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
-                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
-                          <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span><span class="p">)</span>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.template_stepfunctions">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">template_stepfunctions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[project]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[purpose]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_s3_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[s3-bucket]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workflow_execution_role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'arn:[partition]:iam::[account-id]:role/[role-name]'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Stepfunctions.html#template_stepfunctions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.template_stepfunctions" title="Permalink to this definition"></a></dt>
+<dd><p>A template for setting up Step Functions.
+arg:</p>
+<blockquote>
+<div><p>project: project name under sagemaker
+purpose: subproject
+result_s3_bucket: S3 bucket for saving results
+workflow_execution_role: execution role arn</p>
+</div></blockquote>
+<dl class="simple">
+<dt>return:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="n">bc</span><span class="o">.</span><span class="n">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
-                   <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
-                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
-                   <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">)</span>
-</pre></div>
+<dl class="py function">
+<dt class="sig sig-object py" id="batcat.template_lambda">
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">template_lambda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[project]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[purpose]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_s3_bucket</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[s3-bucket]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aws-cn'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Stepfunctions.html#template_lambda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.template_lambda" title="Permalink to this definition"></a></dt>
+<dd><p>A template for setting up Lambda.
+arg:</p>
+<blockquote>
+<div><p>project: project name under sagemaker
+purpose: subproject
+result_s3_bucket: S3 bucket for saving results
+partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as ‘aws-cn’.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>return:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-</section>
-</section>
-<section id="indices-and-tables">
+</div>
+<div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</section>
+</div>
 
 
            </div>
