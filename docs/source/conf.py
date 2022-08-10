@@ -9,7 +9,7 @@
 project = 'BatCat'
 copyright = '2022, Ewen Wang'
 author = 'Ewen Wang'
-release = '0.2.2'
+release = '0.2.4'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
