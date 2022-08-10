@@ -36,13 +36,13 @@ sys.path.append(os.path.abspath('../..'))
 sys.path.append(os.path.abspath('..'))
 
 
-# import pip
+import pip
 
-# def install(package):
-#     if hasattr(pip, 'main'):
-#         pip.main(['install', package])
-#     else:
-#         pip._internal.main(['install', package])
+def install(package):
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])
 
-# install('batcat')
-# import batcat
+install('batcat')
+import batcat

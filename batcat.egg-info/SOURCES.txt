@@ -11,11 +11,7 @@ batcat/Stepfunctions.py
 batcat/Storage.py
 batcat/__init__.py
 batcat/__version__.py
-batcat/athena.py
 batcat/core.py
-batcat/lambda.py
-batcat/redshift.py
-batcat/stepfunctions.py
 batcat.egg-info/PKG-INFO
 batcat.egg-info/SOURCES.txt
 batcat.egg-info/dependency_links.txt
