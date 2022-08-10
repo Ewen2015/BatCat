@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Redshift &mdash; BatCat 0.2.2 documentation</title>
+  <title>batcat.Redshift &mdash; BatCat 0.2.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -93,9 +93,10 @@
                             <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
                             <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
                             <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                            <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg: </span>
+                            <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with host and password.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
 <span class="sd">        query: querry to obtain data from Redshift, str</span>
 <span class="sd">        host: Redshift configuration</span>
 <span class="sd">        password: Redshift configuration</span>
@@ -104,7 +105,9 @@
 <span class="sd">        user: Redshift configuration</span>
 <span class="sd">        date_start: date to start, strftime(&#39;%Y/%m/%d&#39;)</span>
 <span class="sd">        date_start: date to end, strftime(&#39;%Y/%m/%d&#39;)</span>
-<span class="sd">    return:</span>
+
+
+<span class="sd">    Returns:</span>
 <span class="sd">        df: target dataframe</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -129,8 +132,9 @@
                         <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
                         <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
                         <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg: </span>
+    <span class="sd">&quot;&quot;&quot;Save pd.DataFrame to RedShift with host and password.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
 <span class="sd">        df: target dataframe</span>
 <span class="sd">        table_name: target table name&#39;</span>
 <span class="sd">        dtype: dict or scalar, optional</span>
@@ -149,6 +153,10 @@
 <span class="sd">        port: usually 5439</span>
 <span class="sd">        database: Redshift configuration</span>
 <span class="sd">        user: Redshift configuration</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
     
@@ -255,8 +263,19 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
-<div class="viewcode-block" id="read_data_from_redshift_by_secret"><a class="viewcode-back" href="../../index.html#batcat.read_data_from_redshift_by_secret">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="read_data_from_redshift_by_secret"><a class="viewcode-back" href="../../index.html#batcat.read_data_from_redshift_by_secret">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                      <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                      <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with AWS Screte Manager.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        secret_nam: the name of AWS Screte Manager</span>
+<span class="sd">        region: AWS region</span>
+<span class="sd">        query: querry to obtain data from Redshift, str</span>
 
+<span class="sd">    Returns:</span>
+<span class="sd">        df: target dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">secret</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
 
     <span class="c1">## Data API client</span>

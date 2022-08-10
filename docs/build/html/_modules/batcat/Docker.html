@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Docker &mdash; BatCat 0.2.2 documentation</title>
+  <title>batcat.Docker &mdash; BatCat 0.2.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -75,13 +75,15 @@
            <span class="n">uri_suffix</span><span class="o">=</span><span class="s1">&#39;amazonaws.com.cn&#39;</span><span class="p">,</span> 
            <span class="n">pip_image</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
            <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.7-slim-buster&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;To establish a machine learning project file system.</span>
-<span class="sd">    args:</span>
+    <span class="sd">&quot;&quot;&quot;Build a docker image to AWS ECR for a machine learning project.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
 <span class="sd">        project: used as a name of an AWS ECR repository to be setup</span>
 <span class="sd">        uri_suffix: suffix of URL, default &#39;amazonaws.com.cn&#39;</span>
 <span class="sd">        pip_image: whether a pip image is needed, default True and use douban image</span>
 <span class="sd">        python_version: Python version, default &#39;3.7-slim-buster&#39;</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

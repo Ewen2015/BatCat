@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Stepfunctions &mdash; BatCat 0.2.2 documentation</title>
+  <title>batcat.Stepfunctions &mdash; BatCat 0.2.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -83,12 +83,14 @@
 
 
 <span class="k">def</span> <span class="nf">processing_output_path</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; setup a result path within container.</span>
-<span class="sd">    arg:</span>
+    <span class="sd">&quot;&quot;&quot;Setup a result path within container.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        purpose: a purpose under a project</span>
 <span class="sd">        timestamp: whether a timestamp in file name is needed</span>
 <span class="sd">        local: if set the path to local for test</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        path: a csv path for later usage</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">timestamp</span><span class="p">:</span>
@@ -106,14 +108,16 @@
 <span class="k">def</span> <span class="nf">setup_workflow</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
                    <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
                    <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:aws-cn:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; to setup all needed for a step function with sagemaker.</span>
-<span class="sd">    arg: </span>
+    <span class="sd">&quot;&quot;&quot;Setup all needed for a step function with sagemaker.</span>
+
+<span class="sd">    Args: </span>
 <span class="sd">        project: project name under sagemaker</span>
 <span class="sd">        purpose: subproject</span>
 <span class="sd">        workflow_execution_role: arn to execute step functions</span>
 <span class="sd">        script_dir: processing file name, like a .py file</span>
 <span class="sd">        ecr_repository: ecr repository name</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        workflow: a stepfunctions.workflow.Workflow instance  </span>
 <span class="sd">    example: </span>
 <span class="sd">        PROJECT = &#39;[dpt-proj-2022]&#39;</span>
@@ -227,13 +231,15 @@
 
 
 <span class="k">def</span> <span class="nf">test_workflow</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; to test a step function workflow.</span>
-<span class="sd">    arg:</span>
+    <span class="sd">&quot;&quot;&quot;Test a step function workflow.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        workflow: a stepfunctions.workflow.Workflow instance</span>
 <span class="sd">        project: project name under sagemaker</span>
 <span class="sd">        purpose: subproject</span>
 <span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">job</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H%M%S&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
@@ -256,13 +262,15 @@
                            <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
                            <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
                            <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A template for setting up Step Functions.</span>
-<span class="sd">    arg:</span>
+    <span class="sd">&quot;&quot;&quot;Generate a template Python script for setting up Step Functions.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        project: project name under sagemaker</span>
 <span class="sd">        purpose: subproject</span>
 <span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
 <span class="sd">        workflow_execution_role: execution role arn</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -301,13 +309,15 @@
                     <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> 
                     <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
                     <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A template for setting up Lambda.</span>
-<span class="sd">    arg:</span>
+    <span class="sd">&quot;&quot;&quot;Generate a template Python script for setting up Lambda.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        project: project name under sagemaker</span>
 <span class="sd">        purpose: subproject</span>
 <span class="sd">        result_s3_bucket: S3 bucket for saving results</span>
 <span class="sd">        partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as &#39;aws-cn&#39;.</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">-trigger/lambda_function.py&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>

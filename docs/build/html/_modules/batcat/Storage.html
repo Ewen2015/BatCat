@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Storage &mdash; BatCat 0.2.2 documentation</title>
+  <title>batcat.Storage &mdash; BatCat 0.2.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -79,24 +79,28 @@
 
 <span class="c1">## i/o</span>
 
-<div class="viewcode-block" id="read_csv_from_bucket"><a class="viewcode-back" href="../../index.html#batcat.read_csv_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
+<div class="viewcode-block" id="read_csv_from_bucket"><a class="viewcode-back" href="../../index.html#batcat.read_csv_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read csv from AWS S3.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        bucket, key: data source in s3</span>
-<span class="sd">    return:</span>
-<span class="sd">        df: raw data, pandas.DataFrame</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        df: pandas.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> <span class="n">error_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warn_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
-<span class="k">def</span> <span class="nf">read_excel_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
-<span class="sd">        bucket, key: data source in s3</span>
+<span class="k">def</span> <span class="nf">read_excel_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read Excel from AWS S3.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bucet, key: data source in s3</span>
 <span class="sd">        sheet_name: target sheet name of the excel</span>
-<span class="sd">    return:</span>
-<span class="sd">        df: raw data, pandas.DataFrame</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        df: pandas.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> 
@@ -105,11 +109,13 @@
     <span class="k">return</span> <span class="n">df</span> 
 
 <div class="viewcode-block" id="save_to_bucket"><a class="viewcode-back" href="../../index.html#batcat.save_to_bucket">[docs]</a><span class="k">def</span> <span class="nf">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
-<span class="sd">        bucket, key: target data destination in s3</span>
+    <span class="sd">&quot;&quot;&quot;Save DataFrame to AWS S3.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bucet, key: target data destination in s3</span>
 <span class="sd">        df: a pandas.DataFrame</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        statues: HTTPS status code</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">csv_buffer</span><span class="p">:</span>
@@ -124,12 +130,14 @@
 <span class="c1">## multiple </span>
 
 <span class="k">def</span> <span class="nf">list_bucket_files</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
+    <span class="sd">&quot;&quot;&quot;Read multiple csv file names from AWS S3.</span>
+
+<span class="sd">    Args:</span>
 <span class="sd">        bucket: target s3 bucket</span>
-<span class="sd">        prefix: file prefix</span>
+<span class="sd">        preix: file prefix</span>
 <span class="sd">        suffix: file suffix</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        file list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
@@ -144,15 +152,16 @@
 
 <span class="k">def</span> <span class="nf">copy_bucket_files</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">target_bucket</span><span class="p">,</span> <span class="n">target_prefix</span><span class="p">,</span> <span class="n">target_suffix</span><span class="p">,</span> <span class="n">key_sub</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        bucket: source bucket</span>
 <span class="sd">        prefix: prefix of source files</span>
 <span class="sd">        suffix: suffix of source files</span>
 <span class="sd">        target_bucket: target bucket</span>
 <span class="sd">        target_prefix: prefix of target files</span>
-<span class="sd">        target_suffix: suffix of target files</span>
+<span class="sd">        taret_suffix: suffix of target files</span>
 <span class="sd">        key_sub: information to substract from source keys, a tuple</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">boto3</span>
@@ -175,10 +184,11 @@
 
 <span class="k">def</span> <span class="nf">SuccessSignal</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;.success&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    arg:</span>
-<span class="sd">        bucket: target bucket to receive a signal</span>
+<span class="sd">    Args:</span>
+<span class="sd">        bucet: target bucket to receive a signal</span>
 <span class="sd">        key: signal file</span>
-<span class="sd">    return:</span>
+
+<span class="sd">    Returns:</span>
 <span class="sd">        statue: HTTPS status code</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
