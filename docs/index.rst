@@ -14,7 +14,7 @@ Services of AWS covered:
 
 
 Install
-=======
+-------
 
 BatCat can be installed from `PyPI <https://pypi.org/project/batcat/>`_ .
 
@@ -25,19 +25,15 @@ BatCat can be installed from `PyPI <https://pypi.org/project/batcat/>`_ .
 
 
 File Structure
-==============
+--------------
 
 BatCat provides one-line command to setup a well-organized file structure for data science projects.
 
-.. code-block:: Python
-
-    import batcat as bc
-
-    bc.FileSys()
+.. autofunction:: batcat.FileSys
 
 
 Storage: Data Loading and Saving 
-================================
+--------------------------------
 
 BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.
 
@@ -66,7 +62,7 @@ BatCat supports importing data from S3 bucket (directly by Athena or Redshift) a
                                          query=None)
 
 Compute: Docker, Step Functions, and Lambda Setup
-========================================
+-------------------------------------------------
 
 BatCat provides templetes for docker, Step Functions, and Lambda setup. 
 
