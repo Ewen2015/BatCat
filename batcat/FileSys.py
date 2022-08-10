@@ -23,14 +23,10 @@ def tree(path=os.getcwd()):
 def FileSys(project_name=True):
     """Establish a machine learning project file system.
 
-    Parameters
-    ----------
-
+    Args:
         project_name: if a project name is needed, default True
 
-    Returns
-    -------
-    
+    Returns:    
         None
     """
     if project_name:

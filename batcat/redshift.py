@@ -32,9 +32,7 @@ def read_data_from_redshift(query,
                             date_end=None):
     """Read DataFrame from RedShift with host and password.
     
-    Parameters
-    ----------
-
+    Args:
         query: querry to obtain data from Redshift, str
         host: Redshift configuration
         password: Redshift configuration
@@ -45,9 +43,7 @@ def read_data_from_redshift(query,
         date_start: date to end, strftime('%Y/%m/%d')
 
 
-    Returns
-    -------
-
+    Returns:
         df: target dataframe
     """
     
@@ -74,9 +70,7 @@ def save_df_to_redshift(df,
                         if_exists='replace'):
     """Save pd.DataFrame to RedShift with host and password.
     
-    Parameters
-    ----------
-
+    Args:
         df: target dataframe
         table_name: target table name'
         dtype: dict or scalar, optional
@@ -97,9 +91,7 @@ def save_df_to_redshift(df,
         user: Redshift configuration
 
 
-    Returns
-    -------
-
+    Returns:
         None
     """
     from sqlalchemy import create_engine
@@ -212,16 +204,12 @@ def read_data_from_redshift_by_secret(secret_name=None,
                                       query=None):
     """Read DataFrame from RedShift with AWS Screte Manager.
     
-    Parameters
-    ----------
-
+    Args:
         secret_nam: the name of AWS Screte Manager
         region: AWS region
         query: querry to obtain data from Redshift, str
 
-    Returns
-    -------
-
+    Returns:
         df: target dataframe
     """
     secret = get_secret(secret_name, region)

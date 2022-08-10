@@ -11,20 +11,15 @@ import logging
 def get_logger(logName, logFile=False):
     """Get a logger in one step.
 
-    Logging is one of the most underrated features. Two things (5&3) to take away from 
-    Logging in Python: 1) FIVE levels of importance that logs can contain(debug, info, warning, 
-    error, critical); 2) THREE components to configure a logger in Python (a logger, a formatter, 
-    and at least one handler).
+    Logging is one of the most underrated features. Two things (5&3) to take away from Logging in Python: 
+    1. FIVE levels of importance that logs can contain(debug, info, warning, error, critical); 
+    2. THREE components to configure a logger in Python (a logger, a formatter, and at least one handler).
 
-    Parameters
-    ----------
-
+    Args:
         logName: a logger name to display in loggings.
         logFile: a target file to save loggins.
 
-    Returns
-    -------
-
+    Returns:
         logger: a well logger.
     """
     logger = logging.getLogger(logName)

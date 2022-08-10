@@ -11,14 +11,10 @@ import json
 def print_event(event):
     """Print Lambda event name.
 
-    Parameters
-    ----------
-
+    Args:
         event: s3 trigger event
 
-    Returns
-    -------
-
+    Returns:
         None
     """
     print("Received event: " + json.dumps(event, indent=2))
@@ -27,14 +23,10 @@ def print_event(event):
 def get_bucket_key(event):
     """Get S3 the bucket and key from event.
 
-    Parameters
-    ----------
-
+    Args:
         event: s3 trigger event
 
-    Returns
-    -------
-
+    Returns:
         bucket, key: bucket and key of the event
     """
     bucket = event["Records"][0]["s3"]["bucket"]["name"]

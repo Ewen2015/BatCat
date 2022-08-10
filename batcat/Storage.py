@@ -18,14 +18,10 @@ s3 = boto3.client('s3')
 def read_csv_from_bucket(bucket, key):
     """Read csv from AWS S3.
 
-    Parameters
-    ----------
-
+    Args:
         bucket, key: data source in s3
 
-    Returns
-    -------
-
+    Returns:
         df: pandas.DataFrame
     """    
     response = s3.get_object(Bucket=bucket, Key=key)
@@ -35,15 +31,11 @@ def read_csv_from_bucket(bucket, key):
 def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
     """Read Excel from AWS S3.
 
-    Parameters
-    ----------
-
-        bucket, key: data source in s3
+    Args:
+        bucet, key: data source in s3
         sheet_name: target sheet name of the excel
 
-    Returns
-    -------
-
+    Returns:
         df: pandas.DataFrame
     """
     response = s3.get_object(Bucket=bucket, Key=key)
@@ -55,15 +47,11 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
 def save_to_bucket(df, bucket, key):
     """Save DataFrame to AWS S3.
 
-    Parameters
-    ----------
-
-        bucket, key: target data destination in s3
+    Args:
+        bucet, key: target data destination in s3
         df: a pandas.DataFrame
 
-    Returns
-    -------
-
+    Returns:
         statues: HTTPS status code
     """
     with StringIO() as csv_buffer:
@@ -80,16 +68,12 @@ def save_to_bucket(df, bucket, key):
 def list_bucket_files(bucket, prefix, suffix) -> list:
     """Read multiple csv file names from AWS S3.
 
-    Parameters
-    ----------
-
+    Args:
         bucket: target s3 bucket
-        prefix: file prefix
+        preix: file prefix
         suffix: file suffix
 
-    Returns
-    -------
-
+    Returns:
         file list
     """
     s3 = boto3.resource('s3')
@@ -104,20 +88,16 @@ def list_bucket_files(bucket, prefix, suffix) -> list:
 
 def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, target_suffix, key_sub):
     """
-    Parameters
-    ----------
-
+    Args:
         bucket: source bucket
         prefix: prefix of source files
         suffix: suffix of source files
         target_bucket: target bucket
         target_prefix: prefix of target files
-        target_suffix: suffix of target files
+        taret_suffix: suffix of target files
         key_sub: information to substract from source keys, a tuple
 
-    Returns
-    -------
-
+    Returns:
         None
     """
     import boto3
@@ -140,15 +120,11 @@ def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, targ
 
 def SuccessSignal(bucket, key='.success'):
     """
-    Parameters
-    ----------
-
-        bucket: target bucket to receive a signal
+    Args:
+        bucet: target bucket to receive a signal
         key: signal file
 
-    Returns
-    -------
-
+    Returns:
         statue: HTTPS status code
     """
     with StringIO() as buffer:

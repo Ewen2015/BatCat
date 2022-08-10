@@ -14,14 +14,10 @@ from pyathena.pandas.cursor import PandasCursor
 def get_date_with_delta(delta, format='%Y/%m/%d'):
     """ Get the date delta days ago.
 
-    Parameters
-    ----------
-
+    Args:
         delta: the number of days ago, int
 
-    Returns
-    -------
-
+    Returns:
         date: strftime('%Y/%m/%d')
     """
     from datetime import date, timedelta
@@ -35,18 +31,14 @@ def read_data_from_athena(query,
                          date_end=None):
     """Read data as DataFrame from AWS Athena.
 
-    Parameters
-    ----------
-
+    Args:
         query: querry to obtain data from Athena, str
         region: region of the AWS environment, eg. "cn-northwest-1"
         s3_staging_dir: s3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY"
         date_start: date to start, strftime('%Y/%m/%d')
         date_start: date to end, strftime('%Y/%m/%d')
     
-    Returns
-    -------
-    
+    Returns:    
         df: pandas.DataFrame
     """
 

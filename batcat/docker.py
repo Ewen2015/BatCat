@@ -13,17 +13,13 @@ def template_docker(project='[project]',
            python_version='3.7-slim-buster'):
     """Build a docker image to AWS ECR for a machine learning project.
     
-    Parameters
-    ----------
-
+    Args:
         project: used as a name of an AWS ECR repository to be setup
         uri_suffix: suffix of URL, default 'amazonaws.com.cn'
         pip_image: whether a pip image is needed, default True and use douban image
         python_version: Python version, default '3.7-slim-buster'
 
-    Returns
-    -------
-
+    Returns:
         None
     """
 
