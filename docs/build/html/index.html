@@ -45,7 +45,12 @@
 <li><a class="reference internal" href="#compute-docker-step-functions-and-lambda-setup">Compute: Docker, Step Functions, and Lambda Setup</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#batcat-api">BatCat API</a><ul>
+<li><a class="reference internal" href="#id1">File Structure</a></li>
+<li><a class="reference internal" href="#id2">Storage: Data Loading and Saving</a></li>
+<li><a class="reference internal" href="#id3">Compute: Docker, Step Functions, and Lambda Setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -98,6 +103,62 @@
 <div class="section" id="file-structure">
 <h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
 <p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bc</span><span class="o">.</span><span class="n">FileSys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="storage-data-loading-and-saving">
+<h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
+<p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
+                         <span class="n">region</span><span class="p">,</span>
+                         <span class="n">s3_staging_dir</span><span class="p">,</span>
+                         <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
+                           <span class="n">host</span><span class="p">,</span>
+                           <span class="n">password</span><span class="p">,</span>
+                           <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
+                           <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
+                           <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                           <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                     <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                     <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compute-docker-step-functions-and-lambda-setup">
+<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
+<p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bc</span><span class="o">.</span><span class="n">template_docker</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+                   <span class="n">uri_suffix</span><span class="o">=</span><span class="s1">&#39;amazonaws.com.cn&#39;</span><span class="p">,</span>
+                   <span class="n">pip_image</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.7-slim-buster&#39;</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+                          <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
+                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
+                          <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+                   <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
+                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
+                   <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="batcat-api">
+<h1>BatCat API<a class="headerlink" href="#batcat-api" title="Permalink to this heading"></a></h1>
+<div class="section" id="id1">
+<h2>File Structure<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.FileSys">
 <span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">FileSys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/FileSys.html#FileSys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.FileSys" title="Permalink to this definition"></a></dt>
@@ -111,9 +172,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="storage-data-loading-and-saving">
-<h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
-<p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
+<div class="section" id="id2">
+<h2>Storage: Data Loading and Saving<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.read_csv_from_bucket">
 <span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_csv_from_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Storage.html#read_csv_from_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_csv_from_bucket" title="Permalink to this definition"></a></dt>
@@ -189,9 +249,8 @@ query: querry to obtain data from Redshift, str</p>
 </dd></dl>
 
 </div>
-<div class="section" id="compute-docker-step-functions-and-lambda-setup">
-<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
-<p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
+<div class="section" id="id3">
+<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.template_docker">
 <span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">template_docker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[project]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'amazonaws.com.cn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pip_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">python_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3.7-slim-buster'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/Docker.html#template_docker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.template_docker" title="Permalink to this definition"></a></dt>
@@ -238,14 +297,6 @@ partition: The partition in which the resource is located. A partition is a grou
 </dd></dl>
 
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
 </div>
 
 
