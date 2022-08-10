@@ -10,9 +10,15 @@ import pandas as pd
 
 def get_date_with_delta(delta, format='%Y/%m/%d'):
     """ Get the date delta days ago.
-    arg:
+
+    Parameters
+    ----------
+
         delta: the number of days ago, int
-    return:
+    
+    Returns
+    -------
+
         date: strftime('%Y/%m/%d')
     """
     from datetime import date, timedelta
@@ -24,12 +30,18 @@ def read_data_from_bd(query,
                       port,
                       database,
                       password) -> pd.DataFrame:
-    """ get data from abc database
-    arg:
+    """Read data from a database.
+
+    Parameters
+    ----------
+
         query: sql 
         username: database username
         password: database password
-    return:
+
+    Returns
+    -------
+    
         df: dataframe
     """
     import pymysql
