@@ -103,9 +103,32 @@
 <div class="section" id="file-structure">
 <h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
 <p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
-
-<span class="n">bc</span><span class="o">.</span><span class="n">FileSys</span><span class="p">()</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
+</pre></div>
+</div>
+<p>The interactive and immersive command-line interfaces as following. Just type down your project name, like <kbd class="kbd docutils literal notranslate">battery</kbd> in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>hi, there! please write down your machine learning project&#39;s name.
+project&#39;s name: battery
+project_battery/
+    README.md
+    .gitignore
+    doc/
+        READM.md
+    log/
+    model/
+    test/
+    data/
+        tmp/
+        train/
+        test/
+        result/
+        raw/
+    notebook/
+    report/
+    script/
+        config.json
+    deploy/
+        deploy.sh
 </pre></div>
 </div>
 </div>
@@ -113,7 +136,9 @@
 <h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
 <p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
 <p>Read data directly from S3 and save the df to S3.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
+
+<span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;usage&#39;</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>

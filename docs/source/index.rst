@@ -38,11 +38,36 @@ File Structure
 
 BatCat provides one-line command to setup a well-organized file structure for data science projects.
 
-.. code-block:: Python
+.. code-block:: bash
 
-    import batcat as bc
+    python -m batcat.FileSys
 
-    bc.FileSys()
+The interactive and immersive command-line interfaces as following. Just type down your project name, like :kbd:`battery` in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it. 
+
+::
+
+    hi, there! please write down your machine learning project's name.
+    project's name: battery
+    project_battery/
+        README.md
+        .gitignore
+        doc/
+            READM.md
+        log/
+        model/
+        test/
+        data/
+            tmp/
+            train/
+            test/
+            result/
+            raw/
+        notebook/
+        report/
+        script/
+            config.json
+        deploy/
+            deploy.sh
 
 
 Storage: Data Loading and Saving 
@@ -54,6 +79,8 @@ Read data directly from S3 and save the df to S3.
 
 .. code-block:: Python
 
+    import batcat as bc
+    
     bucket = '2022-RnD-battery'
     key = 'usage'
 
