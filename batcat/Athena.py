@@ -18,7 +18,7 @@ def get_date_with_delta(delta, format='%Y/%m/%d'):
         delta (int): The number of days ago.
 
     Returns:
-        date (str): strftime('%Y/%m/%d').
+        date (str): Strftime('%Y/%m/%d').
     """
     from datetime import date, timedelta
     return (date.today() - timedelta(days=delta)).strftime(format)

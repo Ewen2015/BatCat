@@ -37,7 +37,7 @@ def read_data_from_bd(query,
         database (str): Redshift configuration.
 
     Returns:    
-        df (pandas.DataFrame): dataframe. 
+        df (pandas.DataFrame): Dataframe. 
     """
     import pymysql
     

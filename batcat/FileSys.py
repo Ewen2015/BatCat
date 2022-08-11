@@ -21,16 +21,16 @@ def tree(path=os.getcwd()):
     return None
 
 def FileSys(project_name=True):
-    """Establish a machine learning project file system.
+    """Establish a data science project file system.
 
     Args:
         project_name (bool): If a project name is needed, default True.
 
-    Returns:
-        None
+    Yields:
+        A data science project file system. 
     """
     if project_name:
-        print("hi, there! please write down your machine learning project's name.")
+        print("hi, there! please write down your data science project's name.")
         name = input("project's name: ")
         pn = 'project_'+name
         os.mkdir(pn)
