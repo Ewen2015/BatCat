@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Storage &mdash; BatCat 0.2.7 documentation</title>
+  <title>batcat.Storage &mdash; BatCat 0.2.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -83,8 +83,8 @@
     <span class="sd">&quot;&quot;&quot;Read CSV from AWS S3.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        bucket: Bucket name of S3. </span>
-<span class="sd">        key: Key of S3. </span>
+<span class="sd">        bucket (str): Bucket name of S3. </span>
+<span class="sd">        key (str): Key of S3. </span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        df (pandas.DataFrame): Dataframe.</span>
@@ -97,11 +97,12 @@
     <span class="sd">&quot;&quot;&quot;Read Excel from AWS S3.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        bucet, key: data source in s3</span>
-<span class="sd">        sheet_name: target sheet name of the excel</span>
+<span class="sd">        bucket (str): Bucket name of S3. </span>
+<span class="sd">        key (str): Key of S3. </span>
+<span class="sd">        sheet_name: The target sheet name of the excel.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        df: pandas.DataFrame</span>
+<span class="sd">        df (pandas.DataFrame): Dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> 
@@ -113,11 +114,12 @@
     <span class="sd">&quot;&quot;&quot;Save DataFrame to AWS S3.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        bucet, key: target data destination in s3</span>
-<span class="sd">        df: a pandas.DataFrame</span>
+<span class="sd">        bucket (str): Bucket name of S3. </span>
+<span class="sd">        key (str): Key of S3. </span>
+<span class="sd">        df (pandas.DataFrame): Dataframe.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        statues: HTTPS status code</span>
+<span class="sd">        statues (int): HTTPS status code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">csv_buffer</span><span class="p">:</span>
         <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_buffer</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -134,12 +136,12 @@
     <span class="sd">&quot;&quot;&quot;Read multiple csv file names from AWS S3.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        bucket: target s3 bucket</span>
-<span class="sd">        preix: file prefix</span>
-<span class="sd">        suffix: file suffix</span>
+<span class="sd">        bucket (str): Target s3 bucket.</span>
+<span class="sd">        preix (str): File prefix.</span>
+<span class="sd">        suffix (str): File suffix.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        file list</span>
+<span class="sd">        file list (list).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
     <span class="n">my_bucket</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span>
@@ -154,13 +156,13 @@
 <span class="k">def</span> <span class="nf">copy_bucket_files</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">target_bucket</span><span class="p">,</span> <span class="n">target_prefix</span><span class="p">,</span> <span class="n">target_suffix</span><span class="p">,</span> <span class="n">key_sub</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">        bucket: source bucket</span>
-<span class="sd">        prefix: prefix of source files</span>
-<span class="sd">        suffix: suffix of source files</span>
-<span class="sd">        target_bucket: target bucket</span>
-<span class="sd">        target_prefix: prefix of target files</span>
-<span class="sd">        taret_suffix: suffix of target files</span>
-<span class="sd">        key_sub: information to substract from source keys, a tuple</span>
+<span class="sd">        bucket (str): Source bucket.</span>
+<span class="sd">        prefix (str): Prefix of source files.</span>
+<span class="sd">        suffix (str): Suffix of source files.</span>
+<span class="sd">        target_bucket (str): Target bucket.</span>
+<span class="sd">        target_prefix (str): Prefix of target files.</span>
+<span class="sd">        taret_suffix (str): Suffix of target files.</span>
+<span class="sd">        key_sub (str): Information to substract from source keys, a tuple.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
@@ -186,11 +188,11 @@
 <span class="k">def</span> <span class="nf">SuccessSignal</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;.success&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">        bucet: target bucket to receive a signal</span>
-<span class="sd">        key: signal file</span>
+<span class="sd">        bucet (str): Target bucket to receive a signal.</span>
+<span class="sd">        key (str): Signal file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        statue: HTTPS status code</span>
+<span class="sd">        statue (int): HTTPS status code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
         <span class="n">buffer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S </span><span class="si">%f</span><span class="s1">&#39;</span><span class="p">))</span>

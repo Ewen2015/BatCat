@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to BatCat’s documentation! &mdash; BatCat 0.2.7 documentation</title>
+  <title>Welcome to BatCat’s documentation! &mdash; BatCat 0.2.8 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -51,6 +51,7 @@
 <li><a class="reference internal" href="#id3">Compute: Docker, Step Functions, and Lambda Setup</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </div>
         </div>
@@ -230,13 +231,13 @@ project_battery/
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.FileSys">
 <span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">FileSys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batcat/FileSys.html#FileSys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.FileSys" title="Permalink to this definition"></a></dt>
-<dd><p>Establish a machine learning project file system.</p>
+<dd><p>Establish a data science project file system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>project_name</strong> (<em>bool</em>) – If a project name is needed, default True.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p>A data science project file system.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,8 +252,8 @@ project_battery/
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bucket</strong> – Bucket name of S3.</p></li>
-<li><p><strong>key</strong> – Key of S3.</p></li>
+<li><p><strong>bucket</strong> (<em>str</em>) – Bucket name of S3.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Key of S3.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -271,16 +272,16 @@ project_battery/
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bucet</strong> – target data destination in s3</p></li>
-<li><p><strong>key</strong> – target data destination in s3</p></li>
-<li><p><strong>df</strong> – a pandas.DataFrame</p></li>
+<li><p><strong>bucket</strong> (<em>str</em>) – Bucket name of S3.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Key of S3.</p></li>
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Dataframe.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>HTTPS status code</p>
+<dd class="field-even"><p>HTTPS status code.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>statues</p>
+<dd class="field-odd"><p>statues (int)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -296,7 +297,7 @@ project_battery/
 <li><p><strong>region</strong> (<em>str</em>) – Region of the AWS environment, eg. “cn-northwest-1”.</p></li>
 <li><p><strong>s3_staging_dir</strong> (<em>str</em>) – S3 staging directory, eg. “s3://#####-###-###-queryresult/ATHENA_QUERY”.</p></li>
 <li><p><strong>date_start</strong> (<em>str</em>) – Date to start, strftime(‘%Y/%m/%d’).</p></li>
-<li><p><strong>date_start</strong> – Date to end, strftime(‘%Y/%m/%d’).</p></li>
+<li><p><strong>date_end</strong> (<em>str</em>) – Date to end, strftime(‘%Y/%m/%d’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -322,7 +323,7 @@ project_battery/
 <li><p><strong>database</strong> (<em>str</em>) – Redshift configuration.</p></li>
 <li><p><strong>user</strong> (<em>str</em>) – Redshift configuration.</p></li>
 <li><p><strong>date_start</strong> (<em>str</em>) – Date to start, strftime(‘%Y/%m/%d’).</p></li>
-<li><p><strong>date_start</strong> – Date to end, strftime(‘%Y/%m/%d’).</p></li>
+<li><p><strong>date_end</strong> (<em>str</em>) – Date to end, strftime(‘%Y/%m/%d’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -416,6 +417,14 @@ project_battery/
 </dd></dl>
 
 </div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
 </div>
 
 

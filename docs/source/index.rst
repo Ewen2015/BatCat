@@ -201,3 +201,10 @@ Compute: Docker, Step Functions, and Lambda Setup
 
 .. autofunction:: batcat.template_lambda
 
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
