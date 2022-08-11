@@ -40,7 +40,7 @@ def read_data_from_redshift(query,
         database (str): Redshift configuration.
         user (str): Redshift configuration.
         date_start (str): Date to start, strftime('%Y/%m/%d').
-        date_start (str): Date to end, strftime('%Y/%m/%d').
+        date_end (str): Date to end, strftime('%Y/%m/%d').
 
 
     Returns:

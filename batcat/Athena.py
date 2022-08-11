@@ -36,7 +36,7 @@ def read_data_from_athena(query,
         region (str): Region of the AWS environment, eg. "cn-northwest-1".
         s3_staging_dir (str): S3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY".
         date_start (str): Date to start, strftime('%Y/%m/%d').
-        date_start (str): Date to end, strftime('%Y/%m/%d').
+        date_end (str): Date to end, strftime('%Y/%m/%d').
     
     Returns:    
         df (pandas.DataFrame): dataframe.
