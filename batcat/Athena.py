@@ -15,10 +15,10 @@ def get_date_with_delta(delta, format='%Y/%m/%d'):
     """ Get the date delta days ago.
 
     Args:
-        delta: the number of days ago, int
+        delta (int): The number of days ago.
 
     Returns:
-        date: strftime('%Y/%m/%d')
+        date (str): strftime('%Y/%m/%d').
     """
     from datetime import date, timedelta
     return (date.today() - timedelta(days=delta)).strftime(format)
@@ -32,14 +32,14 @@ def read_data_from_athena(query,
     """Read data as DataFrame from AWS Athena.
 
     Args:
-        query: querry to obtain data from Athena, str
-        region: region of the AWS environment, eg. "cn-northwest-1"
-        s3_staging_dir: s3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY"
-        date_start: date to start, strftime('%Y/%m/%d')
-        date_start: date to end, strftime('%Y/%m/%d')
+        query (str): Querry to obtain data from Athena.
+        region (str): Region of the AWS environment, eg. "cn-northwest-1".
+        s3_staging_dir (str): S3 staging directory, eg. "s3://#####-###-###-queryresult/ATHENA_QUERY".
+        date_start (str): Date to start, strftime('%Y/%m/%d').
+        date_start (str): Date to end, strftime('%Y/%m/%d').
     
     Returns:    
-        df: pandas.DataFrame
+        df (pandas.DataFrame): dataframe.
     """
 
     cursor = connect(s3_staging_dir=s3_staging_dir,

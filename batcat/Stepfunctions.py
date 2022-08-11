@@ -22,12 +22,12 @@ def processing_output_path(purpose, timestamp=True, local=False):
     """Setup a result path within container.
 
     Args:
-        purpose: a purpose under a project
-        timestamp: whether a timestamp in file name is needed
-        local: if set the path to local for test
+        purpose (str): A purpose under a project.
+        timestamp (bool): Whether a timestamp in file name is needed.
+        local (bool): If set the path to local for test.
 
     Returns:
-        path: a csv path for later usage
+        path (str): A CSV path for later usage.
     """
     if timestamp:
         job = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
@@ -47,20 +47,17 @@ def setup_workflow(project='[project]',
     """Setup all needed for a step function with sagemaker.
 
     Args: 
-        project: project name under sagemaker
-        purpose: subproject
-        workflow_execution_role: arn to execute step functions
-        script_dir: processing file name, like a .py file
-        ecr_repository: ecr repository name
+        project (str): project name under sagemaker.
+        purpose (str): subproject.
+        workflow_execution_role (str): arn to execute step functions.
 
     Returns:
-        workflow: a stepfunctions.workflow.Workflow instance  
-    example: 
-        PROJECT = '[dpt-proj-2022]'
-        PURPOSE = '[processing]'
+        workflow (stepfunctions.workflow.Workflow): a workflow instance.
+
+    Example: 
+        PROJECT = '2022-department-project'
+        PURPOSE = 'processing'
         WORKFLOW_EXECUTION_ROLE = "arn:aws-cn:iam::[account-id]:role/[role-name]"
-        SCRIPT_DIR = "[processing].py"
-        ECR_REPOSITORY = '[ecr-2022]'
     """
 
     # SageMaker Session setup
@@ -201,13 +198,13 @@ def template_stepfunctions(project='[project]',
     """Generate a template Python script for setting up Step Functions.
 
     Args:
-        project: project name under sagemaker
-        purpose: subproject
-        result_s3_bucket: S3 bucket for saving results
-        workflow_execution_role: execution role arn
+        project (str): Project name under SageMaker.
+        purpose (str): Subproject.
+        result_s3_bucket (str): S3 bucket for saving results.
+        workflow_execution_role (str): Execution role ARN.
 
-    Returns:
-        None
+    Yields:
+        A template AWS Step Functions setup file to the current directory. 
     """
 
     template = \
@@ -248,13 +245,13 @@ def template_lambda(project='[project]',
     """Generate a template Python script for setting up Lambda.
 
     Args:
-        project: project name under sagemaker
-        purpose: subproject
-        result_s3_bucket: S3 bucket for saving results
-        partition: The partition in which the resource is located. A partition is a group of Amazon Regions. Default as 'aws-cn'.
+        project (str): Project name under SageMaker.
+        purpose (str): Subproject.
+        result_s3_bucket (str): S3 bucket for saving results.
+        partition (str): The partition in which the resource is located. A partition is a group of Amazon Regions. Default as 'aws-cn'.
 
-    Returns:
-        None
+    Yields:
+        A template Lambda Functions file to the current directory. 
     """
     file_name = '{}-{}-trigger/lambda_function.py'.format(project, purpose)
     

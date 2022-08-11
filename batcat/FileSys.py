@@ -24,9 +24,9 @@ def FileSys(project_name=True):
     """Establish a machine learning project file system.
 
     Args:
-        project_name: if a project name is needed, default True
+        project_name (bool): If a project name is needed, default True.
 
-    Returns:    
+    Returns:
         None
     """
     if project_name:

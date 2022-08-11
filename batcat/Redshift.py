@@ -33,18 +33,18 @@ def read_data_from_redshift(query,
     """Read DataFrame from RedShift with host and password.
     
     Args:
-        query: querry to obtain data from Redshift, str
-        host: Redshift configuration
-        password: Redshift configuration
-        port: Redshift configuration
-        database: Redshift configuration
-        user: Redshift configuration
-        date_start: date to start, strftime('%Y/%m/%d')
-        date_start: date to end, strftime('%Y/%m/%d')
+        query (str): Querry to obtain data from Redshift, str.
+        host (str): Redshift configuration.
+        password (str): Redshift configuration.
+        port (str): Redshift configuration.
+        database (str): Redshift configuration.
+        user (str): Redshift configuration.
+        date_start (str): Date to start, strftime('%Y/%m/%d').
+        date_start (str): Date to end, strftime('%Y/%m/%d').
 
 
     Returns:
-        df: target dataframe
+        df (pandas.DataFrame): target dataframe
     """
     
     cursor = connect(host=host,
@@ -71,25 +71,15 @@ def save_df_to_redshift(df,
     """Save pd.DataFrame to RedShift with host and password.
     
     Args:
-        df: target dataframe
-        table_name: target table name'
-        dtype: dict or scalar, optional
-            Specifying the datatype for columns. If a dictionary 
-            is used, the keys should be the column names and the 
-            values should be the SQLAlchemy types or strings for 
-            the sqlite3 legacy mode. If a scalar is provided, it 
-            will be applied to all columns.
-        if_exists: {‘fail’, ‘replace’, ‘append’}, default ‘fail’
-            How to behave if the table already exists.
-            fail: Raise a ValueError.
-            replace: Drop the table before inserting new values.
-            append: Insert new values to the existing table.
-        host: in the form [name].[id].[region].redshift.amazonaws.com
-        password: Redshift configuration
-        port: usually 5439
-        database: Redshift configuration
-        user: Redshift configuration
-
+        df (pandas.DataFrame): target dataframe
+        table_name (str): target table name'
+        dtype: dict or scalar, optional. Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.
+        if_exists (str): {‘fail’, ‘replace’, ‘append’} default ‘fail’. How to behave if the table already exists. fail: Raise a ValueError. replace: Drop the table before inserting new values.append: Insert new values to the existing table.
+        host (str): in the form [name].[id].[region].redshift.amazonaws.com
+        password (str): Redshift configuration
+        port (str): usually 5439
+        database (str): Redshift configuration
+        user (str): Redshift configuration
 
     Returns:
         None
@@ -105,6 +95,15 @@ def save_df_to_redshift(df,
 
 
 def get_secret(secret_name, region):
+    """Get configurations from AWS Secret Mananger.
+
+    Arg:
+        secret_name (str): A secret name setted up in AWS Secret Manager.
+        region (str): The region name of AWS. 
+
+    Returns:
+        secret (dict): The secret configurations. 
+    """
     secret = dict()
     secret['name'] = secret_name
     secret['region'] = region
@@ -205,12 +204,12 @@ def read_data_from_redshift_by_secret(secret_name=None,
     """Read DataFrame from RedShift with AWS Screte Manager.
     
     Args:
-        secret_nam: the name of AWS Screte Manager
-        region: AWS region
-        query: querry to obtain data from Redshift, str
+        secret_name (str): The name of AWS Screte Manager.
+        region (str): AWS region name. 
+        query (str): Querry to obtain data from Redshift.
 
     Returns:
-        df: target dataframe
+        df (pandas.DataFrame): Target dataframe.
     """
     secret = get_secret(secret_name, region)
 

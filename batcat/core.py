@@ -12,10 +12,10 @@ def get_date_with_delta(delta, format='%Y/%m/%d'):
     """ Get the date delta days ago.
 
     Args:
-        delta: the number of days ago, int
+        delta (int): The number of days ago.
     
     Returns:
-        date: strftime('%Y/%m/%d')
+        date (str): strftime('%Y/%m/%d').
     """
     from datetime import date, timedelta
     return (date.today() - timedelta(days=delta)).strftime(format)
@@ -25,16 +25,19 @@ def read_data_from_bd(query,
                       user, 
                       port,
                       database,
-                      password) -> pd.DataFrame:
+                      password):
     """Read data from a database.
 
     Args:
-        query: sql 
-        username: database username
-        password: database password
+        query (str): Querry to obtain data from Redshift, str.
+        host (str): Redshift configuration.
+        user (str): Redshift configuration.
+        port (str): Redshift configuration.
+        password (str): Redshift configuration.
+        database (str): Redshift configuration.
 
     Returns:    
-        df: dataframe
+        df (pandas.DataFrame): dataframe. 
     """
     import pymysql
     

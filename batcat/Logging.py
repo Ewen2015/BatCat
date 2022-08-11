@@ -16,11 +16,11 @@ def get_logger(logName, logFile=False):
     2. THREE components to configure a logger in Python (a logger, a formatter, and at least one handler).
 
     Args:
-        logName: a logger name to display in loggings.
-        logFile: a target file to save loggins.
+        logName (str): A logger name to display in loggings.
+        logFile (bool): A target file to save loggins.
 
     Returns:
-        logger: a well logger.
+        logger (logging.getLogger): A well organized logger.
     """
     logger = logging.getLogger(logName)
     logger.setLevel(logging.DEBUG)
