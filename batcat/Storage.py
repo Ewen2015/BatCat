@@ -16,13 +16,14 @@ s3 = boto3.client('s3')
 ## i/o
 
 def read_csv_from_bucket(bucket, key):
-    """Read csv from AWS S3.
+    """Read CSV from AWS S3.
 
     Args:
-        bucket, key: data source in s3
+        bucket: Bucket name of S3. 
+        key: Key of S3. 
 
     Returns:
-        df: pandas.DataFrame
+        df (pandas.DataFrame): Dataframe.
     """    
     response = s3.get_object(Bucket=bucket, Key=key)
     df = pd.read_csv(BytesIO(response['Body'].read()), error_bad_lines=False, warn_bad_lines=False)

@@ -39,6 +39,8 @@ File Structure
 BatCat provides one-line command to setup a well-organized file structure for data science projects.
 
 .. code-block:: Python
+    
+    import batcat as bc
 
     bc.FileSys()
 
@@ -48,11 +50,18 @@ Storage: Data Loading and Saving
 
 BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.
 
+Read data directly from S3 and save the df to S3.
 .. code-block:: Python
     
-    bc.read_csv_from_bucket(bucket, key)
-    bc.save_to_bucket(df, bucket, key)
+    bucket = '2022-RnD-battery'
+    key = 'usage'
+
+    df = bc.read_csv_from_bucket(bucket, key)
     
+    bc.save_to_bucket(df, bucket, key)
+
+
+.. code-block:: Python    
     bc.read_data_from_athena(query, 
                              region,
                              s3_staging_dir,
@@ -73,27 +82,33 @@ BatCat supports importing data from S3 bucket (directly by Athena or Redshift) a
                                          query=None)
 
 
-
 Compute: Docker, Step Functions, and Lambda Setup
 -------------------------------------------------
 
 BatCat provides templetes for docker, Step Functions, and Lambda setup. 
 
 .. code-block:: Python
+    
+    project = '2022-RnD-battery'
+    purpose = 'usage-analysis'
 
-    bc.template_docker(project='[project]', 
+    result_s3_bucket = '2022-RnD-battery'
+
+    workflow_execution_role = 'arn:aws-cn:iam::[account-id]:role/[role-name]'
+
+    bc.template_docker(project=project, 
                        uri_suffix='amazonaws.com.cn', 
                        pip_image=True, 
                        python_version='3.7-slim-buster')
 
-    bc.template_stepfunctions(project='[project]',
-                              purpose='[purpose]',
-                              result_s3_bucket='[s3-bucket]',
-                              workflow_execution_role='arn:[partition]:iam::[account-id]:role/[role-name]')
+    bc.template_stepfunctions(project=project,
+                              purpose=purpose,
+                              result_s3_bucket=s3-bucket,
+                              workflow_execution_role=workflow_execution_role)
 
-    bc.template_lambda(project='[project]', 
-                       purpose='[purpose]', 
-                       result_s3_bucket='[s3-bucket]',
+    bc.template_lambda(project=project, 
+                       purpose=purpose, 
+                       result_s3_bucket=s3-bucket,
                        partition='aws-cn')
 
 
