@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BatCat Tutorials &mdash; BatCat 0.2.8 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BatCat
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">BatCat Tutorials</a><ul>
+<li><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li><a class="reference internal" href="#storage-data-loading-and-saving">Storage: Data Loading and Saving</a></li>
+<li><a class="reference internal" href="#compute-docker-step-functions-and-lambda-setup">Compute: Docker, Step Functions, and Lambda Setup</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BatCat</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>BatCat Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="batcat-tutorials">
+<h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
+<div class="section" id="file-structure">
+<h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
+<p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
+</pre></div>
+</div>
+<p>The interactive and immersive command-line interfaces as following. Just type down your project name, like <code class="code docutils literal notranslate"><span class="pre">battery</span></code> in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>hi, there! please write down your machine learning project&#39;s name.
+project&#39;s name: battery
+project_battery/
+    README.md
+    .gitignore
+    doc/
+        READM.md
+    log/
+    model/
+    test/
+    data/
+        tmp/
+        train/
+        test/
+        result/
+        raw/
+    notebook/
+    report/
+    script/
+        config.json
+    deploy/
+        deploy.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="storage-data-loading-and-saving">
+<h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
+<p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
+<p>Read data directly from S3 and save the df to S3.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
+
+<span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;usage&#39;</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    vin,</span>
+<span class="s2">    usage,</span>
+<span class="s2">    time</span>
+<span class="s2">FROM</span>
+<span class="s2">    cdc.dw_bms.battery_usage</span>
+<span class="s2">WHERE</span>
+<span class="s2">    time &gt;= &#39;</span><span class="si">{}</span><span class="s2">&#39; and time &lt;= &#39;</span><span class="si">{}</span><span class="s2">&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">date_start</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01&#39;</span>
+<span class="n">date_end</span> <span class="o">=</span> <span class="s1">&#39;2022-08-01&#39;</span>
+
+<span class="c1"># from Athena</span>
+<span class="n">region</span> <span class="o">=</span> <span class="s1">&#39;cn-northwest-1&#39;</span>
+<span class="n">s3_staging_dir</span> <span class="o">=</span> <span class="s2">&quot;s3://apac-athena-queryresult/ATHENA_QUERY&quot;</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                         <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                         <span class="n">s3_staging_dir</span><span class="o">=</span><span class="n">s3_staging_dir</span><span class="p">,</span>
+                         <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
+                         <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
+
+<span class="c1"># from RedShift</span>
+<span class="c1"># with host/password</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;0.1.1.1&#39;</span>
+<span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;this_is_a_password&#39;</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                           <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+                           <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+                           <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
+                           <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
+                           <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                           <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
+                           <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
+
+<span class="c1"># with secret manager</span>
+<span class="n">secret_name</span> <span class="o">=</span> <span class="s1">&#39;secret/manager&#39;</span>
+
+<span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="n">secret_name</span><span class="p">,</span>
+                                     <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                                     <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compute-docker-step-functions-and-lambda-setup">
+<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
+<p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
+<span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;usage-analysis&#39;</span>
+
+<span class="n">result_s3_bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
+
+<span class="n">workflow_execution_role</span> <span class="o">=</span> <span class="s1">&#39;arn:aws-cn:iam::[account-id]:role/[role-name]&#39;</span>
+
+<span class="c1"># setup Docker environment</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">template_docker</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                   <span class="n">uri_suffix</span><span class="o">=</span><span class="s1">&#39;amazonaws.com.cn&#39;</span><span class="p">,</span>
+                   <span class="n">pip_image</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.7-slim-buster&#39;</span><span class="p">)</span>
+
+<span class="c1"># setup Step Functions workflow</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                          <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
+                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">s3</span><span class="o">-</span><span class="n">bucket</span><span class="p">,</span>
+                          <span class="n">workflow_execution_role</span><span class="o">=</span><span class="n">workflow_execution_role</span><span class="p">)</span>
+
+<span class="c1"># setup lambda to trigger workflow</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                   <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
+                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">s3</span><span class="o">-</span><span class="n">bucket</span><span class="p">,</span>
+                   <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Ewen Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
