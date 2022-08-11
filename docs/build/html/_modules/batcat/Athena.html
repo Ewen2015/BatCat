@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Athena &mdash; BatCat 0.2.4 documentation</title>
+  <title>batcat.Athena &mdash; BatCat 0.2.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -79,10 +79,10 @@
     <span class="sd">&quot;&quot;&quot; Get the date delta days ago.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        delta: the number of days ago, int</span>
+<span class="sd">        delta (int): The number of days ago.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        date: strftime(&#39;%Y/%m/%d&#39;)</span>
+<span class="sd">        date (str): strftime(&#39;%Y/%m/%d&#39;).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">delta</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
@@ -96,14 +96,14 @@
     <span class="sd">&quot;&quot;&quot;Read data as DataFrame from AWS Athena.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        query: querry to obtain data from Athena, str</span>
-<span class="sd">        region: region of the AWS environment, eg. &quot;cn-northwest-1&quot;</span>
-<span class="sd">        s3_staging_dir: s3 staging directory, eg. &quot;s3://#####-###-###-queryresult/ATHENA_QUERY&quot;</span>
-<span class="sd">        date_start: date to start, strftime(&#39;%Y/%m/%d&#39;)</span>
-<span class="sd">        date_start: date to end, strftime(&#39;%Y/%m/%d&#39;)</span>
+<span class="sd">        query (str): Querry to obtain data from Athena.</span>
+<span class="sd">        region (str): Region of the AWS environment, eg. &quot;cn-northwest-1&quot;.</span>
+<span class="sd">        s3_staging_dir (str): S3 staging directory, eg. &quot;s3://#####-###-###-queryresult/ATHENA_QUERY&quot;.</span>
+<span class="sd">        date_start (str): Date to start, strftime(&#39;%Y/%m/%d&#39;).</span>
+<span class="sd">        date_start (str): Date to end, strftime(&#39;%Y/%m/%d&#39;).</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:    </span>
-<span class="sd">        df: pandas.DataFrame</span>
+<span class="sd">        df (pandas.DataFrame): dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">s3_staging_dir</span><span class="o">=</span><span class="n">s3_staging_dir</span><span class="p">,</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Docker &mdash; BatCat 0.2.4 documentation</title>
+  <title>batcat.Docker &mdash; BatCat 0.2.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -78,13 +78,13 @@
     <span class="sd">&quot;&quot;&quot;Build a docker image to AWS ECR for a machine learning project.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        project: used as a name of an AWS ECR repository to be setup</span>
-<span class="sd">        uri_suffix: suffix of URL, default &#39;amazonaws.com.cn&#39;</span>
-<span class="sd">        pip_image: whether a pip image is needed, default True and use douban image</span>
-<span class="sd">        python_version: Python version, default &#39;3.7-slim-buster&#39;</span>
+<span class="sd">        project (str): Used as a name of an AWS ECR repository to be setup</span>
+<span class="sd">        uri_suffix (str): Suffix of URL, default &#39;amazonaws.com.cn&#39;</span>
+<span class="sd">        pip_image (bool): Whether a pip image is needed, default True and use douban image</span>
+<span class="sd">        python_version (str): Python version, default &#39;3.7-slim-buster&#39;</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        None</span>
+<span class="sd">    Yields:</span>
+<span class="sd">        A template Docker setup Bash file and a template requirements file to the current directory. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ecr_repository</span> <span class="o">=</span> <span class="n">project</span>

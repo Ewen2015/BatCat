@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Redshift &mdash; BatCat 0.2.4 documentation</title>
+  <title>batcat.Redshift &mdash; BatCat 0.2.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -97,18 +97,18 @@
     <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with host and password.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        query: querry to obtain data from Redshift, str</span>
-<span class="sd">        host: Redshift configuration</span>
-<span class="sd">        password: Redshift configuration</span>
-<span class="sd">        port: Redshift configuration</span>
-<span class="sd">        database: Redshift configuration</span>
-<span class="sd">        user: Redshift configuration</span>
-<span class="sd">        date_start: date to start, strftime(&#39;%Y/%m/%d&#39;)</span>
-<span class="sd">        date_start: date to end, strftime(&#39;%Y/%m/%d&#39;)</span>
+<span class="sd">        query (str): Querry to obtain data from Redshift, str.</span>
+<span class="sd">        host (str): Redshift configuration.</span>
+<span class="sd">        password (str): Redshift configuration.</span>
+<span class="sd">        port (str): Redshift configuration.</span>
+<span class="sd">        database (str): Redshift configuration.</span>
+<span class="sd">        user (str): Redshift configuration.</span>
+<span class="sd">        date_start (str): Date to start, strftime(&#39;%Y/%m/%d&#39;).</span>
+<span class="sd">        date_start (str): Date to end, strftime(&#39;%Y/%m/%d&#39;).</span>
 
 
 <span class="sd">    Returns:</span>
-<span class="sd">        df: target dataframe</span>
+<span class="sd">        df (pandas.DataFrame): target dataframe</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
@@ -135,25 +135,15 @@
     <span class="sd">&quot;&quot;&quot;Save pd.DataFrame to RedShift with host and password.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        df: target dataframe</span>
-<span class="sd">        table_name: target table name&#39;</span>
-<span class="sd">        dtype: dict or scalar, optional</span>
-<span class="sd">            Specifying the datatype for columns. If a dictionary </span>
-<span class="sd">            is used, the keys should be the column names and the </span>
-<span class="sd">            values should be the SQLAlchemy types or strings for </span>
-<span class="sd">            the sqlite3 legacy mode. If a scalar is provided, it </span>
-<span class="sd">            will be applied to all columns.</span>
-<span class="sd">        if_exists: {‘fail’, ‘replace’, ‘append’}, default ‘fail’</span>
-<span class="sd">            How to behave if the table already exists.</span>
-<span class="sd">            fail: Raise a ValueError.</span>
-<span class="sd">            replace: Drop the table before inserting new values.</span>
-<span class="sd">            append: Insert new values to the existing table.</span>
-<span class="sd">        host: in the form [name].[id].[region].redshift.amazonaws.com</span>
-<span class="sd">        password: Redshift configuration</span>
-<span class="sd">        port: usually 5439</span>
-<span class="sd">        database: Redshift configuration</span>
-<span class="sd">        user: Redshift configuration</span>
-
+<span class="sd">        df (pandas.DataFrame): target dataframe</span>
+<span class="sd">        table_name (str): target table name&#39;</span>
+<span class="sd">        dtype: dict or scalar, optional. Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.</span>
+<span class="sd">        if_exists (str): {‘fail’, ‘replace’, ‘append’} default ‘fail’. How to behave if the table already exists. fail: Raise a ValueError. replace: Drop the table before inserting new values.append: Insert new values to the existing table.</span>
+<span class="sd">        host (str): in the form [name].[id].[region].redshift.amazonaws.com</span>
+<span class="sd">        password (str): Redshift configuration</span>
+<span class="sd">        port (str): usually 5439</span>
+<span class="sd">        database (str): Redshift configuration</span>
+<span class="sd">        user (str): Redshift configuration</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
@@ -169,6 +159,15 @@
 
 
 <span class="k">def</span> <span class="nf">get_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get configurations from AWS Secret Mananger.</span>
+
+<span class="sd">    Arg:</span>
+<span class="sd">        secret_name (str): A secret name setted up in AWS Secret Manager.</span>
+<span class="sd">        region (str): The region name of AWS. </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        secret (dict): The secret configurations. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">secret</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">secret_name</span>
     <span class="n">secret</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
@@ -269,12 +268,12 @@
     <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with AWS Screte Manager.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        secret_nam: the name of AWS Screte Manager</span>
-<span class="sd">        region: AWS region</span>
-<span class="sd">        query: querry to obtain data from Redshift, str</span>
+<span class="sd">        secret_name (str): The name of AWS Screte Manager.</span>
+<span class="sd">        region (str): AWS region name. </span>
+<span class="sd">        query (str): Querry to obtain data from Redshift.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        df: target dataframe</span>
+<span class="sd">        df (pandas.DataFrame): Target dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">secret</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Storage &mdash; BatCat 0.2.4 documentation</title>
+  <title>batcat.Storage &mdash; BatCat 0.2.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -80,13 +80,14 @@
 <span class="c1">## i/o</span>
 
 <div class="viewcode-block" id="read_csv_from_bucket"><a class="viewcode-back" href="../../index.html#batcat.read_csv_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read csv from AWS S3.</span>
+    <span class="sd">&quot;&quot;&quot;Read CSV from AWS S3.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        bucket, key: data source in s3</span>
+<span class="sd">        bucket: Bucket name of S3. </span>
+<span class="sd">        key: Key of S3. </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        df: pandas.DataFrame</span>
+<span class="sd">        df (pandas.DataFrame): Dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> <span class="n">error_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warn_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
