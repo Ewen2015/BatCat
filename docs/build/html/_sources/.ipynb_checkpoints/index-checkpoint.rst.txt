@@ -16,21 +16,11 @@ Services of AWS covered:
 - **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
 
 .. toctree::
-:maxdepth: 2
-:caption: Contents:
 
-tutorial
-api
+    install
+    tutorial
+    api
 
-
-Installation Guide
-==================
-
-BatCat can be installed from `PyPI <https://pypi.org/project/batcat/>`_ .
-
-.. code-block:: bash
-  
-  pip install batcat
 
 
 Indices and tables
