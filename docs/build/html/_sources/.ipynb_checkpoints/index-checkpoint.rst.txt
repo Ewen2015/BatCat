@@ -42,7 +42,7 @@ BatCat provides one-line command to setup a well-organized file structure for da
 
     python -m batcat.FileSys
 
-The interactive and immersive command-line interfaces as following. Just type down your project name, like :kbd:`battery` in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it. 
+The interactive and immersive command-line interfaces as following. Just type down your project name, like :code:`battery` in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it. 
 
 ::
 
