@@ -36,9 +36,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">BatCat Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">BatCat API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contribute to BatCat</a></li>
 </ul>
 
         </div>
@@ -67,8 +68,8 @@
              
   <div class="section" id="batcat-tutorials">
 <h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
-<div class="section" id="file-structure">
-<h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
+<div class="section" id="data-science-environment-setup">
+<h2>Data Science Environment Setup<a class="headerlink" href="#data-science-environment-setup" title="Permalink to this heading"></a></h2>
 <p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
 </pre></div>
@@ -98,11 +99,19 @@ project_battery/
         deploy.sh
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p><code class="file docutils literal notranslate"><span class="pre">.gitignore</span></code> includes <code class="file docutils literal notranslate"><span class="pre">data/*</span></code> by default, which is our best practice in data science projects with <strong>git</strong>. Generally, you don’t want to git your data.</p></li>
+<li><p><code class="file docutils literal notranslate"><span class="pre">doc/READM.md</span></code> is inspired by <a class="reference external" href="https://docs.google.com/document/d/16R1E2ExKUCP5SlXWHr-KzbVDx9DBUclra-EbU8IB-iE/edit?usp=sharing">How to ML Paper - A brief Guide</a>. We highly recommend you to document your data science project in an organized way so that anyone, including youself, can catch up your thoughts in the future.</p></li>
+</ol>
 </div>
-<div class="section" id="storage-data-loading-and-saving">
-<h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
-<p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
-<p>Read data directly from S3 and save the df to S3.</p>
+</div>
+<div class="section" id="io-tools">
+<h2>IO Tools<a class="headerlink" href="#io-tools" title="Permalink to this heading"></a></h2>
+<p><strong>Services on AWS</strong>: S3, Redshift, Athena.</p>
+<p>BatCat supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.</p>
+<p>Read SCV data directly from S3 and save a DataFrame to S3.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
 
 <span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
@@ -112,6 +121,22 @@ project_battery/
 
 <span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 </pre></div>
+</div>
+<p>The above approach is fine with a given S3 object but can be tricky when it comes to scenarios you need write SQLs to query data. This can be handled with Athena and Redshift.</p>
+<ol class="arabic simple">
+<li><p><strong>Athena</strong>: Service Glue is required before you query with Athena.</p></li>
+<li><dl class="simple">
+<dt><strong>Redshift</strong>:</dt><dd><ul class="simple">
+<li><p>With host/password.</p></li>
+<li><p>With Secret Manager.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Athena is recommended as Redshift approach may raise timeout error or be blocked by VPC if the Redshift is located in it.</p>
 </div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT</span>
@@ -159,9 +184,18 @@ project_battery/
 </pre></div>
 </div>
 </div>
-<div class="section" id="compute-docker-step-functions-and-lambda-setup">
-<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
-<p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
+<div class="section" id="deployment-on-cloud">
+<h2>Deployment on Cloud<a class="headerlink" href="#deployment-on-cloud" title="Permalink to this heading"></a></h2>
+<p><strong>Services on AWS</strong>: ECR, SageMaker Processing, Step Functions, and Lambda.</p>
+<p>Before we dive in the topic, let’s align on the meaning of “deployment on cloud”. This basicly involves <strong>microservice</strong> like Docker container and <strong>serverless</strong>. In the AWS context, it related services:</p>
+<ul class="simple">
+<li><p>ECR</p></li>
+<li><p>SageMaker Processing</p></li>
+<li><p>Step Functions</p></li>
+<li><p>Lambda</p></li>
+</ul>
+<p>The most annoying part of SageMaker is that it offers many modules <em>to faciliate</em> model development and deployment, however it looks like a white elephant. What a data scientist need is something with shallow learning curve and the knowledge can be transfered to other cloud services, <strong>NOT</strong> something only works on AWS, which betrays the intend to use Docker!</p>
+<p>So here’s BatCat. It provides templates to setup docker images, workflows of Step Functions, and triggers generated by Lambda functions – to minimize the setup work on AWS.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 <span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;usage-analysis&#39;</span>
 
