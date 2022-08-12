@@ -5,7 +5,7 @@
 
 Welcome to BatCat's documentation!
 ==================================
-**BatCat** is designed to help data scientists to practice **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
+**BatCat** is designed to help data scientists to practice **data science** and **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
 
 Services of AWS covered:
 
@@ -13,7 +13,13 @@ Services of AWS covered:
 - **AWS S3 (Simple Storage Service)**: provides object storage service
 - **Amazon Athena**: a serverless, interactive query service on S3
 - **Amazon Redshift**: a data warehouse product
+- **Amazon SageMaker Processing**: allows you to run steps for data pre- or post-processing, feature engineering, data validation, or model evaluation workloads on Amazon SageMaker.
+- **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
 - **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
+
+
+Overview
+========
 
 .. toctree::
 
@@ -23,7 +29,7 @@ Services of AWS covered:
 
 
 
-Indices and tables
-==================
+Indices
+=======
 
 * :ref:`genindex`

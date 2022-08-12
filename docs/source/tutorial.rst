@@ -1,8 +1,8 @@
 BatCat Tutorials
 ================
 
-File Structure
---------------
+Data Science Environment Setup
+------------------------------
 
 BatCat provides one-line command to setup a well-organized file structure for data science projects.
 
@@ -38,10 +38,12 @@ The interactive and immersive command-line interfaces as following. Just type do
             deploy.sh
 
 
-Storage: Data Loading and Saving 
---------------------------------
+IO Tools
+--------
 
-BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.
+**Services on AWS**: S3, Redshift, Athena. 
+
+BatCat supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.
 
 Read data directly from S3 and save the df to S3.
 
@@ -104,8 +106,10 @@ Read data directly from S3 and save the df to S3.
                                          query=query)
 
 
-Compute: Docker, Step Functions, and Lambda Setup
--------------------------------------------------
+Deployment on Cloud
+-------------------
+
+**Services on AWS**: ECR, SageMaker Processing, Step Functions, and Lambda. 
 
 BatCat provides templetes for docker, Step Functions, and Lambda setup. 
 
