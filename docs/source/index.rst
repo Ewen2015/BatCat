@@ -5,9 +5,9 @@
 
 Welcome to BatCat's documentation!
 ==================================
-**BatCat** is designed to help data scientists to practice **data science** and **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
+**BatCat** is designed to make data scientists' life easier when practicing **data science** and **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
 
-Services of AWS covered:
+Services of AWS included:
 
 - **AWS Lambda**: a serverless, event-driven compute service
 - **AWS S3 (Simple Storage Service)**: provides object storage service
@@ -26,6 +26,7 @@ Overview
     install
     tutorial
     api
+    contribute
 
 
 
