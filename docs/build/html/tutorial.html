@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="BatCat API" href="api.html" />
-    <link rel="prev" title="Welcome to BatCat’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Installation Guide" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,14 +38,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BatCat Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#file-structure">File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#storage-data-loading-and-saving">Storage: Data Loading and Saving</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#compute-docker-step-functions-and-lambda-setup">Compute: Docker, Step Functions, and Lambda Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-science-environment-setup">Data Science Environment Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#io-tools">IO Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-on-cloud">Deployment on Cloud</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">BatCat API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
 </ul>
 
         </div>
@@ -74,8 +74,8 @@
              
   <div class="section" id="batcat-tutorials">
 <h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
-<div class="section" id="file-structure">
-<h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading"></a></h2>
+<div class="section" id="data-science-environment-setup">
+<h2>Data Science Environment Setup<a class="headerlink" href="#data-science-environment-setup" title="Permalink to this heading"></a></h2>
 <p>BatCat provides one-line command to setup a well-organized file structure for data science projects.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
 </pre></div>
@@ -106,9 +106,10 @@ project_battery/
 </pre></div>
 </div>
 </div>
-<div class="section" id="storage-data-loading-and-saving">
-<h2>Storage: Data Loading and Saving<a class="headerlink" href="#storage-data-loading-and-saving" title="Permalink to this heading"></a></h2>
-<p>BatCat supports importing data from S3 bucket (directly by Athena or Redshift) and saving back to S3.</p>
+<div class="section" id="io-tools">
+<h2>IO Tools<a class="headerlink" href="#io-tools" title="Permalink to this heading"></a></h2>
+<p><strong>Services on AWS</strong>: S3, Redshift, Athena.</p>
+<p>BatCat supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.</p>
 <p>Read data directly from S3 and save the df to S3.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
 
@@ -166,8 +167,9 @@ project_battery/
 </pre></div>
 </div>
 </div>
-<div class="section" id="compute-docker-step-functions-and-lambda-setup">
-<h2>Compute: Docker, Step Functions, and Lambda Setup<a class="headerlink" href="#compute-docker-step-functions-and-lambda-setup" title="Permalink to this heading"></a></h2>
+<div class="section" id="deployment-on-cloud">
+<h2>Deployment on Cloud<a class="headerlink" href="#deployment-on-cloud" title="Permalink to this heading"></a></h2>
+<p><strong>Services on AWS</strong>: ECR, SageMaker Processing, Step Functions, and Lambda.</p>
 <p>BatCat provides templetes for docker, Step Functions, and Lambda setup.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 <span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;usage-analysis&#39;</span>
@@ -202,7 +204,7 @@ project_battery/
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to BatCat’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="api.html" class="btn btn-neutral float-right" title="BatCat API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

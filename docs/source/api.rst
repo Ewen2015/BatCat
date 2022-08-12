@@ -53,8 +53,14 @@ Lambda
 .. autofunction:: batcat.get_bucket_key
 
 
-Step Functions
---------------
+Elastic Container Registry (ECR)
+--------------------------------
+
+.. autofunction:: batcat.template_docker
+
+
+SageMaker Processing
+--------------------
 
 .. autofunction:: batcat.processing_output_path
 
@@ -62,29 +68,10 @@ Step Functions
 
 .. autofunction:: batcat.test_workflow
 
-.. autofunction:: batcat.template_docker
+
+Step Functions
+--------------
 
 .. autofunction:: batcat.template_stepfunctions
 
 .. autofunction:: batcat.template_lambda
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
