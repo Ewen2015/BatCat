@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix &mdash; BatCat 0.2.8 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contribute to BatCat" href="contribute.html" />
+    <link rel="prev" title="BatCat API" href="api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BatCat
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">BatCat Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">BatCat API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#identity-and-access-management-iam">Identity and Access Management (IAM)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#add-permissions-to-your-notebook-role-in-iam">1. Add permissions to your notebook role in IAM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-an-execution-role-for-step-functions">2. Create an Execution Role for Step Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-an-lambda-trigger-role-for-step-functions">3. Create an Lambda Trigger Role for Step Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute to BatCat</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BatCat</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Appendix</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/appendix.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="appendix">
+<h1>Appendix<a class="headerlink" href="#appendix" title="Permalink to this heading"></a></h1>
+<div class="section" id="identity-and-access-management-iam">
+<h2>Identity and Access Management (IAM)<a class="headerlink" href="#identity-and-access-management-iam" title="Permalink to this heading"></a></h2>
+<div class="section" id="add-permissions-to-your-notebook-role-in-iam">
+<h3>1. Add permissions to your notebook role in IAM<a class="headerlink" href="#add-permissions-to-your-notebook-role-in-iam" title="Permalink to this heading"></a></h3>
+<p>The IAM role assumed by your notebook requires permission to create and run workflows in AWS Step Functions. If this notebook is running on a SageMaker notebook instance, do the following to provide IAM permissions to the notebook:</p>
+<ol class="arabic simple">
+<li><p>Go to the <a class="reference external" href="https://console.aws.amazon.com/iam/">IAM console</a>.</p></li>
+<li><p>Select <strong>Roles</strong> and then <strong>Create role</strong>.</p></li>
+<li><p>Under <strong>Choose the service that will use this role</strong> select <strong>SageMaker</strong>. And Choose <strong>Next</strong></p></li>
+<li><p>Choose Attach policies and search for <code class="code docutils literal notranslate"><span class="pre">AWSStepFunctionsFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonS3FullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonEC2ContainerRegistryFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonSageMakerFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonAthenaFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonRedshiftFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">SecretsManagerReadWrite</span></code>.</p></li>
+<li><p>Choose <strong>Next</strong> until you can enter a <strong>Role name</strong>.</p></li>
+<li><p>Enter a name such as <code class="code docutils literal notranslate"><span class="pre">apacdlcm-dev-role-AmazonSageMakerAccessRole</span></code> and then select <strong>Create role</strong>.</p></li>
+</ol>
+<p>If you are running this notebook outside of SageMaker, the SDK will use your configured AWS CLI configuration. For more information, see <a class="reference external" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a>.</p>
+<p>Next, let’s create an execution role in IAM for Step Functions.</p>
+</div>
+<div class="section" id="create-an-execution-role-for-step-functions">
+<h3>2. Create an Execution Role for Step Functions<a class="headerlink" href="#create-an-execution-role-for-step-functions" title="Permalink to this heading"></a></h3>
+<p>Your Step Functions workflow requires an IAM role to interact with other services in your AWS environment.</p>
+<ol class="arabic simple">
+<li><p>Go to the <a class="reference external" href="https://console.aws.amazon.com/iam/">IAM console</a>.</p></li>
+<li><p>Select <strong>Roles</strong> and then <strong>Create role</strong>.</p></li>
+<li><p>Under <strong>Choose the service that will use this role</strong> select <strong>Step Functions</strong>.</p></li>
+<li><p>Choose <strong>Next</strong> until you can enter a <strong>Role name</strong>.</p></li>
+<li><p>Enter a name such as <code class="code docutils literal notranslate"><span class="pre">apacdlcm-dev-role-sgmkersfnworkflow</span></code> and then select <strong>Create role</strong>.</p></li>
+</ol>
+<p>Next, attach a AWS Managed IAM policy to the role you created as per below steps.</p>
+<ol class="arabic simple">
+<li><p>Go to the <a class="reference external" href="https://console.aws.amazon.com/iam/">IAM console</a>.</p></li>
+<li><p>Select <strong>Roles</strong></p></li>
+<li><p>Search for <code class="code docutils literal notranslate"><span class="pre">apacdlcm-dev-role-sgmkersfnworkflow</span></code> IAM Role</p></li>
+<li><p>Under the <strong>Permissions</strong> tab, click <strong>Attach policies</strong> and then search for <code class="code docutils literal notranslate"><span class="pre">CloudWatchEventsFullAccess</span></code> IAM Policy managed by AWS.</p></li>
+<li><p>Click on <strong>Attach Policy</strong>.</p></li>
+</ol>
+<p>Next, create and attach another new policy to the role you created. As a best practice, the following steps will attach a policy that only provides access to the specific resources and actions needed for this solution.</p>
+<ol class="arabic simple">
+<li><p>Under the <strong>Permissions</strong> tab, click <strong>Attach policies</strong> and then <strong>Create policy</strong>.</p></li>
+<li><p>Enter the following in the <strong>JSON</strong> tab:</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VisualEditor0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;events:PutTargets&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;events:DescribeRule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;events:PutRule&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTrainingJobsRule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTransformJobsRule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTuningJobsRule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForECSTaskRule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForBatchJobsRule&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VisualEditor1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;iam:PassRole&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NOTEBOOK_ROLE_ARN&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;StringEquals&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;iam:PassedToService&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sagemaker.amazonaws.com&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VisualEditor2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;batch:DescribeJobs&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;batch:SubmitJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;batch:TerminateJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;dynamodb:DeleteItem&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;dynamodb:GetItem&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;dynamodb:PutItem&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;dynamodb:UpdateItem&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;ecs:DescribeTasks&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;ecs:RunTask&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;ecs:StopTask&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;glue:BatchStopJobRun&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;glue:GetJobRun&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;glue:GetJobRuns&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;glue:StartJobRun&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;lambda:InvokeFunction&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateEndpoint&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateEndpointConfig&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateHyperParameterTuningJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateModel&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateProcessingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateTrainingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:CreateTransformJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DeleteEndpoint&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DeleteEndpointConfig&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DescribeHyperParameterTuningJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DescribeProcessingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DescribeTrainingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:DescribeTransformJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:ListProcessingJobs&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:ListTags&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:StopHyperParameterTuningJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:StopProcessingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:StopTrainingJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:StopTransformJob&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sagemaker:UpdateEndpoint&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sns:Publish&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;sqs:SendMessage&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Replace <strong>NOTEBOOK_ROLE_ARN</strong> with the ARN for your notebook that you created in the previous step in the above Policy.</p></li>
+<li><p>Choose <strong>Review policy</strong> and give the policy a name such as <code class="code docutils literal notranslate"><span class="pre">AmazonSageMaker-StepFunctionsWorkflowExecutionPolicy</span></code>.</p></li>
+<li><p>Choose <strong>Create policy</strong>.</p></li>
+<li><p>Select <strong>Roles</strong> and search for your <code class="code docutils literal notranslate"><span class="pre">AmazonSageMaker-StepFunctionsWorkflowExecutionRole</span></code> role.</p></li>
+<li><p>Under the <strong>Permissions</strong> tab, click <strong>Attach policies</strong>.</p></li>
+<li><p>Search for your newly created <code class="code docutils literal notranslate"><span class="pre">AmazonSageMaker-StepFunctionsWorkflowExecutionPolicy</span></code> policy and select the check box next to it.</p></li>
+<li><p>Choose <strong>Attach policy</strong>. You will then be redirected to the details page for the role.</p></li>
+<li><p>Copy the <code class="code docutils literal notranslate"><span class="pre">AmazonSageMaker-StepFunctionsWorkflowExecutionRole</span></code> <strong>Role ARN</strong> at the top of the Summary.</p></li>
+</ol>
+</div>
+<div class="section" id="create-an-lambda-trigger-role-for-step-functions">
+<h3>3. Create an Lambda Trigger Role for Step Functions<a class="headerlink" href="#create-an-lambda-trigger-role-for-step-functions" title="Permalink to this heading"></a></h3>
+<p>Your lambda requires an IAM role to trigger Step Functions workflow.</p>
+<ol class="arabic simple">
+<li><p>Go to the <a class="reference external" href="https://console.aws.amazon.com/iam/">IAM console</a>.</p></li>
+<li><p>Select <strong>Roles</strong> and then <strong>Create role</strong>.</p></li>
+<li><p>Under <strong>Choose the service that will use this role</strong> select <strong>Lambda</strong>. And Choose <strong>Next</strong></p></li>
+<li><p>Choose Attach policies and search for <code class="code docutils literal notranslate"><span class="pre">AWSStepFunctionsFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AWSLambdaFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">CloudWatchFullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">AmazonS3FullAccess</span></code>, <code class="code docutils literal notranslate"><span class="pre">SecretsManagerReadWrite</span></code></p></li>
+<li><p>Choose <strong>Next</strong> until you can enter a <strong>Role name</strong>.</p></li>
+<li><p>Enter a name such as <code class="code docutils literal notranslate"><span class="pre">apacdlcm-dev-role-lambdatriggersfn</span></code> and then select <strong>Create role</strong>.</p></li>
+</ol>
+<p>Next, create and attach another new policy to the role you created.</p>
+<ol class="arabic simple">
+<li><p>Under the <strong>Permissions</strong> tab, click <strong>Attach policies</strong> and then <strong>Create policy</strong>.</p></li>
+<li><p>Enter the following in the <strong>JSON</strong> tab:</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;ec2:DescribeNetworkInterfaces&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;ec2:CreateNetworkInterface&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;ec2:DeleteNetworkInterface&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;ec2:DescribeInstances&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;ec2:AttachNetworkInterface&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Choose <strong>Review policy</strong> and give the policy a name such as <code class="code docutils literal notranslate"><span class="pre">LambdaTriggerStepFuncRole</span></code>.</p></li>
+<li><p>Choose <strong>Create policy</strong>.</p></li>
+<li><p>Select <strong>Roles</strong> and search for your <code class="code docutils literal notranslate"><span class="pre">LambdaTriggerStepFuncRole</span></code> role.</p></li>
+<li><p>Under the <strong>Permissions</strong> tab, click <strong>Attach policies</strong>.</p></li>
+<li><p>Search for your newly created <code class="code docutils literal notranslate"><span class="pre">LambdaTriggerStepFuncRole</span></code> policy and select the check box next to it.</p></li>
+<li><p>Choose <strong>Attach policy</strong>. You will then be redirected to the details page for the role.</p></li>
+<li><p>Copy the <code class="code docutils literal notranslate"><span class="pre">apacdlcm-dev-role-lambdatriggersfn</span></code> <strong>Role ARN</strong> at the top of the Summary.</p></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api.html" class="btn btn-neutral float-left" title="BatCat API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contribute.html" class="btn btn-neutral float-right" title="Contribute to BatCat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Ewen Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

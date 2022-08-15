@@ -4,7 +4,7 @@ BatCat Tutorials
 Data Science Environment Setup
 ==============================
 
-BatCat provides one-line command to setup a well-organized file structure for data science projects.
+The first step to start a data science project should always be setup a development file system, no matter on cloud or in your laptop. **BatCat** provides a one-line command to setup a well-organized file system for data science projects.
 
 .. code-block:: bash
 
@@ -49,9 +49,9 @@ IO Tools
 
 **Services on AWS**: S3, Redshift, Athena. 
 
-BatCat supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.
+**BatCat** supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.
 
-Read SCV data directly from S3 and save a DataFrame to S3.
+Read CSV data directly from S3 and save a DataFrame to S3.
 
 .. code-block:: Python
 
@@ -127,12 +127,16 @@ Deployment on Cloud
 
 **Services on AWS**: ECR, SageMaker Processing, Step Functions, and Lambda. 
 
-Before we dive in the topic, let's align on the meaning of "deployment on cloud". This basicly involves **microservice** like Docker container and **serverless**. In the AWS context, it related services:
+Background
+----------
+
+Before we dive in the topic, let's align on the meaning of "deployment on cloud". This basicly involves **microservice** like container and **serverless**. In the AWS context, it related services:
 
 - ECR
 - SageMaker Processing
 - Step Functions
 - Lambda
+- IAM
 
 Amazon SageMaker lets developers and data scientists train and deploy machine learning models. With Amazon SageMaker Processing, you can run processing jobs for data processing steps in your machine learning pipeline. 
 
@@ -144,6 +148,20 @@ So here's BatCat. It provides templates to setup docker images, workflows of Ste
   :align: center
 
 **BatCat** takes all steps in a machine learning product as processing jobs -- data cleaning, preprocessing, feature engineering, predicting. Note that the training step is not in production stage but development stage so not inlcuded here.
+
+Setup
+-----
+
+1. Create related roles and attach policies to it. 
+    Like any other AWS services, roles and policies setup is one of the most disappointing parts when using it. Refer to :ref:`Identity and Access Management <appendix:Identity and Access Management (IAM)>` for more information.
+2. Setup templates:
+    1. Docker setup Bash script and requirements text file. Add more required Python packages to :file:`requirements.txt` as needed. 
+    2. Step Functions setup Python script.
+    3. Lambda function setup Python script.
+3. Add the data science core script.
+    Add your data science Python script to the current directory, whose name should aligned with :code:`purpose`. In the example below, it is :code:`usage-analysis.py`.
+4. Run the scripts to deploy.
+    That's it!
 
 .. code-block:: Python
 
@@ -172,3 +190,10 @@ So here's BatCat. It provides templates to setup docker images, workflows of Ste
                        result_s3_bucket=s3-bucket,
                        partition='aws-cn')
 
+
+.. note::
+
+    1. :code:`project`: your data science project name. We suggest a format as :code:`[year]-[department]-[topic]`.
+    2. :code:`purpose`: or subproject under a project. 
+    3. :code:`result_s3_bucket`: the S3 bucket to store data science results. 
+    4. :code:`workflow_execution_role`: the role ARN you created in step 1. 

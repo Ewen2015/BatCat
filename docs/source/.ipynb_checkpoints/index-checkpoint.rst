@@ -23,10 +23,12 @@ Overview
 ********
 
 .. toctree::
-
+    :maxdepth: 3
+    
     install
     tutorial
     api
+    appendix
     contribute
 
 
