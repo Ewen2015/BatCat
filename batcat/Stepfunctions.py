@@ -53,11 +53,6 @@ def setup_workflow(project='[project]',
 
     Returns:
         workflow (stepfunctions.workflow.Workflow): a workflow instance.
-
-    Example: 
-        PROJECT = '2022-department-project'
-        PURPOSE = 'processing'
-        WORKFLOW_EXECUTION_ROLE = "arn:aws-cn:iam::[account-id]:role/[role-name]"
     """
 
     # SageMaker Session setup
