@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to BatCat's documentation!
-==================================
+##################################
 **BatCat** is designed to make data scientists' lives easier when practicing **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
 
 Services of AWS included:
@@ -20,7 +20,7 @@ Services of AWS included:
 
 
 Overview
-========
+********
 
 .. toctree::
 
@@ -32,6 +32,6 @@ Overview
 
 
 Indices
-=======
+*******
 
 * :ref:`genindex`

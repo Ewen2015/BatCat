@@ -1,5 +1,5 @@
 Contribute to BatCat
-====================
+********************
 
 Everyone is welcome to contribute. We value all forms of contributions, including, but not limited to:
 

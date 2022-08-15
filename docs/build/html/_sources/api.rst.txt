@@ -1,8 +1,8 @@
 BatCat API
-==========
+**********
 
 Data Science Environment Setup
-------------------------------
+==============================
 
 .. autofunction:: batcat.FileSys
 
@@ -10,7 +10,7 @@ Data Science Environment Setup
 
 
 Simple Storage Service (S3) 
----------------------------
+===========================
 
 .. autofunction:: batcat.read_csv_from_bucket
 
@@ -26,7 +26,7 @@ Simple Storage Service (S3)
 
 
 Redshift 
---------
+========
 
 .. autofunction:: batcat.get_date_with_delta
 
@@ -40,13 +40,13 @@ Redshift
 
 
 Athena 
-------
+======
 
 .. autofunction:: batcat.read_data_from_athena
 
 
 Lambda
-------
+======
 
 .. autofunction:: batcat.print_event
 
@@ -54,13 +54,13 @@ Lambda
 
 
 Elastic Container Registry (ECR)
---------------------------------
+================================
 
 .. autofunction:: batcat.template_docker
 
 
 SageMaker Processing
---------------------
+====================
 
 .. autofunction:: batcat.processing_output_path
 
@@ -70,7 +70,7 @@ SageMaker Processing
 
 
 Step Functions
---------------
+==============
 
 .. autofunction:: batcat.template_stepfunctions
 
