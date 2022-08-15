@@ -143,7 +143,7 @@ So here's BatCat. It provides templates to setup docker images, workflows of Ste
 .. image:: images/processing.png
   :align: center
 
-In **BatCat**, we treat all steps in a machine learning production environment as processing jobs -- data cleaning, preprocessing, feature engineering, predicting. The training step is not in production stage, but development stage so not inlcuded here.
+**BatCat** takes all steps in a machine learning product as processing jobs -- data cleaning, preprocessing, feature engineering, predicting. Note that the training step is not in production stage but development stage so not inlcuded here.
 
 .. code-block:: Python
 
