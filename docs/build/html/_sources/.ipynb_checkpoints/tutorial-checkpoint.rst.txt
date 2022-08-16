@@ -53,10 +53,10 @@ Most data scientists spend little time on logging and may just print out along t
 
 Python Module **Logging** is one of the most underrated features. Two things (5&3) to take away from **Logging**: 
 
-1. **FIVE levels** of importance that logs can contain(debug, info, warning, error, critical);  
-2. **THREE components** to configure a logger in Python (a logger, a formatter, and at least one handler).
+1. **5 levels** of importance that logs can contain(debug, info, warning, error, critical);  
+2. **3 components** to configure a logger in Python (a logger, a formatter, and at least one handler).
 
-**BatCat** provides a :code:`get_logger` function to make life easier.
+**BatCat** provides a function :code:`get_logger` to make life easier.
 
 .. code-block:: Python
 
@@ -67,12 +67,11 @@ Python Module **Logging** is one of the most underrated features. Two things (5&
 
     logger = bc.get_logger(logName=log_name, logFile=log_file)
     
-    logger.info('this is a test')
-    logger.error('this is an error!')
-    
     logger.debug('this is a debug')
+    logger.info('this is a test')
     logger.warning('this is a warning')
     
+    logger.error('this is an error!')
     logger.critial('this is critical!')
 
 

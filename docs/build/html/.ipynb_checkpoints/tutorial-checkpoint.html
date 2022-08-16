@@ -115,10 +115,10 @@ project_battery/
 <p>Most data scientists spend little time on logging and may just print out along the experiement in Jupyter Notebook. However, this can make annoying troubles when it comes to production environment or when the data science experiements require a long period to generate experiement records. Therefore, logging is critical to a data science project.</p>
 <p>Python Module <strong>Logging</strong> is one of the most underrated features. Two things (5&amp;3) to take away from <strong>Logging</strong>:</p>
 <ol class="arabic simple">
-<li><p><strong>FIVE levels</strong> of importance that logs can contain(debug, info, warning, error, critical);</p></li>
-<li><p><strong>THREE components</strong> to configure a logger in Python (a logger, a formatter, and at least one handler).</p></li>
+<li><p><strong>5 levels</strong> of importance that logs can contain(debug, info, warning, error, critical);</p></li>
+<li><p><strong>3 components</strong> to configure a logger in Python (a logger, a formatter, and at least one handler).</p></li>
 </ol>
-<p><strong>BatCat</strong> provides a <code class="code docutils literal notranslate"><span class="pre">get_logger</span></code> function to make life easier.</p>
+<p><strong>BatCat</strong> provides a function <code class="code docutils literal notranslate"><span class="pre">get_logger</span></code> to make life easier.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
 
 <span class="n">log_name</span> <span class="o">=</span> <span class="s1">&#39;battery&#39;</span>
@@ -126,12 +126,11 @@ project_battery/
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="n">logName</span><span class="o">=</span><span class="n">log_name</span><span class="p">,</span> <span class="n">logFile</span><span class="o">=</span><span class="n">log_file</span><span class="p">)</span>
 
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;this is a test&#39;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is an error!&#39;</span><span class="p">)</span>
-
 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;this is a debug&#39;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;this is a test&#39;</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;this is a warning&#39;</span><span class="p">)</span>
 
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is an error!&#39;</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">critial</span><span class="p">(</span><span class="s1">&#39;this is critical!&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
