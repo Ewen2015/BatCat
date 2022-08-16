@@ -1,8 +1,11 @@
 BatCat Tutorials
 ****************
 
-Data Science Environment Setup
-==============================
+Data Science Projects Basics
+============================
+
+Environment Setup
+-----------------
 
 The first step to start a data science project should always be setup a development file system, no matter on cloud or in your laptop. **BatCat** provides a one-line command to setup a well-organized file system for data science projects.
 
@@ -43,6 +46,35 @@ The interactive and immersive command-line interfaces as following. Just type do
     2. :file:`doc/READM.md` is inspired by `How to ML Paper - A brief Guide <https://docs.google.com/document/d/16R1E2ExKUCP5SlXWHr-KzbVDx9DBUclra-EbU8IB-iE/edit?usp=sharing>`_. We highly recommend you to document your data science project in an organized way so that anyone, including youself, can catch up your thoughts in the future.
 
 
+Logging
+-------
+
+Most data scientists spend little time on logging and may just print out along the experiement in Jupyter Notebook. However, this can make annoying troubles when it comes to production environment or when the data science experiements require a long period to generate experiement records. Therefore, logging is critical to a data science project. 
+
+Python Module **Logging** is one of the most underrated features. Two things (5&3) to take away from **Logging**: 
+
+1. **FIVE levels** of importance that logs can contain(debug, info, warning, error, critical);  
+2. **THREE components** to configure a logger in Python (a logger, a formatter, and at least one handler).
+
+**BatCat** provides a :code:`get_logger` function to make life easier.
+
+.. code-block:: Python
+
+    import batcat as bc
+    
+    log_name = 'battery'
+    log_file = '../log/batter.log'
+
+    logger = bc.get_logger(logName=log_name, logFile=log_file)
+    
+    logger.info('this is a test')
+    logger.error('this is an error!')
+    
+    logger.debug('this is a debug')
+    logger.warning('this is a warning')
+    
+    logger.critial('this is critical!')
+
 
 IO Tools
 ========
@@ -51,11 +83,12 @@ IO Tools
 
 **BatCat** supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.
 
+S3 Bucket
+---------
+
 Read CSV data directly from S3 and save a DataFrame to S3.
 
 .. code-block:: Python
-
-    import batcat as bc
     
     bucket = '2022-RnD-battery'
     key = 'usage'
@@ -63,6 +96,9 @@ Read CSV data directly from S3 and save a DataFrame to S3.
     df = bc.read_csv_from_bucket(bucket, key)
     
     bc.save_to_bucket(df, bucket, key)
+
+SQL: Redshift, Athena
+---------------------
 
 The above approach is fine with a given S3 object but can be tricky when it comes to scenarios you need write SQLs to query data. This can be handled with Athena and Redshift. 
 

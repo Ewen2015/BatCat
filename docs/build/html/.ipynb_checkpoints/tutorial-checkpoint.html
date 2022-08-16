@@ -69,8 +69,10 @@
              
   <div class="section" id="batcat-tutorials">
 <h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
-<div class="section" id="data-science-environment-setup">
-<h2>Data Science Environment Setup<a class="headerlink" href="#data-science-environment-setup" title="Permalink to this heading"></a></h2>
+<div class="section" id="data-science-projects-basics">
+<h2>Data Science Projects Basics<a class="headerlink" href="#data-science-projects-basics" title="Permalink to this heading"></a></h2>
+<div class="section" id="environment-setup">
+<h3>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h3>
 <p>The first step to start a data science project should always be setup a development file system, no matter on cloud or in your laptop. <strong>BatCat</strong> provides a one-line command to setup a well-organized file system for data science projects.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
 </pre></div>
@@ -108,14 +110,41 @@ project_battery/
 </ol>
 </div>
 </div>
+<div class="section" id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Permalink to this heading"></a></h3>
+<p>Most data scientists spend little time on logging and may just print out along the experiement in Jupyter Notebook. However, this can make annoying troubles when it comes to production environment or when the data science experiements require a long period to generate experiement records. Therefore, logging is critical to a data science project.</p>
+<p>Python Module <strong>Logging</strong> is one of the most underrated features. Two things (5&amp;3) to take away from <strong>Logging</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>FIVE levels</strong> of importance that logs can contain(debug, info, warning, error, critical);</p></li>
+<li><p><strong>THREE components</strong> to configure a logger in Python (a logger, a formatter, and at least one handler).</p></li>
+</ol>
+<p><strong>BatCat</strong> provides a <code class="code docutils literal notranslate"><span class="pre">get_logger</span></code> function to make life easier.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
+
+<span class="n">log_name</span> <span class="o">=</span> <span class="s1">&#39;battery&#39;</span>
+<span class="n">log_file</span> <span class="o">=</span> <span class="s1">&#39;../log/batter.log&#39;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="n">logName</span><span class="o">=</span><span class="n">log_name</span><span class="p">,</span> <span class="n">logFile</span><span class="o">=</span><span class="n">log_file</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;this is a test&#39;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is an error!&#39;</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;this is a debug&#39;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;this is a warning&#39;</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">critial</span><span class="p">(</span><span class="s1">&#39;this is critical!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="io-tools">
 <h2>IO Tools<a class="headerlink" href="#io-tools" title="Permalink to this heading"></a></h2>
 <p><strong>Services on AWS</strong>: S3, Redshift, Athena.</p>
 <p><strong>BatCat</strong> supports reading data from S3 bucket (directly or by Athena or Redshift) and saving back to S3.</p>
+<div class="section" id="s3-bucket">
+<h3>S3 Bucket<a class="headerlink" href="#s3-bucket" title="Permalink to this heading"></a></h3>
 <p>Read CSV data directly from S3 and save a DataFrame to S3.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
-
-<span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;usage&#39;</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -123,6 +152,9 @@ project_battery/
 <span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="sql-redshift-athena">
+<h3>SQL: Redshift, Athena<a class="headerlink" href="#sql-redshift-athena" title="Permalink to this heading"></a></h3>
 <p>The above approach is fine with a given S3 object but can be tricky when it comes to scenarios you need write SQLs to query data. This can be handled with Athena and Redshift.</p>
 <ol class="arabic simple">
 <li><p><strong>Athena</strong>: Service Glue is required before you query with Athena.</p></li>
@@ -183,6 +215,7 @@ project_battery/
                                      <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
                                      <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="deployment-on-cloud">
