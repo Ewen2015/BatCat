@@ -200,17 +200,22 @@ def _make_datarow(output):
 
 def read_data_from_redshift_by_secret(secret_name=None, 
                                       region=None, 
-                                      query=None):
+                                      query=None,
+                                      date_start=None,
+                                      date_end=None):
     """Read DataFrame from RedShift with AWS Screte Manager.
     
     Args:
         secret_name (str): The name of AWS Screte Manager.
         region (str): AWS region name. 
         query (str): Querry to obtain data from Redshift.
+        date_start (str): Date to start, strftime('%Y/%m/%d').
+        date_end (str): Date to end, strftime('%Y/%m/%d').
 
     Returns:
         df (pandas.DataFrame): Target dataframe.
     """
+    query = query.format(date_start, date_end) 
     secret = get_secret(secret_name, region)
 
     ## Data API client
