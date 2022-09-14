@@ -303,7 +303,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.read_data_from_redshift_by_secret">
-<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
 <dd><p>Read DataFrame from RedShift with AWS Screte Manager.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -311,6 +311,8 @@
 <li><p><strong>secret_name</strong> (<em>str</em>) – The name of AWS Screte Manager.</p></li>
 <li><p><strong>region</strong> (<em>str</em>) – AWS region name.</p></li>
 <li><p><strong>query</strong> (<em>str</em>) – Querry to obtain data from Redshift.</p></li>
+<li><p><strong>date_start</strong> (<em>str</em>) – Date to start, strftime(‘%Y/%m/%d’).</p></li>
+<li><p><strong>date_end</strong> (<em>str</em>) – Date to end, strftime(‘%Y/%m/%d’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -466,10 +468,6 @@ region (str): The region name of AWS.</p>
 <dd class="field-odd"><p>workflow (stepfunctions.workflow.Workflow)</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>PROJECT = ‘2022-department-project’
-PURPOSE = ‘processing’
-WORKFLOW_EXECUTION_ROLE = “arn:aws-cn:iam::[account-id]:role/[role-name]”</p>
 </dd></dl>
 
 <dl class="py function">

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Stepfunctions &mdash; BatCat 0.2.8 documentation</title>
+  <title>batcat.Stepfunctions &mdash; BatCat 0.2.9 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -35,8 +35,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">BatCat Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">BatCat API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute.html">Contribute to BatCat</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -82,7 +88,7 @@
 <span class="kn">from</span> <span class="nn">smexperiments.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
 
 
-<span class="k">def</span> <span class="nf">processing_output_path</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="processing_output_path"><a class="viewcode-back" href="../../api.html#batcat.processing_output_path">[docs]</a><span class="k">def</span> <span class="nf">processing_output_path</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Setup a result path within container.</span>
 
 <span class="sd">    Args:</span>
@@ -101,11 +107,11 @@
     <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/opt/ml/processing/</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">path</span>
+    <span class="k">return</span> <span class="n">path</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">setup_workflow</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="setup_workflow"><a class="viewcode-back" href="../../api.html#batcat.setup_workflow">[docs]</a><span class="k">def</span> <span class="nf">setup_workflow</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
                    <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
                    <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:aws-cn:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Setup all needed for a step function with sagemaker.</span>
@@ -117,11 +123,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        workflow (stepfunctions.workflow.Workflow): a workflow instance.</span>
-
-<span class="sd">    Example: </span>
-<span class="sd">        PROJECT = &#39;2022-department-project&#39;</span>
-<span class="sd">        PURPOSE = &#39;processing&#39;</span>
-<span class="sd">        WORKFLOW_EXECUTION_ROLE = &quot;arn:aws-cn:iam::[account-id]:role/[role-name]&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># SageMaker Session setup</span>
@@ -224,10 +225,10 @@
     <span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">workflow</span>
+    <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<span class="k">def</span> <span class="nf">test_workflow</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="test_workflow"><a class="viewcode-back" href="../../api.html#batcat.test_workflow">[docs]</a><span class="k">def</span> <span class="nf">test_workflow</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test a step function workflow.</span>
 
 <span class="sd">    Args:</span>
@@ -251,11 +252,11 @@
         <span class="p">}</span>
     <span class="p">)</span>
     <span class="n">execution_output</span> <span class="o">=</span> <span class="n">execution</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 
-<div class="viewcode-block" id="template_stepfunctions"><a class="viewcode-back" href="../../index.html#batcat.template_stepfunctions">[docs]</a><span class="k">def</span> <span class="nf">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="template_stepfunctions"><a class="viewcode-back" href="../../api.html#batcat.template_stepfunctions">[docs]</a><span class="k">def</span> <span class="nf">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span>
                            <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span>
                            <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
                            <span class="n">workflow_execution_role</span><span class="o">=</span><span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span><span class="p">):</span>
@@ -302,7 +303,7 @@
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="template_lambda"><a class="viewcode-back" href="../../index.html#batcat.template_lambda">[docs]</a><span class="k">def</span> <span class="nf">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> 
+<div class="viewcode-block" id="template_lambda"><a class="viewcode-back" href="../../api.html#batcat.template_lambda">[docs]</a><span class="k">def</span> <span class="nf">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;[project]&#39;</span><span class="p">,</span> 
                     <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;[purpose]&#39;</span><span class="p">,</span> 
                     <span class="n">result_s3_bucket</span><span class="o">=</span><span class="s1">&#39;[s3-bucket]&#39;</span><span class="p">,</span>
                     <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">):</span>
