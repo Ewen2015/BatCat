@@ -1,20 +1,27 @@
-BatCat, A Cat Looks Like A Bat
+BatCat, a cat with a bat face!
 ===
 
 [![GitHub version](https://badge.fury.io/gh/ewen2015%2Fbatcat.svg)](https://badge.fury.io/gh/ewen2015%2Fbatcat)
 ![GitHub](https://img.shields.io/github/license/ewen2015/batcat)
 [![PyPI version](https://badge.fury.io/py/batcat.svg)](https://badge.fury.io/py/batcat)
 [![Python Versions](https://img.shields.io/pypi/pyversions/batcat.svg)](https://pypi.python.org/pypi/batcat)
+[![Documentation Status](https://readthedocs.org/projects/batcat/badge/?version=latest)](https://batcat.readthedocs.io/en/latest/?badge=latest)
+
 
 😸😹😺😻😼😽😾😿🙀🐱
 
 BatCat is designed to help data scientists to practice machine learning operations (MLOps) on Amazon Web Services (AWS). 
 
 Services of AWS covered:
-- AWS Lambda: a serverless, event-driven compute service
-- AWS S3 (Simple Storage Service): provides object storage service
-- Amazon Athena: a serverless, interactive query service on S3
-- Amazon Redshift: a data warehouse product
+
+1. **AWS Lambda**: a serverless, event-driven compute service
+2. **AWS S3 (Simple Storage Service)**: provides object storage service
+3. **Amazon Athena**: a serverless, interactive query service on S3
+4. **Amazon Redshift**: a data warehouse product
+5. **Amazon SageMaker Processing**: allows you to run steps for data pre- or post-processing, feature engineering, data validation, or model evaluation workloads on Amazon SageMaker.
+6. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
+7. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
+8. **Secret Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
 
 Philosophy of BatCat's MLOps
 ---
@@ -25,44 +32,6 @@ BatCat practices MLOps in **3 layers (ASA)**:
 2. **System level**: which treats the machine learning project as a system itself, it focuses on resources ultized and health of the machine learning pipeline.
 3. **Application level**: which put the machine learning system as one of parts in a large process, it connects data producers from upstream and data consumers from downstreams. 
 
-#### 1. Algorithm level
-
-Tool: [GossipCat](https://github.com/Ewen2015/GossipCat), [TensorBoard](https://www.tensorflow.org/tensorboard)
-
-<p align="center">
-<img width="600" src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png'>
-</p>
-
-<p align="center">
-<img width="600" height="400" src='https://www.tensorflow.org/tensorboard/images/tensorboard.gif'>
-</p>
-
-#### 2. System level
-
-Tool: AWS CloudWatch
-
-AWS CloudWatch provides standard monitoring and operational data with dashboards, which satisfies the requirements of MLOps in system level. Generally, the following operational data are presented in the dashboard:
-
-- SageMaker CPU Ultilization
-- S3 bucket size
-- Lambda
-    - invocations
-    - erros
-- StepFunction
-    - execution time
-    - execution failed
-- Cost
-- Log group
-
-<p align="center">
-<img src='https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png'>
-</p>
-
-#### 3. Application level
-
-Tool: DataOps
-
-BatCat realizes application level MLOps by monitoring the distributions of data inputs (data source) and data outputs (predictions). As the applicaiton levle MLOps is a part of the whole DataOps, it should algin with the practice of DataOps according to each organziation or company.
 
 Story of the BatCat
 ---
@@ -76,4 +45,4 @@ The package names after a cat of my friend, Clara.
 License
 ---
 
-BatCat is licensed under the [MIT License](https://github.com/Ewen2015/BatCat/blob/master/LICENSE). © Contributors, 2021.
+BatCat is licensed under the [MIT License](https://github.com/Ewen2015/BatCat/blob/master/LICENSE). © Contributors, 2022.
