@@ -25,6 +25,7 @@ Overview
 .. toctree::
     :maxdepth: 2
     
+    philosophy
     install
     tutorial
     api
