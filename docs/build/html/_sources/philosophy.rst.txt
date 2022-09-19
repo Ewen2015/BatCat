@@ -46,7 +46,9 @@ Setting up a data science or machine learning workflow in the production environ
 
 .. note::
     
-    The above landscape is based on the services avaible in AWS China so there remains space to improve when more serivices are accessible. 
+    1. The data science experiments can be done in SageMaker but not necessarily since it costs as you start a Jupyter instance. Generally we suggest you do experiments on on premise or on your laplop if possible.
+    2. The above landscape is based on the services avaible in AWS China so there remains space to improve when more serivices are accessible. 
+    3. The Git services can be GitHub, GitLab, or any satisfies your team's policy. 
 
 
 
