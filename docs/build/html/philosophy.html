@@ -40,7 +40,8 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Philosophy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#engineering-side-of-data-science">Engineering Side of Data Science</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#environment-setup">Environment Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-or-product">Project or Product?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#two-flow-design">Two-flow Design</a></li>
 </ul>
 </li>
 </ul>
@@ -80,9 +81,15 @@
 <h1>Philosophy<a class="headerlink" href="#philosophy" title="Permalink to this heading"></a></h1>
 <div class="section" id="engineering-side-of-data-science">
 <h2>Engineering Side of Data Science<a class="headerlink" href="#engineering-side-of-data-science" title="Permalink to this heading"></a></h2>
-<div class="section" id="environment-setup">
-<h3>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h3>
-<p>When talking about the data science, a widely adopted mindset is that it follows a <strong>project workflow</strong>: start with business requirements, work out with a rough solution, get the data and explore it, do research and develop alorithms, and deploy it. The general idea behind the mindset is logically correct, while the drawback is clear as well – it focuses on the project setup but underestimates the application or <strong>product</strong> nature of the data science.</p>
+<div class="section" id="project-or-product">
+<h3>Project or Product?<a class="headerlink" href="#project-or-product" title="Permalink to this heading"></a></h3>
+<p>When talking about the data science, a widely adopted mindset is that it follows a <strong>project workflow</strong>: start with business requirements, work out with a rough solution, get the data and explore it, do research and develop alorithms, and deploy it. The general idea behind the mindset is logically correct, while the drawback is clear as well – it focuses on the project setup but underestimates the <strong>application or product</strong> nature of the data science.</p>
+<p>Balancing the project and product nature of the data science, the <strong>BatCat</strong> is designed to free data scientists from project management and engineering stuffs and help them focus on data science experiments and better alogrithms.</p>
+</div>
+<div class="section" id="two-flow-design">
+<h3>Two-flow Design<a class="headerlink" href="#two-flow-design" title="Permalink to this heading"></a></h3>
+<p>The <strong>BatCat</strong> abstracts the data science practice into <strong>two main flows: 1) the data flow and 2) the workflow</strong>. Each flow has its place to <strong>store: 1) S3 and 2) GitHub</strong> and interact at computing stage: the <strong>Docker container</strong>.</p>
+<img alt="_images/flows.png" class="align-center" src="_images/flows.png" />
 </div>
 </div>
 </div>
