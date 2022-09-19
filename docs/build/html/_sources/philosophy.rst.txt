@@ -19,3 +19,8 @@ The **BatCat** abstracts the data science practice into **two main flows: 1) the
 .. image:: images/flows.png
   :align: center
   
+**The data flow** moves from the storage (AWS S3 here) to the process stage, becomes insights which is also data, and finally stores back to storage for further usage, like BI or UI/UX presentation. From this perspective, a data science product is more like **a data processing**. 
+
+**The workflow** is triggered by events or requests or on schedule to process the data flow; and itself is managed and stored in GitHub or any other Git repository hosting services. From this perspective, a data science product is more like **a software product**.
+
+**The two flows converges in the computing process, which happens in the Docker container in the BatCat setting.** And this is where the data science algorithms really make magic. 
