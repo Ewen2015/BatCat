@@ -89,8 +89,7 @@
 <div class="section" id="two-flow-design">
 <h3>Two-flow Design<a class="headerlink" href="#two-flow-design" title="Permalink to this heading"></a></h3>
 <p>The <strong>BatCat</strong> abstracts the data science practice into <strong>two main flows: 1) the data flow and 2) the workflow</strong>. Each flow has its place to <strong>store: 1) S3 and 2) GitHub</strong> and interact at computing stage: the <strong>Docker container</strong>.</p>
-<img alt="_images/flows.png" class="align-center" src="_images/flows.png" />
-<p><strong>The data flow</strong> moves from the storage (AWS S3 here) to the process stage, becomes insights which is also data, and finally stores back to storage for further usage, like BI or UI/UX presentation. From this perspective, a data science product is more like <strong>a data processing</strong>.</p>
+<img alt="_images/flows.svg" class="align-center" src="_images/flows.svg" /><p><strong>The data flow</strong> moves from the storage (AWS S3 here) to the process stage, becomes insights which is also data, and finally stores back to storage for further usage, like BI or UI/UX presentation. From this perspective, a data science product is more like <strong>a data processing</strong>.</p>
 <p><strong>The workflow</strong> is triggered by events or requests or on schedule to process the data flow; and itself is managed and stored in GitHub or any other Git repository hosting services. From this perspective, a data science product is more like <strong>a software product</strong>.</p>
 <p><strong>The two flows converges in the computing process, which happens in the Docker container in the BatCat setting.</strong> And this is where the data science algorithms really make magic.</p>
 </div>
