@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>batcat.Athena &mdash; BatCat 0.2.8 documentation</title>
+  <title>batcat.Athena &mdash; BatCat 0.2.9 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -35,8 +35,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">BatCat Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">BatCat API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute.html">Contribute to BatCat</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -75,7 +82,7 @@
 <span class="kn">from</span> <span class="nn">pyathena</span> <span class="kn">import</span> <span class="n">connect</span>
 <span class="kn">from</span> <span class="nn">pyathena.pandas.cursor</span> <span class="kn">import</span> <span class="n">PandasCursor</span>
 
-<span class="k">def</span> <span class="nf">get_date_with_delta</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_date_with_delta"><a class="viewcode-back" href="../../api.html#batcat.get_date_with_delta">[docs]</a><span class="k">def</span> <span class="nf">get_date_with_delta</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Get the date delta days ago.</span>
 
 <span class="sd">    Args:</span>
@@ -85,10 +92,10 @@
 <span class="sd">        date (str): Strftime(&#39;%Y/%m/%d&#39;).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">delta</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">delta</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_data_from_athena"><a class="viewcode-back" href="../../index.html#batcat.read_data_from_athena">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> 
+<div class="viewcode-block" id="read_data_from_athena"><a class="viewcode-back" href="../../api.html#batcat.read_data_from_athena">[docs]</a><span class="k">def</span> <span class="nf">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> 
                          <span class="n">region</span><span class="p">,</span>
                          <span class="n">s3_staging_dir</span><span class="p">,</span>
                          <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
