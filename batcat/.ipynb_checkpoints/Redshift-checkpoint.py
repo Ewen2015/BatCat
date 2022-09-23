@@ -203,10 +203,10 @@ def read_data_from_redshift_by_secret(secret_name=None,
                                       query=None,
                                       date_start=None,
                                       date_end=None):
-    """Read DataFrame from RedShift with AWS Screte Manager.
+    """Read DataFrame from RedShift with AWS Secret Manager.
     
     Args:
-        secret_name (str): The name of AWS Screte Manager.
+        secret_name (str): The name of AWS Secret Manager.
         region (str): AWS region name. 
         query (str): Querry to obtain data from Redshift.
         date_start (str): Date to start, strftime('%Y/%m/%d').

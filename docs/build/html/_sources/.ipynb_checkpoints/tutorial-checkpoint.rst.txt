@@ -105,8 +105,8 @@ The above approach is fine with a given S3 object but can be tricky when it come
 
 1. **Athena**: Service Glue is required before you query with Athena.
 2. **Redshift**: 
-    - With host/password.
-    - With Secret Manager.
+    - Option 1: With host/password.
+    - Option 2: With Secret Manager.
 
 .. note::
     
@@ -131,32 +131,32 @@ The above approach is fine with a given S3 object but can be tricky when it come
     region = 'cn-northwest-1'
     s3_staging_dir = "s3://apac-athena-queryresult/ATHENA_QUERY"
     
-    bc.read_data_from_athena(query=query, 
-                             region=region,
-                             s3_staging_dir=s3_staging_dir,
-                             date_start=date_start, 
-                             date_end=date_end)
+    df = bc.read_data_from_athena(query=query, 
+                                  region=region,
+                                  s3_staging_dir=s3_staging_dir,
+                                  date_start=date_start, 
+                                  date_end=date_end)
     
     # from RedShift
     # with host/password
     host = '0.1.1.1'
     password = 'this_is_a_password'
     
-    bc.read_data_from_redshift(query=query, 
-                               host=host,
-                               password=password,
-                               port=5439,
-                               database='dev',
-                               user='awsuser',
-                               date_start=date_start, 
-                               date_end=date_end)
+    df = bc.read_data_from_redshift(query=query, 
+                                    host=host,
+                                    password=password,
+                                    port=5439,
+                                    database='dev',
+                                    user='awsuser',
+                                    date_start=date_start, 
+                                    date_end=date_end)
     
     # with secret manager
     secret_name = 'secret/manager'
     
-    bc.read_data_from_redshift_by_secret(secret_name=secret_name, 
-                                         region=region, 
-                                         query=query)
+    df = bc.read_data_from_redshift_by_secret(secret_name=secret_name, 
+                                              region=region, 
+                                              query=query)
 
 
 Deployment on Cloud
