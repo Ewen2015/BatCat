@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="BatCat Tutorials" href="tutorial.html" />
-    <link rel="prev" title="Welcome to BatCat’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Philosophy" href="philosophy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,7 +38,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-general-approach">The General Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#for-users-in-china">For Users in China</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">BatCat Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">BatCat API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
@@ -71,9 +76,52 @@
              
   <div class="section" id="installation-guide">
 <h1>Installation Guide<a class="headerlink" href="#installation-guide" title="Permalink to this heading"></a></h1>
+<div class="section" id="the-general-approach">
+<h2>The General Approach<a class="headerlink" href="#the-general-approach" title="Permalink to this heading"></a></h2>
 <p>BatCat can be installed from <a class="reference external" href="https://pypi.org/project/batcat/">PyPI</a> with <code class="code docutils literal notranslate"><span class="pre">pip</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install batcat
 </pre></div>
+</div>
+</div>
+<div class="section" id="for-users-in-china">
+<h2>For Users in China<a class="headerlink" href="#for-users-in-china" title="Permalink to this heading"></a></h2>
+<p>This can be slow if you are in China. Try add <code class="code docutils literal notranslate"><span class="pre">--index-url</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install batcat -i https://pypi.douban.com/simple
+</pre></div>
+</div>
+<p>Base URL of the Python Package Index (default <a class="reference external" href="https://pypi.org/simple">https://pypi.org/simple</a>). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-i, --index-url &lt;url&gt;
+</pre></div>
+</div>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text"><strong>PIP China Source List</strong></span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Douban</p></td>
+<td><p><a class="reference external" href="https://pypi.douban.com/simple">https://pypi.douban.com/simple</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Tsinghua University</p></td>
+<td><p><a class="reference external" href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p></td>
+</tr>
+<tr class="row-even"><td><p>University of Science and Technology of China</p></td>
+<td><p><a class="reference external" href="https://pypi.mirrors.ustc.edu.cn/simple">https://pypi.mirrors.ustc.edu.cn/simple</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Alibaba Cloud</p></td>
+<td><p><a class="reference external" href="https://mirrors.aliyun.com/pypi/simple/">https://mirrors.aliyun.com/pypi/simple/</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Huawei Cloud</p></td>
+<td><p><a class="reference external" href="https://repo.huaweicloud.com/repository/pypi/simple">https://repo.huaweicloud.com/repository/pypi/simple</a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -81,7 +129,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to BatCat’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="philosophy.html" class="btn btn-neutral float-left" title="Philosophy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="tutorial.html" class="btn btn-neutral float-right" title="BatCat Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
