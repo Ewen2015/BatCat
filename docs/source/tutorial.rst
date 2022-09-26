@@ -139,7 +139,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
     region = 'cn-northwest-1'
     s3_staging_dir = "s3://apac-athena-queryresult/ATHENA_QUERY"
     
-    df = bc.read_data_from_athena(query=query, 
+    df = bc.read_data_from_athena(query=query_athena, 
                                   region=region,
                                   s3_staging_dir=s3_staging_dir,
                                   date_start=date_start, 
@@ -150,7 +150,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
     host = '0.1.1.1'
     password = 'this_is_a_password'
     
-    df = bc.read_data_from_redshift(query=query, 
+    df = bc.read_data_from_redshift(query=query_redshift, 
                                     host=host,
                                     password=password,
                                     port=5439,
@@ -164,7 +164,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
     
     df = bc.read_data_from_redshift_by_secret(secret_name=secret_name, 
                                               region=region, 
-                                              query=query)
+                                              query=query_redshift)
 
 .. note::
     
