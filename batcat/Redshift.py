@@ -137,8 +137,8 @@ def get_secret(secret_name, region):
 
 def _get_waiter(waiter_name):
     ### initiating waiter
-    delay=2
-    max_attempts=3
+    delay=100
+    max_attempts=30
 
     #Configure the waiter settings
     waiter_config = {

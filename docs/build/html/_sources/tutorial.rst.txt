@@ -110,7 +110,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
 
 .. note::
     
-    Athena is recommended as Redshift approach may raise timeout error or be blocked by VPC if the Redshift is located in it. 
+    Athena is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it. 
 
 .. code-block:: Python
 

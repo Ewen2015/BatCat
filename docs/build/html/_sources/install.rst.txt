@@ -40,6 +40,6 @@ Base URL of the Python Package Index (default https://pypi.org/simple). This sho
    * - University of Science and Technology of China
      - https://pypi.mirrors.ustc.edu.cn/simple
    * - Alibaba Cloud
-     - https://mirrors.aliyun.com/pypi/simple/
+     - https://mirrors.aliyun.com/pypi/simple
    * - Huawei Cloud
      - https://repo.huaweicloud.com/repository/pypi/simple

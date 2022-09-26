@@ -208,8 +208,8 @@
 
 <span class="k">def</span> <span class="nf">_get_waiter</span><span class="p">(</span><span class="n">waiter_name</span><span class="p">):</span>
     <span class="c1">### initiating waiter</span>
-    <span class="n">delay</span><span class="o">=</span><span class="mi">2</span>
-    <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span>
+    <span class="n">delay</span><span class="o">=</span><span class="mi">100</span>
+    <span class="n">max_attempts</span><span class="o">=</span><span class="mi">30</span>
 
     <span class="c1">#Configure the waiter settings</span>
     <span class="n">waiter_config</span> <span class="o">=</span> <span class="p">{</span>
@@ -274,10 +274,10 @@
                                       <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                       <span class="n">date_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                       <span class="n">date_end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with AWS Screte Manager.</span>
+    <span class="sd">&quot;&quot;&quot;Read DataFrame from RedShift with AWS Secret Manager.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        secret_name (str): The name of AWS Screte Manager.</span>
+<span class="sd">        secret_name (str): The name of AWS Secret Manager.</span>
 <span class="sd">        region (str): AWS region name. </span>
 <span class="sd">        query (str): Querry to obtain data from Redshift.</span>
 <span class="sd">        date_start (str): Date to start, strftime(&#39;%Y/%m/%d&#39;).</span>
