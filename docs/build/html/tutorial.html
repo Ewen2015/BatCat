@@ -188,11 +188,7 @@ project_battery/
 </dl>
 </li>
 </ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Athena is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it.</p>
-</div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query_athena</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT</span>
 <span class="s2">    vin,</span>
 <span class="s2">    usage,</span>
@@ -202,6 +198,18 @@ project_battery/
 <span class="s2">WHERE</span>
 <span class="s2">    time &gt;= &#39;</span><span class="si">{}</span><span class="s2">&#39; and time &lt;= &#39;</span><span class="si">{}</span><span class="s2">&#39;</span>
 <span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">query_redshift</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    vin,</span>
+<span class="s2">    usage,</span>
+<span class="s2">    time</span>
+<span class="s2">FROM</span>
+<span class="s2">    cdc_dw_bms.battery_usage</span>
+<span class="s2">WHERE</span>
+<span class="s2">    time &gt;= &#39;</span><span class="si">{}</span><span class="s2">&#39; and time &lt;= &#39;</span><span class="si">{}</span><span class="s2">&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
 <span class="n">date_start</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01&#39;</span>
 <span class="n">date_end</span> <span class="o">=</span> <span class="s1">&#39;2022-08-01&#39;</span>
 
@@ -236,6 +244,20 @@ project_battery/
                                           <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
                                           <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p><strong>Athena</strong> is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it.</p></li>
+<li><dl class="simple">
+<dt>Pay attention to the queries for Athena and RedShift are different.</dt><dd><ul class="simple">
+<li><p><strong>Athena</strong>: <code class="code docutils literal notranslate"><span class="pre">[datasource].[database]</span></code></p></li>
+<li><p><strong>RedShift</strong>: <code class="code docutils literal notranslate"><span class="pre">[datasource]_[database]</span></code> as schema.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
 </div>
 </div>
 </div>

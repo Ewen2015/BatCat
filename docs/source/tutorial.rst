@@ -108,13 +108,9 @@ The above approach is fine with a given S3 object but can be tricky when it come
     - Option 1: With host/password.
     - Option 2: With Secret Manager.
 
-.. note::
-    
-    Athena is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it. 
-
 .. code-block:: Python
 
-    query = """
+    query_athena = """
     SELECT 
         vin,
         usage,
@@ -124,6 +120,18 @@ The above approach is fine with a given S3 object but can be tricky when it come
     WHERE
         time >= '{}' and time <= '{}'
     """
+
+    query_redshift = """
+    SELECT 
+        vin,
+        usage,
+        time
+    FROM 
+        cdc_dw_bms.battery_usage
+    WHERE
+        time >= '{}' and time <= '{}'
+    """
+    
     date_start = '2022-01-01'
     date_end = '2022-08-01'
 
@@ -158,6 +166,12 @@ The above approach is fine with a given S3 object but can be tricky when it come
                                               region=region, 
                                               query=query)
 
+.. note::
+    
+    1. **Athena** is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it. 
+    2. Pay attention to the queries for Athena and RedShift are different.
+        - **Athena**: :code:`[datasource].[database]`
+        - **RedShift**: :code:`[datasource]_[database]` as schema.
 
 Deployment on Cloud
 ===================
