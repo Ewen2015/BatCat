@@ -11,10 +11,10 @@ BatCat can be installed from `PyPI <https://pypi.org/project/batcat/>`_ with :co
   pip install batcat
 
 
-The Most Updated Version
-========================
+The Latest Version
+==================
 
-For the most updated version, install from GitHub: 
+For the lateset version, install from `GitHub <https://github.com/Ewen2015/BatCat>`_:
 
 .. code-block:: bash
   
