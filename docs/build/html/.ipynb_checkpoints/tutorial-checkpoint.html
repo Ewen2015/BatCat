@@ -163,7 +163,7 @@ project_battery/
 <li><dl class="simple">
 <dt><strong>Redshift</strong>:</dt><dd><ul class="simple">
 <li><p>Option 1: With host/password.</p></li>
-<li><p>Option 2: With Secret Manager.</p></li>
+<li><p>Option 2: With Secrets Manager.</p></li>
 </ul>
 </dd>
 </dl>
@@ -218,7 +218,7 @@ project_battery/
                                 <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
                                 <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
 
-<span class="c1"># with secret manager</span>
+<span class="c1"># with secrets manager</span>
 <span class="n">secret_name</span> <span class="o">=</span> <span class="s1">&#39;secret/manager&#39;</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="n">secret_name</span><span class="p">,</span>

@@ -106,7 +106,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
 1. **Athena**: Service Glue is required before you query with Athena.
 2. **Redshift**: 
     - Option 1: With host/password.
-    - Option 2: With Secret Manager.
+    - Option 2: With Secrets Manager.
 
 .. code-block:: Python
 
@@ -159,7 +159,7 @@ The above approach is fine with a given S3 object but can be tricky when it come
                                     date_start=date_start, 
                                     date_end=date_end)
     
-    # with secret manager
+    # with secrets manager
     secret_name = 'secret/manager'
     
     df = bc.read_data_from_redshift_by_secret(secret_name=secret_name, 
