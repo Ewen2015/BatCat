@@ -198,7 +198,7 @@ Unlike RedShift, Athena is a serverless service and does not need any infrastruc
     1. Pay attention to the queries for RedShift and Athena are different.
         - **RedShift**: :code:`[datasource]_[database]` as schema.
         - **Athena**: :code:`[datasource].[database]`
-    2. As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with :ref:`tools montioned above <BatCat Tutorials:IO Tools:S3 Bucket>`.
+    2. As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with tools :ref:`directly saving to S3 Bucket <tutorial:IO Tools>` .
 
 Deployment on Cloud
 ===================
