@@ -168,8 +168,10 @@ project_battery/
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;usage&#39;</span>
 
+<span class="c1"># from s3</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 
+<span class="c1"># to s3</span>
 <span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -178,7 +180,6 @@ project_battery/
 <h3>SQL: Redshift, Athena<a class="headerlink" href="#sql-redshift-athena" title="Permalink to this heading"></a></h3>
 <p>The above approach is fine with a given S3 object but can be tricky when it comes to scenarios you need write SQLs to query data. This can be handled with Athena and Redshift.</p>
 <ol class="arabic simple">
-<li><p><strong>Athena</strong>: Service Glue is required before you query with Athena.</p></li>
 <li><dl class="simple">
 <dt><strong>Redshift</strong>:</dt><dd><ul class="simple">
 <li><p>Option 1: With host/password.</p></li>
@@ -187,19 +188,10 @@ project_battery/
 </dd>
 </dl>
 </li>
+<li><p><strong>Athena</strong>: Service Glue is required before you query with Athena.</p></li>
 </ol>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query_athena</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">SELECT</span>
-<span class="s2">    vin,</span>
-<span class="s2">    usage,</span>
-<span class="s2">    time</span>
-<span class="s2">FROM</span>
-<span class="s2">    cdc.dw_bms.battery_usage</span>
-<span class="s2">WHERE</span>
-<span class="s2">    time &gt;= &#39;</span><span class="si">{}</span><span class="s2">&#39; and time &lt;= &#39;</span><span class="si">{}</span><span class="s2">&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-
-<span class="n">query_redshift</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># from RedShift</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT</span>
 <span class="s2">    vin,</span>
 <span class="s2">    usage,</span>
@@ -213,22 +205,11 @@ project_battery/
 <span class="n">date_start</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01&#39;</span>
 <span class="n">date_end</span> <span class="o">=</span> <span class="s1">&#39;2022-08-01&#39;</span>
 
-<span class="c1"># from Athena</span>
-<span class="n">region</span> <span class="o">=</span> <span class="s1">&#39;cn-northwest-1&#39;</span>
-<span class="n">s3_staging_dir</span> <span class="o">=</span> <span class="s2">&quot;s3://apac-athena-queryresult/ATHENA_QUERY&quot;</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query_athena</span><span class="p">,</span>
-                              <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
-                              <span class="n">s3_staging_dir</span><span class="o">=</span><span class="n">s3_staging_dir</span><span class="p">,</span>
-                              <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
-                              <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
-
-<span class="c1"># from RedShift</span>
-<span class="c1"># with host/password</span>
+<span class="c1">## with host/password</span>
 <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;0.1.1.1&#39;</span>
 <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;this_is_a_password&#39;</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query_redshift</span><span class="p">,</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
                                 <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
                                 <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
                                 <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
@@ -237,26 +218,67 @@ project_battery/
                                 <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
                                 <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
 
-<span class="c1"># with secrets manager</span>
+<span class="c1">## with secrets manager</span>
 <span class="n">secret_name</span> <span class="o">=</span> <span class="s1">&#39;secret/manager&#39;</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_redshift_by_secret</span><span class="p">(</span><span class="n">secret_name</span><span class="o">=</span><span class="n">secret_name</span><span class="p">,</span>
                                           <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
-                                          <span class="n">query</span><span class="o">=</span><span class="n">query_redshift</span><span class="p">)</span>
+                                          <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+
+
+<span class="c1"># to RedShift</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;yourNewTableName&#39;</span>
+
+<span class="n">save_df_to_redshift</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                    <span class="n">table_name</span><span class="p">,</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+                    <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+                    <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
+                    <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
+                    <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                    <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The functions above are based on the package <strong>redshift_connector</strong> but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects.</p>
+<p>Unlike RedShift, Athena is a serverless service and does not need any infrastructure to create, manage, or scale data sets. It works directly on top of Amazon S3 data sets. It creates external tables and therefore does not manipulate S3 data sources, working as a read-only service from an S3 perspective.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># via Athena</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    vin,</span>
+<span class="s2">    usage,</span>
+<span class="s2">    time</span>
+<span class="s2">FROM</span>
+<span class="s2">    cdc.dw_bms.battery_usage</span>
+<span class="s2">WHERE</span>
+<span class="s2">    time &gt;= &#39;</span><span class="si">{}</span><span class="s2">&#39; and time &lt;= &#39;</span><span class="si">{}</span><span class="s2">&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">date_start</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01&#39;</span>
+<span class="n">date_end</span> <span class="o">=</span> <span class="s1">&#39;2022-08-01&#39;</span>
+
+<span class="n">region</span> <span class="o">=</span> <span class="s1">&#39;cn-northwest-1&#39;</span>
+<span class="n">s3_staging_dir</span> <span class="o">=</span> <span class="s2">&quot;s3://apac-athena-queryresult/ATHENA_QUERY&quot;</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_data_from_athena</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                              <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                              <span class="n">s3_staging_dir</span><span class="o">=</span><span class="n">s3_staging_dir</span><span class="p">,</span>
+                              <span class="n">date_start</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
+                              <span class="n">date_end</span><span class="o">=</span><span class="n">date_end</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ol class="arabic simple">
-<li><p><strong>Athena</strong> is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it.</p></li>
 <li><dl class="simple">
-<dt>Pay attention to the queries for Athena and RedShift are different.</dt><dd><ul class="simple">
-<li><p><strong>Athena</strong>: <code class="code docutils literal notranslate"><span class="pre">[datasource].[database]</span></code></p></li>
+<dt>Pay attention to the queries for RedShift and Athena are different.</dt><dd><ul class="simple">
 <li><p><strong>RedShift</strong>: <code class="code docutils literal notranslate"><span class="pre">[datasource]_[database]</span></code> as schema.</p></li>
+<li><p><strong>Athena</strong>: <code class="code docutils literal notranslate"><span class="pre">[datasource].[database]</span></code></p></li>
 </ul>
 </dd>
 </dl>
 </li>
+<li><p>As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with <span class="xref std std-ref">tools montioned above</span>.</p></li>
 </ol>
 </div>
 </div>

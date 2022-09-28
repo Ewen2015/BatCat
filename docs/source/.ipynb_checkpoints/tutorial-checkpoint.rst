@@ -93,9 +93,11 @@ Read CSV data directly from S3 and save a DataFrame to S3.
     
     bucket = '2022-RnD-battery'
     key = 'usage'
-
+    
+    # from s3
     df = bc.read_csv_from_bucket(bucket, key)
     
+    # to s3
     bc.save_to_bucket(df, bucket, key)
 
 SQL: Redshift, Athena
@@ -103,25 +105,16 @@ SQL: Redshift, Athena
 
 The above approach is fine with a given S3 object but can be tricky when it comes to scenarios you need write SQLs to query data. This can be handled with Athena and Redshift. 
 
-1. **Athena**: Service Glue is required before you query with Athena.
-2. **Redshift**: 
+1. **Redshift**: 
     - Option 1: With host/password.
     - Option 2: With Secrets Manager.
+2. **Athena**: Service Glue is required before you query with Athena.
+
 
 .. code-block:: Python
 
-    query_athena = """
-    SELECT 
-        vin,
-        usage,
-        time
-    FROM 
-        cdc.dw_bms.battery_usage
-    WHERE
-        time >= '{}' and time <= '{}'
-    """
-
-    query_redshift = """
+    # from RedShift
+    query = """
     SELECT 
         vin,
         usage,
@@ -134,23 +127,12 @@ The above approach is fine with a given S3 object but can be tricky when it come
     
     date_start = '2022-01-01'
     date_end = '2022-08-01'
-
-    # from Athena
-    region = 'cn-northwest-1'
-    s3_staging_dir = "s3://apac-athena-queryresult/ATHENA_QUERY"
     
-    df = bc.read_data_from_athena(query=query_athena, 
-                                  region=region,
-                                  s3_staging_dir=s3_staging_dir,
-                                  date_start=date_start, 
-                                  date_end=date_end)
-    
-    # from RedShift
-    # with host/password
+    ## with host/password
     host = '0.1.1.1'
     password = 'this_is_a_password'
     
-    df = bc.read_data_from_redshift(query=query_redshift, 
+    df = bc.read_data_from_redshift(query=query, 
                                     host=host,
                                     password=password,
                                     port=5439,
@@ -159,19 +141,64 @@ The above approach is fine with a given S3 object but can be tricky when it come
                                     date_start=date_start, 
                                     date_end=date_end)
     
-    # with secrets manager
+    ## with secrets manager
     secret_name = 'secret/manager'
     
     df = bc.read_data_from_redshift_by_secret(secret_name=secret_name, 
                                               region=region, 
-                                              query=query_redshift)
+                                              query=query)
+    
+    
+    # to RedShift
+    table_name = 'yourNewTableName'
+    
+    save_df_to_redshift(df,
+                        table_name,
+                        dtype=None,
+                        host=host,
+                        password=password,
+                        port=5439,
+                        database='dev',
+                        user='awsuser',
+                        if_exists='replace')
+
+The functions above are based on the package **redshift_connector** but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects. 
+
+Unlike RedShift, Athena is a serverless service and does not need any infrastructure to create, manage, or scale data sets. It works directly on top of Amazon S3 data sets. It creates external tables and therefore does not manipulate S3 data sources, working as a read-only service from an S3 perspective.
+
+.. code-block:: Python
+
+    # via Athena
+    query = """
+    SELECT 
+        vin,
+        usage,
+        time
+    FROM 
+        cdc.dw_bms.battery_usage
+    WHERE
+        time >= '{}' and time <= '{}'
+    """
+    
+    date_start = '2022-01-01'
+    date_end = '2022-08-01'
+
+    region = 'cn-northwest-1'
+    s3_staging_dir = "s3://apac-athena-queryresult/ATHENA_QUERY"
+    
+    df = bc.read_data_from_athena(query=query, 
+                                  region=region,
+                                  s3_staging_dir=s3_staging_dir,
+                                  date_start=date_start, 
+                                  date_end=date_end)
+
 
 .. note::
     
-    1. **Athena** is recommended as Redshift approach may raise timeout error OR be blocked by VPC if the Redshift is located in it. 
-    2. Pay attention to the queries for Athena and RedShift are different.
-        - **Athena**: :code:`[datasource].[database]`
+    1. Pay attention to the queries for RedShift and Athena are different.
         - **RedShift**: :code:`[datasource]_[database]` as schema.
+        - **Athena**: :code:`[datasource].[database]`
+    2. As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with :ref:`tools montioned above <BatCat Tutorials:IO Tools:S3 Bucket>`.
 
 Deployment on Cloud
 ===================

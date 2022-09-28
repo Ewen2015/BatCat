@@ -86,7 +86,7 @@ def save_df_to_redshift(df,
     """
     from sqlalchemy import create_engine
     
-    con = create_engine('postgresql+psycopg2://{}:{}@{}:{}/{}'.format(USER, PASSWORD, HOST, PORT, DATABASE))
+    con = create_engine('postgresql+psycopg2://{}:{}@{}:{}/{}'.format(user, password, host, port, database))
     df.to_sql(name=table_name, con=con, schema=None, if_exists=if_exists, index=False, index_label=None, chunksize=None, dtype=dtype, method=None)
     return None
 
