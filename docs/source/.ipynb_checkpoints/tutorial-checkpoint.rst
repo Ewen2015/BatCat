@@ -159,6 +159,11 @@ The above approach is fine with a given S3 object but can be tricky when it come
 
 The functions above are based on the package **redshift_connector** but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects. 
 
+.. note::
+    
+    1. If you don't specify :code:`schema` with :code:`bc.save_df_to_redshift`, it will save to :code:`public` by default, which is not recommended for database management reason.
+    2. You may want to add a **timestamp column** to your dataframe with :code:`bc.save_df_to_redshift` so that you can distinguish potential duplicated rows with :code:`if_exist="append"`. 
+
 Unlike RedShift, Athena is a serverless service and does not need any infrastructure to create, manage, or scale data sets. It works directly on top of Amazon S3 data sets. It creates external tables and therefore does not manipulate S3 data sources, working as a read-only service from an S3 perspective.
 
 .. code-block:: Python
@@ -193,8 +198,7 @@ Unlike RedShift, Athena is a serverless service and does not need any infrastruc
     1. Pay attention to the queries for RedShift and Athena are different.
         - **RedShift**: :code:`[datasource]_[database]` as schema.
         - **Athena**: :code:`[datasource].[database]`
-    2. If you don't specify :code:`schema` when using :code:`bc.save_df_to_redshift`, it will save to :code:`public` by default, which is not recommended for database management reason.
-    3. As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with tools :ref:`directly saving to S3 Bucket <tutorial:IO Tools>` .
+    2. As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with tools :ref:`directly saving to S3 Bucket <tutorial:IO Tools>` .
 
 Deployment on Cloud
 ===================

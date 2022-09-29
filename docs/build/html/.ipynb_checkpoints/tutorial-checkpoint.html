@@ -217,6 +217,13 @@ project_battery/
 </pre></div>
 </div>
 <p>The functions above are based on the package <strong>redshift_connector</strong> but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p>If you don’t specify <code class="code docutils literal notranslate"><span class="pre">schema</span></code> with <code class="code docutils literal notranslate"><span class="pre">bc.save_df_to_redshift</span></code>, it will save to <code class="code docutils literal notranslate"><span class="pre">public</span></code> by default, which is not recommended for database management reason.</p></li>
+<li><p>You may want to add a <strong>timestamp column</strong> to your dataframe with <code class="code docutils literal notranslate"><span class="pre">bc.save_df_to_redshift</span></code> so that you can distinguish potential duplicated rows with <code class="code docutils literal notranslate"><span class="pre">if_exist=&quot;append&quot;</span></code>.</p></li>
+</ol>
+</div>
 <p>Unlike RedShift, Athena is a serverless service and does not need any infrastructure to create, manage, or scale data sets. It works directly on top of Amazon S3 data sets. It creates external tables and therefore does not manipulate S3 data sources, working as a read-only service from an S3 perspective.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># via Athena</span>
 <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -254,7 +261,6 @@ project_battery/
 </dd>
 </dl>
 </li>
-<li><p>If you don’t specify <code class="code docutils literal notranslate"><span class="pre">schema</span></code> when using <code class="code docutils literal notranslate"><span class="pre">bc.save_df_to_redshift</span></code>, it will save to <code class="code docutils literal notranslate"><span class="pre">public</span></code> by default, which is not recommended for database management reason.</p></li>
 <li><p>As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with tools <a class="reference internal" href="../tutorial.html#io-tools"><span class="std std-ref">directly saving to S3 Bucket</span></a> .</p></li>
 </ol>
 </div>
