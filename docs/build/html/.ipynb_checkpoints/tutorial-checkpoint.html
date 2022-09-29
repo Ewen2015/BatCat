@@ -208,17 +208,11 @@ project_battery/
 
 
 <span class="c1"># to RedShift</span>
-<span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;yourNewTableName&#39;</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="s1">&#39;your_result_schema_name&#39;</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;your_result_table_name&#39;</span>
 
-<span class="n">save_df_to_redshift</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
-                    <span class="n">table_name</span><span class="p">,</span>
-                    <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
-                    <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
-                    <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span>
-                    <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span>
-                    <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
-                    <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">save_df_to_redshift</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
+                       <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The functions above are based on the package <strong>redshift_connector</strong> but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects.</p>
@@ -259,6 +253,7 @@ project_battery/
 </dd>
 </dl>
 </li>
+<li><p>If you don’t specify <code class="code docutils literal notranslate"><span class="pre">schema</span></code> when using <code class="code docutils literal notranslate"><span class="pre">bc.save_df_to_redshift</span></code>, it will save to <code class="code docutils literal notranslate"><span class="pre">public</span></code> by default, which is not recommended for database management reason.</p></li>
 <li><p>As Athena works directly on top of Amazon S3 data sets, you may save your results to S3 with tools <a class="reference internal" href="../tutorial.html#io-tools"><span class="std std-ref">directly saving to S3 Bucket</span></a> .</p></li>
 </ol>
 </div>

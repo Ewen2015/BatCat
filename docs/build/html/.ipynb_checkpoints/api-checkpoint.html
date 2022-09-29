@@ -280,20 +280,32 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.save_df_to_redshift">
-<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">save_df_to_redshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5439</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'awsuser'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'replace'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#save_df_to_redshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.save_df_to_redshift" title="Permalink to this definition"></a></dt>
-<dd><p>Save pd.DataFrame to RedShift with host and password.</p>
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">save_df_to_redshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5439</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'awsuser'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'public'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#save_df_to_redshift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.save_df_to_redshift" title="Permalink to this definition"></a></dt>
+<dd><p>Save pd.DataFrame to RedShift with host and password. Refer to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html">pandas.to_sql</a> for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – target dataframe</p></li>
-<li><p><strong>table_name</strong> (<em>str</em>) – target table name’</p></li>
-<li><p><strong>dtype</strong> – dict or scalar, optional. Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.</p></li>
-<li><p><strong>if_exists</strong> (<em>str</em>) – {‘fail’, ‘replace’, ‘append’} default ‘fail’. How to behave if the table already exists. fail: Raise a ValueError. replace: Drop the table before inserting new values.append: Insert new values to the existing table.</p></li>
 <li><p><strong>host</strong> (<em>str</em>) – in the form [name].[id].[region].redshift.amazonaws.com</p></li>
 <li><p><strong>password</strong> (<em>str</em>) – Redshift configuration</p></li>
 <li><p><strong>port</strong> (<em>str</em>) – usually 5439</p></li>
 <li><p><strong>database</strong> (<em>str</em>) – Redshift configuration</p></li>
 <li><p><strong>user</strong> (<em>str</em>) – Redshift configuration</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – target table name’</p></li>
+<li><p><strong>schema</strong> (<em>str</em>) – Specify the schema (if database flavor supports this). If None, use default schema.</p></li>
+<li><p><strong>if_exists</strong> (<em>str</em>) – {‘fail’, ‘replace’, ‘append’}. How to behave if the table already exists, default ‘fail’.
+* fail: Raise a ValueError.
+* replace: Drop the table before inserting new values.
+* append: Insert new values to the existing table.</p></li>
+<li><p><strong>index</strong> (<em>bool</em>) – Write DataFrame index as a column, default True. Uses <cite>index_label</cite> as the column name in the table.</p></li>
+<li><p><strong>index_label</strong> (<em>str</em><em> or </em><em>sequence</em>) – Column label for index column(s), default None. If None is given (default) and <cite>index</cite> is True, then the index names are used. A sequence should be given if the DataFrame uses MultiIndex.</p></li>
+<li><p><strong>chunksize</strong> (<em>int</em><em>, </em><em>optional</em>) – Specify the number of rows in each batch to be written at a time. By default, all rows will be written at once.</p></li>
+<li><p><strong>dtype</strong> (<em>dict</em><em> or </em><em>scalar</em><em>, </em><em>optional</em>) – Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – Controls the SQL insertion clause used:
+* None : Uses standard SQL <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> clause (one per row).
+* ‘multi’: Pass multiple values in a single <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> clause.
+* callable with signature <code class="docutils literal notranslate"><span class="pre">(pd_table,</span> <span class="pre">conn,</span> <span class="pre">keys,</span> <span class="pre">data_iter)</span></code>.
+Details and a sample callable implementation can be found in the section <span class="xref std std-ref">insert method</span>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -305,11 +317,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.read_data_from_redshift_by_secret">
 <span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
-<dd><p>Read DataFrame from RedShift with AWS Secret Manager.</p>
+<dd><p>Read DataFrame from RedShift with AWS Secrets Manager.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>secret_name</strong> (<em>str</em>) – The name of AWS Secret Manager.</p></li>
+<li><p><strong>secret_name</strong> (<em>str</em>) – The name of AWS Secrets Manager.</p></li>
 <li><p><strong>region</strong> (<em>str</em>) – AWS region name.</p></li>
 <li><p><strong>query</strong> (<em>str</em>) – Querry to obtain data from Redshift.</p></li>
 <li><p><strong>date_start</strong> (<em>str</em>) – Date to start, strftime(‘%Y/%m/%d’).</p></li>
@@ -332,7 +344,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>secret_name</strong> (<em>str</em>) – A secret name setted up in AWS Secret Manager.</p></li>
+<li><p><strong>secret_name</strong> (<em>str</em>) – A secret name setted up in AWS Secrets Manager.</p></li>
 <li><p><strong>region</strong> (<em>str</em>) – The region name of AWS.</p></li>
 </ul>
 </dd>
