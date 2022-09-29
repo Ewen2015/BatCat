@@ -59,27 +59,34 @@ def read_data_from_redshift(query,
     df = cursor.fetch_dataframe()
     return df
 
-def save_df_to_redshift(df,
-                        table_name,
-                        dtype=None,
-                        host=None,
-                        password=None,
-                        port=5439,
-                        database='dev',
-                        user='awsuser',
-                        if_exists='replace'):
-    """Save pd.DataFrame to RedShift with host and password.
+
+def save_df_to_redshift(df, host=None, password=None, port=5439, database='dev', user='awsuser',
+                        table_name=None, schema='public', 
+                        if_exists='fail', index=True, index_label=None, chunksize=None, dtype=None, method=None):
+    """Save pd.DataFrame to RedShift with host and password. Refer to `pandas.to_sql <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html>`_ for more information. 
     
     Args:
         df (pandas.DataFrame): target dataframe
-        table_name (str): target table name'
-        dtype: dict or scalar, optional. Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.
-        if_exists (str): {‘fail’, ‘replace’, ‘append’} default ‘fail’. How to behave if the table already exists. fail: Raise a ValueError. replace: Drop the table before inserting new values.append: Insert new values to the existing table.
         host (str): in the form [name].[id].[region].redshift.amazonaws.com
         password (str): Redshift configuration
         port (str): usually 5439
         database (str): Redshift configuration
         user (str): Redshift configuration
+        table_name (str): target table name'
+        schema (str): Specify the schema (if database flavor supports this). If None, use default schema.
+        if_exists (str): {‘fail’, ‘replace’, ‘append’}. How to behave if the table already exists, default ‘fail’.
+            * fail: Raise a ValueError. 
+            * replace: Drop the table before inserting new values.
+            * append: Insert new values to the existing table.
+        index (bool): Write DataFrame index as a column, default True. Uses `index_label` as the column name in the table.
+        index_label (str or sequence): Column label for index column(s), default None. If None is given (default) and `index` is True, then the index names are used. A sequence should be given if the DataFrame uses MultiIndex.
+        chunksize (int, optional): Specify the number of rows in each batch to be written at a time. By default, all rows will be written at once.
+        dtype (dict or scalar, optional): Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.
+        method (str): Controls the SQL insertion clause used:
+            * None : Uses standard SQL ``INSERT`` clause (one per row).
+            * 'multi': Pass multiple values in a single ``INSERT`` clause.
+            * callable with signature ``(pd_table, conn, keys, data_iter)``.
+            Details and a sample callable implementation can be found in the section :ref:`insert method <io.sql.method>`.
 
     Returns:
         None
@@ -87,7 +94,9 @@ def save_df_to_redshift(df,
     from sqlalchemy import create_engine
     
     con = create_engine('postgresql+psycopg2://{}:{}@{}:{}/{}'.format(user, password, host, port, database))
-    df.to_sql(name=table_name, con=con, schema=None, if_exists=if_exists, index=False, index_label=None, chunksize=None, dtype=dtype, method=None)
+    
+    df.to_sql(name=table_name, con=con, schema=schema, 
+              if_exists=if_exists, index=index, index_label=index_label, chunksize=chunksize, dtype=dtype, method=method)
     return None
 
 
