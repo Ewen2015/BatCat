@@ -153,7 +153,8 @@ The above approach is fine with a given S3 object but can be tricky when it come
     schema = 'your_result_schema_name'
     table_name = 'your_result_table_name'
     
-    bc.save_df_to_redshift(df, host=host, password=password, port=5439, database='dev', user='awsuser',
+    bc.save_df_to_redshift(df, 
+                           host=host, password=password, port=5439, database='dev', user='awsuser',
                            table_name=table_name, schema=schema)
 
 The functions above are based on the package **redshift_connector** but more user-friendly for data scientists. You can read data from and save it to RedShift in your data science projects. 
