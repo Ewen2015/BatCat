@@ -75,18 +75,18 @@ def save_df_to_redshift(df, host=None, password=None, port=5439, database='dev',
         table_name (str): target table name'
         schema (str): Specify the schema (if database flavor supports this). If None, use default schema.
         if_exists (str): How to behave if the table already exists, {‘fail’, ‘replace’, ‘append’}, default ‘append’.
-|           * fail: Raise a ValueError. 
-|           * replace: Drop the table before inserting new values.
-|           * append: Insert new values to the existing table.
+            (1) fail: Raise a ValueError. 
+            (2) replace: Drop the table before inserting new values.
+            (3) append: Insert new values to the existing table.
         index (bool): Write DataFrame index as a column, default True. Uses `index_label` as the column name in the table.
         index_label (str or sequence): Column label for index column(s), default None. If None is given (default) and `index` is True, then the index names are used. A sequence should be given if the DataFrame uses MultiIndex.
         chunksize (int, optional): Specify the number of rows in each batch to be written at a time. By default, all rows will be written at once.
         dtype (dict or scalar, optional): Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.
         method (str): Controls the SQL insertion clause used:
-|           * None : Uses standard SQL ``INSERT`` clause (one per row).
-|           * 'multi': Pass multiple values in a single ``INSERT`` clause.
-|           * callable with signature ``(pd_table, conn, keys, data_iter)``.
-|           Details and a sample callable implementation can be found in the section `insert method <https://pandas.pydata.org/docs/user_guide/io.html#io-sql-method>`_ .
+            (1)None : Uses standard SQL ``INSERT`` clause (one per row).
+            (2)'multi': Pass multiple values in a single ``INSERT`` clause.
+            (3)callable with signature ``(pd_table, conn, keys, data_iter)``.
+            Details and a sample callable implementation can be found in the section `insert method <https://pandas.pydata.org/docs/user_guide/io.html#io-sql-method>`_ .
 
     Returns:
         None
