@@ -133,7 +133,7 @@
 
 <div class="viewcode-block" id="save_df_to_redshift"><a class="viewcode-back" href="../../api.html#batcat.save_df_to_redshift">[docs]</a><span class="k">def</span> <span class="nf">save_df_to_redshift</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5439</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;awsuser&#39;</span><span class="p">,</span>
                         <span class="n">table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s1">&#39;public&#39;</span><span class="p">,</span> 
-                        <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                        <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save pd.DataFrame to RedShift with host and password. Refer to `pandas.to_sql &lt;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html&gt;`_ for more information. </span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
@@ -145,19 +145,19 @@
 <span class="sd">        user (str): Redshift configuration</span>
 <span class="sd">        table_name (str): target table name&#39;</span>
 <span class="sd">        schema (str): Specify the schema (if database flavor supports this). If None, use default schema.</span>
-<span class="sd">        if_exists (str): {‘fail’, ‘replace’, ‘append’}. How to behave if the table already exists, default ‘fail’.</span>
-<span class="sd">            * fail: Raise a ValueError. </span>
-<span class="sd">            * replace: Drop the table before inserting new values.</span>
-<span class="sd">            * append: Insert new values to the existing table.</span>
+<span class="sd">        if_exists (str): How to behave if the table already exists, {‘fail’, ‘replace’, ‘append’}, default ‘append’.</span>
+<span class="sd">|           * fail: Raise a ValueError. </span>
+<span class="sd">|           * replace: Drop the table before inserting new values.</span>
+<span class="sd">|           * append: Insert new values to the existing table.</span>
 <span class="sd">        index (bool): Write DataFrame index as a column, default True. Uses `index_label` as the column name in the table.</span>
 <span class="sd">        index_label (str or sequence): Column label for index column(s), default None. If None is given (default) and `index` is True, then the index names are used. A sequence should be given if the DataFrame uses MultiIndex.</span>
 <span class="sd">        chunksize (int, optional): Specify the number of rows in each batch to be written at a time. By default, all rows will be written at once.</span>
 <span class="sd">        dtype (dict or scalar, optional): Specifying the datatype for columns. If a dictionary is used, the keys should be the column names and the values should be the SQLAlchemy types or strings for the sqlite3 legacy mode. If a scalar is provided, it will be applied to all columns.</span>
 <span class="sd">        method (str): Controls the SQL insertion clause used:</span>
-<span class="sd">            * None : Uses standard SQL ``INSERT`` clause (one per row).</span>
-<span class="sd">            * &#39;multi&#39;: Pass multiple values in a single ``INSERT`` clause.</span>
-<span class="sd">            * callable with signature ``(pd_table, conn, keys, data_iter)``.</span>
-<span class="sd">            Details and a sample callable implementation can be found in the section :ref:`insert method &lt;io.sql.method&gt;`.</span>
+<span class="sd">|           * None : Uses standard SQL ``INSERT`` clause (one per row).</span>
+<span class="sd">|           * &#39;multi&#39;: Pass multiple values in a single ``INSERT`` clause.</span>
+<span class="sd">|           * callable with signature ``(pd_table, conn, keys, data_iter)``.</span>
+<span class="sd">|           Details and a sample callable implementation can be found in the section `insert method &lt;https://pandas.pydata.org/docs/user_guide/io.html#io-sql-method&gt;`_ .</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
