@@ -15,6 +15,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -336,7 +337,8 @@ project_battery/
 
 <span class="n">result_s3_bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
 
-<span class="n">workflow_execution_role</span> <span class="o">=</span> <span class="s1">&#39;arn:aws-cn:iam::[account-id]:role/[role-name]&#39;</span>
+<span class="n">partition</span> <span class="o">=</span> <span class="s1">&#39;aws-cn&#39;</span>
+<span class="n">workflow_execution_role</span> <span class="o">=</span> <span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span>
 
 <span class="c1"># setup Docker environment</span>
 <span class="n">bc</span><span class="o">.</span><span class="n">template_docker</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
@@ -347,13 +349,13 @@ project_battery/
 <span class="c1"># setup Step Functions workflow</span>
 <span class="n">bc</span><span class="o">.</span><span class="n">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
                           <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
-                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">s3</span><span class="o">-</span><span class="n">bucket</span><span class="p">,</span>
+                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">result_s3_bucket</span><span class="p">,</span>
                           <span class="n">workflow_execution_role</span><span class="o">=</span><span class="n">workflow_execution_role</span><span class="p">)</span>
 
 <span class="c1"># setup lambda to trigger workflow</span>
 <span class="n">bc</span><span class="o">.</span><span class="n">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
                    <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
-                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">s3</span><span class="o">-</span><span class="n">bucket</span><span class="p">,</span>
+                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">result_s3_bucket</span><span class="p">,</span>
                    <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

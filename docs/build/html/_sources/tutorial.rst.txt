@@ -247,8 +247,9 @@ Setup
     purpose = 'usage-analysis'
 
     result_s3_bucket = '2022-RnD-battery'
-
-    workflow_execution_role = 'arn:aws-cn:iam::[account-id]:role/[role-name]'
+    
+    partition = 'aws-cn'
+    workflow_execution_role = 'arn:[partition]:iam::[account-id]:role/[role-name]'
 
     # setup Docker environment
     bc.template_docker(project=project, 
@@ -259,13 +260,13 @@ Setup
     # setup Step Functions workflow
     bc.template_stepfunctions(project=project,
                               purpose=purpose,
-                              result_s3_bucket=s3-bucket,
+                              result_s3_bucket=result_s3_bucket,
                               workflow_execution_role=workflow_execution_role)
     
     # setup lambda to trigger workflow
     bc.template_lambda(project=project, 
                        purpose=purpose, 
-                       result_s3_bucket=s3-bucket,
+                       result_s3_bucket=result_s3_bucket,
                        partition='aws-cn')
 
 

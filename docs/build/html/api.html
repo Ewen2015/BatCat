@@ -15,6 +15,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,14 +43,52 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">BatCat Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BatCat API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#data-science-environment-setup">Data Science Environment Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#simple-storage-service-s3">Simple Storage Service (S3)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#athena">Athena</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#lambda">Lambda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#elastic-container-registry-ecr">Elastic Container Registry (ECR)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sagemaker-processing">SageMaker Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-functions">Step Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-science-environment-setup">Data Science Environment Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.FileSys"><code class="docutils literal notranslate"><span class="pre">FileSys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-storage-service-s3">Simple Storage Service (S3)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.read_csv_from_bucket"><code class="docutils literal notranslate"><span class="pre">read_csv_from_bucket()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.read_excel_from_bucket"><code class="docutils literal notranslate"><span class="pre">read_excel_from_bucket()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.save_to_bucket"><code class="docutils literal notranslate"><span class="pre">save_to_bucket()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.list_bucket_files"><code class="docutils literal notranslate"><span class="pre">list_bucket_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.copy_bucket_files"><code class="docutils literal notranslate"><span class="pre">copy_bucket_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.SuccessSignal"><code class="docutils literal notranslate"><span class="pre">SuccessSignal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#redshift">Redshift</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.get_date_with_delta"><code class="docutils literal notranslate"><span class="pre">get_date_with_delta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.read_data_from_redshift"><code class="docutils literal notranslate"><span class="pre">read_data_from_redshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.save_df_to_redshift"><code class="docutils literal notranslate"><span class="pre">save_df_to_redshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.read_data_from_redshift_by_secret"><code class="docutils literal notranslate"><span class="pre">read_data_from_redshift_by_secret()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.get_secret"><code class="docutils literal notranslate"><span class="pre">get_secret()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#athena">Athena</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.read_data_from_athena"><code class="docutils literal notranslate"><span class="pre">read_data_from_athena()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lambda">Lambda</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.print_event"><code class="docutils literal notranslate"><span class="pre">print_event()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.get_bucket_key"><code class="docutils literal notranslate"><span class="pre">get_bucket_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#elastic-container-registry-ecr">Elastic Container Registry (ECR)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.template_docker"><code class="docutils literal notranslate"><span class="pre">template_docker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sagemaker-processing">SageMaker Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.processing_output_path"><code class="docutils literal notranslate"><span class="pre">processing_output_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.setup_workflow"><code class="docutils literal notranslate"><span class="pre">setup_workflow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.test_workflow"><code class="docutils literal notranslate"><span class="pre">test_workflow()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-functions">Step Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.template_stepfunctions"><code class="docutils literal notranslate"><span class="pre">template_stepfunctions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batcat.template_lambda"><code class="docutils literal notranslate"><span class="pre">template_lambda()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
