@@ -25,7 +25,11 @@ Only a small fraction of real-world ML systems is composed of the ML code, as sh
 Identity and Access Management (IAM)
 ====================================
 
-Our best practice is to create a **Roles** for data science, which attached **policies** listed below. 
+
+- An IAM **role** is an identity you can create that has specific permissions with credentials that are valid for short durations.
+- A **policy** is an object in Amazon Web Services that defines permissions.
+
+Our best practice is to create a **role** for data science, which attached **policies** listed in **step 4** below. 
 
 1. Go to the `IAM console <https://console.aws.amazon.com/iam/>`_.
 2. Select **Roles** and then **Create role**.
