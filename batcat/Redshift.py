@@ -144,9 +144,9 @@ def get_secret(secret_name, region):
 
     return secret
 
-def _get_waiter(waiter_name):
+def _get_waiter(waiter_name, delay=100, max_attempts=30):
     ### initiating waiter
-    delay=100
+    delay=delay
     max_attempts=30
 
     #Configure the waiter settings
@@ -211,7 +211,8 @@ def read_data_from_redshift_by_secret(secret_name=None,
                                       region=None, 
                                       query=None,
                                       date_start=None,
-                                      date_end=None):
+                                      date_end=None,
+                                      delay=100):
     """Read DataFrame from RedShift with AWS Secrets Manager.
     
     Args:
@@ -220,6 +221,7 @@ def read_data_from_redshift_by_secret(secret_name=None,
         query (str): Querry to obtain data from Redshift.
         date_start (str): Date to start, strftime('%Y/%m/%d').
         date_end (str): Date to end, strftime('%Y/%m/%d').
+        delay (int): Time to wait for the query.
 
     Returns:
         df (pandas.DataFrame): Target dataframe.
@@ -240,7 +242,7 @@ def read_data_from_redshift_by_secret(secret_name=None,
 
     ## Setup waiter
     waiter_name = 'DataAPIExecution'
-    waiter_config, waiter_model = _get_waiter(waiter_name)
+    waiter_config, waiter_model = _get_waiter(waiter_name, delay=delay)
 
     custom_waiter = create_waiter_with_client(waiter_name, waiter_model, client_redshift)
 
@@ -250,8 +252,8 @@ def read_data_from_redshift_by_secret(secret_name=None,
                                             Sql = query, 
                                             ClusterIdentifier = secret['dbClusterIdentifier'])
 
-    ## Reset the 'delay' attribute of the waiter back to 2 seconds.
-    waiter_config["waiters"]["DataAPIExecution"]["delay"] = 2
+    ## Reset the 'delay' attribute of the waiter back to [delay] seconds.
+    waiter_config["waiters"]["DataAPIExecution"]["delay"] = delay
     waiter_model = WaiterModel(waiter_config)
     custom_waiter = create_waiter_with_client(waiter_name, waiter_model, client_redshift)
 
