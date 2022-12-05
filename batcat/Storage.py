@@ -15,7 +15,7 @@ s3 = boto3.client('s3')
 
 ## i/o
 
-def read_csv_from_bucket(bucket, key):
+def read_csv_from_bucket(bucket, key, encoding=None):
     """Read CSV from AWS S3.
 
     Args:
@@ -26,7 +26,7 @@ def read_csv_from_bucket(bucket, key):
         df (pandas.DataFrame): Dataframe.
     """    
     response = s3.get_object(Bucket=bucket, Key=key)
-    df = pd.read_csv(BytesIO(response['Body'].read()), error_bad_lines=False, warn_bad_lines=False)
+    df = pd.read_csv(BytesIO(response['Body'].read()), error_bad_lines=False, warn_bad_lines=False, encoding=encoding)
     return df
 
 def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
