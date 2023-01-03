@@ -26,7 +26,7 @@ def template_docker(project='[project]',
     ecr_repository = project
 
     if pip_image:
-        pip_image = "-i https://pypi.douban.com/simple/ --trusted-host=pypi.douban.com/simple"
+        pip_image = "-i https://pypi.douban.com/simple/"
 
     template_docker=\
 """#!/bin/bash
@@ -96,7 +96,7 @@ psycopg2-binary==2.9.1
 catboost==1.0.5
 shap==0.40.0
 mlxtend==0.19.0
-gossipcat==0.3.2
+gossipcat
 batcat
 """
 
