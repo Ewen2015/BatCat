@@ -81,9 +81,9 @@ ipython==7.26.0
 ipywidgets==7.6.3  
 traitlets==5.0.5
 numba==0.52.0
-boto3==1.26.41
-pyathena==2.3.0
+boto3==1.18.57
 botocore==1.21.57
+pyathena==2.3.0
 stepfunctions==2.2.0
 sagemaker==2.59.8
 sagemaker_experiments==0.1.35
