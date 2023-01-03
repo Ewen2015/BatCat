@@ -81,7 +81,7 @@ ipython==7.26.0
 ipywidgets==7.6.3  
 traitlets==5.0.5
 numba==0.52.0
-boto3==1.18.57
+boto3==1.26.41
 pyathena==2.3.0
 botocore==1.21.57
 stepfunctions==2.2.0
