@@ -93,9 +93,8 @@ redshift_connector==2.0.888
 sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
-catboost==1.0.5
-shap==0.40.0
 mlxtend==0.19.0
+xgboost==1.7.2
 gossipcat
 batcat
 """
