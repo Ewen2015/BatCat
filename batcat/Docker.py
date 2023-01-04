@@ -77,8 +77,6 @@ docker push $repository_uri
 pandas==1.3.4
 matplotlib==3.3.2
 scikit-learn==0.24.2
-ipython==7.26.0 
-ipywidgets==7.6.3  
 traitlets==5.0.5
 numba==0.52.0
 boto3==1.18.57
