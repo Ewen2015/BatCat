@@ -64,13 +64,48 @@ def FileSys(project_name=True):
         except Exception as e:
             pass
 
+    deploy = \
+"""#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import json
+import batcat as bc
+
+if __name__ == '__main__':
+    
+    # setup configurations
+    with open('config.json') as json_file:
+        config = json.load(json_file)
+    
+    project = config['project']
+    purpose = config['purpose']
+    result_s3_bucket = config['result_s3_bucket']
+    partition = config['partition']
+    workflow_execution_role = config['workflow_execution_role']
+
+    # setup Docker environment
+    bc.template_docker(project=project, 
+                       uri_suffix='amazonaws.com.cn', 
+                       pip_image=True, 
+                       python_version='3.7-slim-buster')
+
+    # setup Step Functions workflow
+    bc.template_stepfunctions(project=project,
+                              purpose=purpose,
+                              result_s3_bucket=result_s3_bucket,
+                              workflow_execution_role=workflow_execution_role)
+
+    # setup lambda to trigger workflow
+    bc.template_lambda(project=project, 
+                       purpose=purpose, 
+                       result_s3_bucket=result_s3_bucket,
+                       partition='aws-cn')
+"""
+
     os.chdir('deploy')
-    deploy = 'deploy.sh'
-    with open(deploy, 'a') as f:
+    with open('init.py', 'a') as f:
         try:
-            f.write("#!/bin/bash")
-            os.chmod(deploy, 0o755)
-            os.utime(deploy, None)
+            f.write(deploy)
         except Exception as e:
             pass
     os.chdir('../')
