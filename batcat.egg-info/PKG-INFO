@@ -1,12 +1,11 @@
 Metadata-Version: 2.1
 Name: batcat
-Version: 0.2.15
+Version: 0.2.16
 Summary: BatCat, A Cat Looks Like A Bat.
 Home-page: https://github.com/Ewen2015/BatCat
 Author: Ewen Wang
 Author-email: wolfgangwong2012@gmail.com
 License: Apache License 2.0
-Platform: UNKNOWN
 Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Programming Language :: Python :: 3.7
 License-File: LICENSE
@@ -92,4 +91,3 @@ License
 =======
 
 BatCat is licensed under the MIT License. © Contributors, 2022.
-
