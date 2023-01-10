@@ -1,6 +1,10 @@
 Metadata-Version: 2.1
 Name: batcat
+<<<<<<< HEAD
 Version: 0.2.16
+=======
+Version: 0.2.20
+>>>>>>> 07ef2c440c2838dbd316a022c1bfc6284e5df02a
 Summary: BatCat, A Cat Looks Like A Bat.
 Home-page: https://github.com/Ewen2015/BatCat
 Author: Ewen Wang

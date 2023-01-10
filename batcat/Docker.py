@@ -26,7 +26,7 @@ def template_docker(project='[project]',
     ecr_repository = project
 
     if pip_image:
-        pip_image = "-i https://pypi.douban.com/simple/ --trusted-host=pypi.douban.com/simple"
+        pip_image = "-i https://pypi.douban.com/simple/"
 
     template_docker=\
 """#!/bin/bash
@@ -77,13 +77,11 @@ docker push $repository_uri
 pandas==1.3.4
 matplotlib==3.3.2
 scikit-learn==0.24.2
-ipython==7.26.0 
-ipywidgets==7.6.3  
 traitlets==5.0.5
 numba==0.52.0
 boto3==1.18.57
-pyathena==2.3.0
 botocore==1.21.57
+pyathena==2.3.0
 stepfunctions==2.2.0
 sagemaker==2.59.8
 sagemaker_experiments==0.1.35
@@ -93,10 +91,8 @@ redshift_connector==2.0.888
 sqlalchemy==1.3.23
 psycopg2==2.7.7
 psycopg2-binary==2.9.1
-catboost==1.0.5
-shap==0.40.0
 mlxtend==0.19.0
-gossipcat==0.3.2
+gossipcat
 batcat
 """
 
