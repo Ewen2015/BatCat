@@ -145,6 +145,7 @@ Next, create and attach another new policy to the role you created. As a best pr
          }
      ]
  }
+
 3. Replace **NOTEBOOK_ROLE_ARN** with the ARN for your notebook that you created in the previous step in the above Policy.
 4. Choose **Review policy** and give the policy a name such as :code:`AmazonSageMaker-StepFunctionsWorkflowExecutionPolicy`.
 5. Choose **Create policy**.
@@ -190,6 +191,7 @@ Next, create and attach another new policy to the role you created.
      }
    ]
  }
+
 4. Choose **Review policy** and give the policy a name such as :code:`LambdaTriggerStepFuncRole`.
 5. Choose **Create policy**.
 6. Select **Roles** and search for your :code:`LambdaTriggerStepFuncRole` role.
