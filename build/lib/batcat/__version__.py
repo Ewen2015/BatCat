@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-VERSION = (0, 2, 16)
-=======
-VERSION = (0, 2, 20)
->>>>>>> 07ef2c440c2838dbd316a022c1bfc6284e5df02a
+VERSION = (0, 2, 23)
 
 __version__ = '.'.join(map(str, VERSION))
 
