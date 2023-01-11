@@ -203,6 +203,8 @@ Unlike RedShift, Athena is a serverless service and does not need any infrastruc
 Deployment on Cloud
 ===================
 
+We notice there are many combinations of services on AWS can serve the machine learning deployment, like 1) Lambda, ECR, 2) Lambda, EFS, 3) Lambda, SageMaker, Step Functions, etc. Here we provide one practice as following.
+
 **Services on AWS**: ECR, SageMaker Processing, Step Functions, and Lambda. 
 
 Background
@@ -232,47 +234,41 @@ Setup
 
 1. Create related roles and attach policies to it. 
     Like any other AWS services, roles and policies setup is one of the most disappointing parts when using it. Refer to :ref:`Identity and Access Management <appendix:Identity and Access Management (IAM)>` for more information.
-2. Setup templates:
-    1. Docker setup Bash script and requirements text file. Add more required Python packages to :file:`requirements.txt` as needed. 
-    2. Step Functions setup Python script.
-    3. Lambda function setup Python script.
-3. Add the data science core script.
-    Add your data science Python script to the current directory, whose name should aligned with :code:`purpose`. In the example below, it is :code:`usage-analysis.py`.
+2. Go to :file:`deploy/` folder and setup templates:
+    1. Revise :file:`config.json` **BatCat** generated for your purpose (check the code below).
+    2. Run :file:`init.py` script.
+3. Add your data science core script.
+    1. Add your data science Python script to the current directory, whose name should aligned with :code:`purpose`. In the example below, it is :code:`usage-analysis.py`.
+    2. Revise your output destination with :code:`bc.processing_output_path`.
 4. Run the scripts to deploy.
     That's it!
 
-.. code-block:: Python
+All configurations you need to setup are stored in :file:`config.json`.
 
-    project = '2022-RnD-battery'
-    purpose = 'usage-analysis'
-
-    result_s3_bucket = '2022-RnD-battery'
+.. code-block:: json
     
-    partition = 'aws-cn'
-    workflow_execution_role = 'arn:[partition]:iam::[account-id]:role/[role-name]'
-
-    # setup Docker environment
-    bc.template_docker(project=project, 
-                       uri_suffix='amazonaws.com.cn', 
-                       pip_image=True, 
-                       python_version='3.7-slim-buster')
-    
-    # setup Step Functions workflow
-    bc.template_stepfunctions(project=project,
-                              purpose=purpose,
-                              result_s3_bucket=result_s3_bucket,
-                              workflow_execution_role=workflow_execution_role)
-    
-    # setup lambda to trigger workflow
-    bc.template_lambda(project=project, 
-                       purpose=purpose, 
-                       result_s3_bucket=result_s3_bucket,
-                       partition='aws-cn')
-
+    {
+        "project":  "2022-RnD-battery",
+        "purpose":  "usage-analysis",
+        "result_s3_bucket":  "2022-RnD-battery",
+        "partition":  "aws-cn",
+        "workflow_execution_role":  "arn:[partition]:iam::[account-id]:role/[role-name]"
+    }
 
 .. note::
 
-    1. :code:`project`: your data science project name. We suggest a format as :code:`[year]-[department]-[topic]`.
+    1. :code:`project`: your data science project name. We suggest a format as :code:`[year]-[domain]-[topic]`.
     2. :code:`purpose`: or subproject under a project. 
     3. :code:`result_s3_bucket`: the S3 bucket to store data science results. 
     4. :code:`workflow_execution_role`: the role ARN you created in step 1. 
+
+
+Setup a result path within container so that the Step Functions can find and save the output to S3 later.
+
+.. code-block:: python
+
+    import batcat as bc
+
+    output_path = bc.processing_output_path(purpose, timestamp=True, local=False)
+
+    results.to_csv(output_path, index=False)
