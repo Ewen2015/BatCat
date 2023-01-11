@@ -58,8 +58,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>BatCat API</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">BatCat API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/.ipynb_checkpoints/api-checkpoint.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,7 +115,7 @@
 <h2>Simple Storage Service (S3)<a class="headerlink" href="#simple-storage-service-s3" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.read_csv_from_bucket">
-<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_csv_from_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Storage.html#read_csv_from_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_csv_from_bucket" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_csv_from_bucket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Storage.html#read_csv_from_bucket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_csv_from_bucket" title="Permalink to this definition"></a></dt>
 <dd><p>Read CSV from AWS S3.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -317,7 +317,7 @@ Details and a sample callable implementation can be found in the section <a clas
 
 <dl class="py function">
 <dt class="sig sig-object py" id="batcat.read_data_from_redshift_by_secret">
-<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">batcat.</span></span><span class="sig-name descname"><span class="pre">read_data_from_redshift_by_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/batcat/Redshift.html#read_data_from_redshift_by_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#batcat.read_data_from_redshift_by_secret" title="Permalink to this definition"></a></dt>
 <dd><p>Read DataFrame from RedShift with AWS Secrets Manager.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -327,6 +327,7 @@ Details and a sample callable implementation can be found in the section <a clas
 <li><p><strong>query</strong> (<em>str</em>) – Querry to obtain data from Redshift.</p></li>
 <li><p><strong>date_start</strong> (<em>str</em>) – Date to start, strftime(‘%Y/%m/%d’).</p></li>
 <li><p><strong>date_end</strong> (<em>str</em>) – Date to end, strftime(‘%Y/%m/%d’).</p></li>
+<li><p><strong>delay</strong> (<em>int</em>) – Time to wait for the query.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

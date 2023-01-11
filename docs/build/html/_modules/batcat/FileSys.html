@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>batcat.FileSys</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">batcat.FileSys</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -81,7 +81,7 @@
 <span class="kn">import</span> <span class="nn">os</span> 
 
 <span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;A function to draw a file system tree.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A function to draw a file system tree.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="n">level</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
@@ -93,7 +93,7 @@
     <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="FileSys"><a class="viewcode-back" href="../../api.html#batcat.FileSys">[docs]</a><span class="k">def</span> <span class="nf">FileSys</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Establish a data science project file system.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Establish a data science project file system.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        project_name (bool): If a project name is needed, default True.</span>
@@ -125,26 +125,78 @@
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;pandas==1.3.4&quot;</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;matplotlib==3.3.2&quot;</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;scikit-learn==0.24.2&quot;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">deploy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="s1">&#39;requirements.txt&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">pass</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;.gitignore&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;data/*&quot;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">deploy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="s1">&#39;.gitignore&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">pass</span>
 
+    <span class="n">init</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;#!/usr/bin/env python3</span>
+<span class="sd"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">import json</span>
+<span class="sd">import batcat as bc</span>
+
+<span class="sd">if __name__ == &#39;__main__&#39;:</span>
+
+<span class="sd">    # setup configurations</span>
+<span class="sd">    with open(&#39;config.json&#39;) as json_file:</span>
+<span class="sd">        config = json.load(json_file)</span>
+<span class="sd">    </span>
+<span class="sd">    project = config[&#39;project&#39;]</span>
+<span class="sd">    purpose = config[&#39;purpose&#39;]</span>
+<span class="sd">    result_s3_bucket = config[&#39;result_s3_bucket&#39;]</span>
+<span class="sd">    partition = config[&#39;partition&#39;]</span>
+<span class="sd">    workflow_execution_role = config[&#39;workflow_execution_role&#39;]</span>
+
+<span class="sd">    # setup Docker environment</span>
+<span class="sd">    bc.template_docker(project=project, </span>
+<span class="sd">                       uri_suffix=&#39;amazonaws.com.cn&#39;, </span>
+<span class="sd">                       pip_image=True, </span>
+<span class="sd">                       python_version=&#39;3.7-slim-buster&#39;)</span>
+
+<span class="sd">    # setup Step Functions workflow</span>
+<span class="sd">    bc.template_stepfunctions(project=project,</span>
+<span class="sd">                              purpose=purpose,</span>
+<span class="sd">                              result_s3_bucket=result_s3_bucket,</span>
+<span class="sd">                              workflow_execution_role=workflow_execution_role)</span>
+
+<span class="sd">    # setup lambda to trigger workflow</span>
+<span class="sd">    bc.template_lambda(project=project, </span>
+<span class="sd">                       purpose=purpose, </span>
+<span class="sd">                       result_s3_bucket=result_s3_bucket,</span>
+<span class="sd">                       partition=&#39;aws-cn&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+    <span class="n">config</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;{</span>
+<span class="sd">    &quot;project&quot;:  &quot;2022-RnD-battery&quot;,</span>
+<span class="sd">    &quot;purpose&quot;:  &quot;usage-analysis&quot;,</span>
+<span class="sd">    &quot;result_s3_bucket&quot;:  &quot;2022-RnD-battery&quot;,</span>
+<span class="sd">    &quot;partition&quot;:  &quot;aws-cn&quot;,</span>
+<span class="sd">    &quot;workflow_execution_role&quot;:  &quot;arn:[partition]:iam::[account-id]:role/[role-name]&quot;</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;deploy&#39;</span><span class="p">)</span>
-    <span class="n">deploy</span> <span class="o">=</span> <span class="s1">&#39;deploy.sh&#39;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">deploy</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;init.py&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#!/bin/bash&quot;</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">deploy</span><span class="p">,</span> <span class="mo">0o755</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">deploy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">pass</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;config.json&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">pass</span>
+
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
 
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">)</span>

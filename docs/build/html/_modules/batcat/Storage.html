@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>batcat.Storage</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">batcat.Storage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -87,8 +87,8 @@
 
 <span class="c1">## i/o</span>
 
-<div class="viewcode-block" id="read_csv_from_bucket"><a class="viewcode-back" href="../../api.html#batcat.read_csv_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read CSV from AWS S3.</span>
+<div class="viewcode-block" id="read_csv_from_bucket"><a class="viewcode-back" href="../../api.html#batcat.read_csv_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read CSV from AWS S3.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bucket (str): Bucket name of S3. </span>
@@ -98,11 +98,11 @@
 <span class="sd">        df (pandas.DataFrame): Dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> <span class="n">error_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warn_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()),</span> <span class="n">error_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warn_bad_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="read_excel_from_bucket"><a class="viewcode-back" href="../../api.html#batcat.read_excel_from_bucket">[docs]</a><span class="k">def</span> <span class="nf">read_excel_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read Excel from AWS S3.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read Excel from AWS S3.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bucket (str): Bucket name of S3. </span>
@@ -119,7 +119,7 @@
     <span class="k">return</span> <span class="n">df</span> </div>
 
 <div class="viewcode-block" id="save_to_bucket"><a class="viewcode-back" href="../../api.html#batcat.save_to_bucket">[docs]</a><span class="k">def</span> <span class="nf">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save DataFrame to AWS S3.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save DataFrame to AWS S3.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bucket (str): Bucket name of S3. </span>
@@ -141,7 +141,7 @@
 <span class="c1">## multiple </span>
 
 <div class="viewcode-block" id="list_bucket_files"><a class="viewcode-back" href="../../api.html#batcat.list_bucket_files">[docs]</a><span class="k">def</span> <span class="nf">list_bucket_files</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Read multiple csv file names from AWS S3.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read multiple csv file names from AWS S3.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bucket (str): Target s3 bucket.</span>
@@ -162,7 +162,7 @@
     <span class="k">return</span> <span class="n">fl</span></div>
 
 <div class="viewcode-block" id="copy_bucket_files"><a class="viewcode-back" href="../../api.html#batcat.copy_bucket_files">[docs]</a><span class="k">def</span> <span class="nf">copy_bucket_files</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">target_bucket</span><span class="p">,</span> <span class="n">target_prefix</span><span class="p">,</span> <span class="n">target_suffix</span><span class="p">,</span> <span class="n">key_sub</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">        bucket (str): Source bucket.</span>
 <span class="sd">        prefix (str): Prefix of source files.</span>
@@ -194,7 +194,7 @@
 <span class="c1">## signal</span>
 
 <div class="viewcode-block" id="SuccessSignal"><a class="viewcode-back" href="../../api.html#batcat.SuccessSignal">[docs]</a><span class="k">def</span> <span class="nf">SuccessSignal</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;.success&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">        bucet (str): Target bucket to receive a signal.</span>
 <span class="sd">        key (str): Signal file.</span>

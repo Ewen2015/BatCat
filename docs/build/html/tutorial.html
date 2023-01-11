@@ -77,8 +77,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>BatCat Tutorials</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">BatCat Tutorials</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -95,7 +95,7 @@
 <div class="section" id="environment-setup">
 <h3>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h3>
 <p>The first step to start a data science project should always be setup a development file system, no matter on cloud or in your laptop. <strong>BatCat</strong> provides a one-line command to setup a well-organized file system for data science projects.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m batcat.FileSys
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>batcat.FileSys
 </pre></div>
 </div>
 <p>The interactive and immersive command-line interfaces as following. Just type down your project name, like <code class="code docutils literal notranslate"><span class="pre">battery</span></code> in this tutorial. Then it will generate a file structure for your data science project and print out a file tree of it.</p>
@@ -288,6 +288,7 @@ project_battery/
 </div>
 <div class="section" id="deployment-on-cloud">
 <h2>Deployment on Cloud<a class="headerlink" href="#deployment-on-cloud" title="Permalink to this heading"></a></h2>
+<p>We notice there are many combinations of services on AWS can serve the machine learning deployment, like 1) Lambda, ECR, 2) Lambda, EFS, 3) Lambda, SageMaker, Step Functions, etc. Here we provide one practice as following.</p>
 <p><strong>Services on AWS</strong>: ECR, SageMaker Processing, Step Functions, and Lambda.</p>
 <div class="section" id="background">
 <h3>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h3>
@@ -313,16 +314,18 @@ project_battery/
 </dl>
 </li>
 <li><dl class="simple">
-<dt>Setup templates:</dt><dd><ol class="arabic simple">
-<li><p>Docker setup Bash script and requirements text file. Add more required Python packages to <code class="file docutils literal notranslate"><span class="pre">requirements.txt</span></code> as needed.</p></li>
-<li><p>Step Functions setup Python script.</p></li>
-<li><p>Lambda function setup Python script.</p></li>
+<dt>Go to <code class="file docutils literal notranslate"><span class="pre">deploy/</span></code> folder and setup templates:</dt><dd><ol class="arabic simple">
+<li><p>Revise <code class="file docutils literal notranslate"><span class="pre">config.json</span></code> <strong>BatCat</strong> generated for your purpose (check the code below).</p></li>
+<li><p>Run <code class="file docutils literal notranslate"><span class="pre">init.py</span></code> script.</p></li>
 </ol>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>Add the data science core script.</dt><dd><p>Add your data science Python script to the current directory, whose name should aligned with <code class="code docutils literal notranslate"><span class="pre">purpose</span></code>. In the example below, it is <code class="code docutils literal notranslate"><span class="pre">usage-analysis.py</span></code>.</p>
+<dt>Add your data science core script.</dt><dd><ol class="arabic simple">
+<li><p>Add your data science Python script to the current directory, whose name should aligned with <code class="code docutils literal notranslate"><span class="pre">purpose</span></code>. In the example below, it is <code class="code docutils literal notranslate"><span class="pre">usage-analysis.py</span></code>.</p></li>
+<li><p>Revise your output destination with <code class="code docutils literal notranslate"><span class="pre">bc.processing_output_path</span></code>.</p></li>
+</ol>
 </dd>
 </dl>
 </li>
@@ -332,41 +335,32 @@ project_battery/
 </dl>
 </li>
 </ol>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
-<span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;usage-analysis&#39;</span>
-
-<span class="n">result_s3_bucket</span> <span class="o">=</span> <span class="s1">&#39;2022-RnD-battery&#39;</span>
-
-<span class="n">partition</span> <span class="o">=</span> <span class="s1">&#39;aws-cn&#39;</span>
-<span class="n">workflow_execution_role</span> <span class="o">=</span> <span class="s1">&#39;arn:[partition]:iam::[account-id]:role/[role-name]&#39;</span>
-
-<span class="c1"># setup Docker environment</span>
-<span class="n">bc</span><span class="o">.</span><span class="n">template_docker</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
-                   <span class="n">uri_suffix</span><span class="o">=</span><span class="s1">&#39;amazonaws.com.cn&#39;</span><span class="p">,</span>
-                   <span class="n">pip_image</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">python_version</span><span class="o">=</span><span class="s1">&#39;3.7-slim-buster&#39;</span><span class="p">)</span>
-
-<span class="c1"># setup Step Functions workflow</span>
-<span class="n">bc</span><span class="o">.</span><span class="n">template_stepfunctions</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
-                          <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
-                          <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">result_s3_bucket</span><span class="p">,</span>
-                          <span class="n">workflow_execution_role</span><span class="o">=</span><span class="n">workflow_execution_role</span><span class="p">)</span>
-
-<span class="c1"># setup lambda to trigger workflow</span>
-<span class="n">bc</span><span class="o">.</span><span class="n">template_lambda</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
-                   <span class="n">purpose</span><span class="o">=</span><span class="n">purpose</span><span class="p">,</span>
-                   <span class="n">result_s3_bucket</span><span class="o">=</span><span class="n">result_s3_bucket</span><span class="p">,</span>
-                   <span class="n">partition</span><span class="o">=</span><span class="s1">&#39;aws-cn&#39;</span><span class="p">)</span>
+<p>All configurations you need to setup are stored in <code class="file docutils literal notranslate"><span class="pre">config.json</span></code>.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;2022-RnD-battery&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;usage-analysis&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;result_s3_bucket&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;2022-RnD-battery&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;partition&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;aws-cn&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;workflow_execution_role&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;arn:[partition]:iam::[account-id]:role/[role-name]&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ol class="arabic simple">
-<li><p><code class="code docutils literal notranslate"><span class="pre">project</span></code>: your data science project name. We suggest a format as <code class="code docutils literal notranslate"><span class="pre">[year]-[department]-[topic]</span></code>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">project</span></code>: your data science project name. We suggest a format as <code class="code docutils literal notranslate"><span class="pre">[year]-[domain]-[topic]</span></code>.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">purpose</span></code>: or subproject under a project.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">result_s3_bucket</span></code>: the S3 bucket to store data science results.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">workflow_execution_role</span></code>: the role ARN you created in step 1.</p></li>
 </ol>
+</div>
+<p>Setup a result path within container so that the Step Functions can find and save the output to S3 later.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
+
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">processing_output_path</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">results</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>

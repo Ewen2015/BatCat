@@ -39,7 +39,8 @@ The interactive and immersive command-line interfaces as following. Just type do
         script/
             config.json
         deploy/
-            deploy.sh
+            init.py
+            config.json
 
 .. note::
 
@@ -229,8 +230,8 @@ So here's BatCat. It provides templates to setup docker images, workflows of Ste
 
 **BatCat** takes all steps in a machine learning product as processing jobs -- data cleaning, preprocessing, feature engineering, predicting. Note that the training step is not in production stage but development stage so not inlcuded here.
 
-Setup
------
+Initialize
+----------
 
 1. Create related roles and attach policies to it. 
     Like any other AWS services, roles and policies setup is one of the most disappointing parts when using it. Refer to :ref:`Identity and Access Management <appendix:Identity and Access Management (IAM)>` for more information.
@@ -249,7 +250,7 @@ All configurations you need to setup are stored in :file:`config.json`.
     
     {
         "project":  "2022-RnD-battery",
-        "purpose":  "usage-analysis",
+        "purpose":  "inference",
         "result_s3_bucket":  "2022-RnD-battery",
         "partition":  "aws-cn",
         "workflow_execution_role":  "arn:[partition]:iam::[account-id]:role/[role-name]"
@@ -272,3 +273,30 @@ Setup a result path within container so that the Step Functions can find and sav
     output_path = bc.processing_output_path(purpose, timestamp=True, local=False)
 
     results.to_csv(output_path, index=False)
+
+Then we obtain a :file:`deploy/` file structure as following.
+
+::
+
+    deploy/
+        2022-RnD-battery-inference-trigger/
+            lambda_function.py
+        docker/
+            Dockerfile
+            requirements.txt
+        inference.py
+        init.py
+        config.json
+        requirements.txt
+        setup_docker.sh
+        setup_stepfunctions_inference.py
+
+Deploy it!
+----------
+
+1. Add your Python packages to the :file:`requirements.txt`.
+2. Run :file:`setup_docker.sh`.
+3. Run :file:`setup_stepfunctions_inference.py`.
+4. Go to Step Functions on AWS to check the status.
+5. Go to Lambda on AWS and copy the :file:`lambda_function.py` to it.
+6. Go to Cloud Watch on AWS to set up Event Bus for the trigger.
