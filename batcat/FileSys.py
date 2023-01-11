@@ -53,18 +53,18 @@ def FileSys(project_name=True):
             f.write("pandas==1.3.4")
             f.write("matplotlib==3.3.2")
             f.write("scikit-learn==0.24.2")
-            os.utime(deploy, None)
+            os.utime('requirements.txt', None)
         except Exception as e:
             pass
 
     with open('.gitignore', 'a') as f:
         try:
             f.write("data/*")
-            os.utime(deploy, None)
+            os.utime('.gitignore', None)
         except Exception as e:
             pass
 
-    deploy = \
+    init = \
 """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -72,7 +72,7 @@ import json
 import batcat as bc
 
 if __name__ == '__main__':
-    
+
     # setup configurations
     with open('config.json') as json_file:
         config = json.load(json_file)
@@ -102,12 +102,29 @@ if __name__ == '__main__':
                        partition='aws-cn')
 """
 
+    config = \
+"""{
+    "project":  "2022-RnD-battery",
+    "purpose":  "usage-analysis",
+    "result_s3_bucket":  "2022-RnD-battery",
+    "partition":  "aws-cn",
+    "workflow_execution_role":  "arn:[partition]:iam::[account-id]:role/[role-name]"
+}
+"""
+
     os.chdir('deploy')
     with open('init.py', 'a') as f:
         try:
-            f.write(deploy)
+            f.write(init)
         except Exception as e:
             pass
+    
+    with open('config.json', 'a') as f:
+        try:
+            f.write(config)
+        except Exception as e:
+            pass
+
     os.chdir('../')
 
     os.chdir('script')
