@@ -1,5 +1,5 @@
-BatCat Tutorials
-****************
+Tutorials
+*********
 
 Data Science Projects Basics
 ============================
@@ -76,6 +76,37 @@ Python Module **Logging** is one of the most underrated features. Two things (5&
     
     logger.error('this is an error!')
     logger.critial('this is critical!')
+
+
+Clean Code
+----------
+
+To improve your machine learning code readability, we recommend `pipe <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pipe.html>`_ of :code:`pandas`. The following is a sample code for inference -- we structure the **preprocessing** and **feature engineering** tasks as pipe functions and stack them together as a pipeline. 
+
+.. code-block:: Python
+    
+    import batcat as bc
+    
+    # read data
+    df = bc.read_csv_from_bucket(bucket, key)
+    
+    # preprocessing and feature engineering
+    df = (df.pipe(func1)
+            .pipe(func2, arg1=a)
+            .pipe(func3, arg2=b, arg3=c)
+    )
+    
+    # inference
+    results = model(df)
+    
+    # save results
+    bc.save_to_bucket(df, bucket, key)
+
+After the pipeline is set up, you only need to revise each single pipe to tune your feature engineering, which doesn't affect any other process in your code.
+
+.. note::
+    
+    The code above utilize the I/O tolls of **BatCat**, which provided as following section.
 
 
 IO Tools
@@ -297,6 +328,6 @@ Deploy it!
 1. Add your Python packages to the :file:`requirements.txt`.
 2. Run :file:`setup_docker.sh`.
 3. Run :file:`setup_stepfunctions_inference.py`.
-4. Go to Step Functions on AWS to check the status.
-5. Go to Lambda on AWS and copy the :file:`lambda_function.py` to it.
-6. Go to Cloud Watch on AWS to set up Event Bus for the trigger.
+4. Go to **Step Functions** on AWS to check the status.
+5. Go to **Lambda** on AWS and copy the :file:`lambda_function.py` to it.
+6. Go to **Cloud Watch** on AWS to set up an **Event Bus** for the trigger.

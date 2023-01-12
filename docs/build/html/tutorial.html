@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BatCat Tutorials &mdash; BatCat 0.2.9 documentation</title>
+  <title>Tutorials &mdash; BatCat 0.2.9 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -41,10 +41,11 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">BatCat Tutorials</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#data-science-projects-basics">Data Science Projects Basics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#environment-setup">Environment Setup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#logging">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-code">Clean Code</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#io-tools">IO Tools</a><ul>
@@ -54,7 +55,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment-on-cloud">Deployment on Cloud</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initialize">Initialize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-it">Deploy it!</a></li>
 </ul>
 </li>
 </ul>
@@ -78,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">BatCat Tutorials</li>
+      <li class="breadcrumb-item active">Tutorials</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,8 +90,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="batcat-tutorials">
-<h1>BatCat Tutorials<a class="headerlink" href="#batcat-tutorials" title="Permalink to this heading"></a></h1>
+  <div class="section" id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h1>
 <div class="section" id="data-science-projects-basics">
 <h2>Data Science Projects Basics<a class="headerlink" href="#data-science-projects-basics" title="Permalink to this heading"></a></h2>
 <div class="section" id="environment-setup">
@@ -121,7 +123,8 @@ project_battery/
     script/
         config.json
     deploy/
-        deploy.sh
+        init.py
+        config.json
 </pre></div>
 </div>
 <div class="admonition note">
@@ -156,6 +159,32 @@ project_battery/
 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is an error!&#39;</span><span class="p">)</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">critial</span><span class="p">(</span><span class="s1">&#39;this is critical!&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="clean-code">
+<h3>Clean Code<a class="headerlink" href="#clean-code" title="Permalink to this heading"></a></h3>
+<p>We recommend <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pipe.html">pipe</a> of <code class="code docutils literal notranslate"><span class="pre">pandas</span></code> to structure your machine learning or data science code. The following is a sample code for inference, which we structure the <strong>preprocessing</strong> and <strong>feature engineering</strong> tasks as pipe functions and stack them together as a pipeline.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">batcat</span> <span class="k">as</span> <span class="nn">bc</span>
+
+<span class="c1"># read data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">read_csv_from_bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+<span class="c1"># preprocessing and feature engineering</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">func2</span><span class="p">,</span> <span class="n">arg1</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">func3</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">arg3</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># inference</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># save results</span>
+<span class="n">bc</span><span class="o">.</span><span class="n">save_to_bucket</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The code above utilize the I/O tolls of <strong>BatCat</strong>, which provided as following section.</p>
 </div>
 </div>
 </div>
@@ -305,8 +334,8 @@ project_battery/
 <p>So here’s BatCat. It provides templates to setup docker images, workflows of Step Functions, and triggers generated by Lambda functions – to slim down the setup work on AWS.</p>
 <img alt="_images/process.svg" class="align-center" src="_images/process.svg" /><p><strong>BatCat</strong> takes all steps in a machine learning product as processing jobs – data cleaning, preprocessing, feature engineering, predicting. Note that the training step is not in production stage but development stage so not inlcuded here.</p>
 </div>
-<div class="section" id="setup">
-<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h3>
+<div class="section" id="initialize">
+<h3>Initialize<a class="headerlink" href="#initialize" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><dl class="simple">
 <dt>Create related roles and attach policies to it.</dt><dd><p>Like any other AWS services, roles and policies setup is one of the most disappointing parts when using it. Refer to <a class="reference internal" href="appendix.html#identity-and-access-management-iam"><span class="std std-ref">Identity and Access Management</span></a> for more information.</p>
@@ -338,7 +367,7 @@ project_battery/
 <p>All configurations you need to setup are stored in <code class="file docutils literal notranslate"><span class="pre">config.json</span></code>.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;2022-RnD-battery&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;usage-analysis&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;inference&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;result_s3_bucket&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;2022-RnD-battery&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;partition&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;aws-cn&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;workflow_execution_role&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;arn:[partition]:iam::[account-id]:role/[role-name]&quot;</span>
@@ -362,6 +391,32 @@ project_battery/
 <span class="n">results</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Then we obtain a <code class="file docutils literal notranslate"><span class="pre">deploy/</span></code> file structure as following.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deploy</span><span class="o">/</span>
+    <span class="mi">2022</span><span class="o">-</span><span class="n">RnD</span><span class="o">-</span><span class="n">battery</span><span class="o">-</span><span class="n">inference</span><span class="o">-</span><span class="n">trigger</span><span class="o">/</span>
+        <span class="n">lambda_function</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">docker</span><span class="o">/</span>
+        <span class="n">Dockerfile</span>
+        <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+    <span class="n">inference</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">init</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">json</span>
+    <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+    <span class="n">setup_docker</span><span class="o">.</span><span class="n">sh</span>
+    <span class="n">setup_stepfunctions_inference</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploy-it">
+<h3>Deploy it!<a class="headerlink" href="#deploy-it" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Add your Python packages to the <code class="file docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p></li>
+<li><p>Run <code class="file docutils literal notranslate"><span class="pre">setup_docker.sh</span></code>.</p></li>
+<li><p>Run <code class="file docutils literal notranslate"><span class="pre">setup_stepfunctions_inference.py</span></code>.</p></li>
+<li><p>Go to <strong>Step Functions</strong> on AWS to check the status.</p></li>
+<li><p>Go to <strong>Lambda</strong> on AWS and copy the <code class="file docutils literal notranslate"><span class="pre">lambda_function.py</span></code> to it.</p></li>
+<li><p>Go to <strong>Cloud Watch</strong> on AWS to set up an <strong>Event Bus</strong> for the trigger.</p></li>
+</ol>
 </div>
 </div>
 </div>
