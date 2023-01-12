@@ -106,7 +106,7 @@ After the pipeline is set up, you only need to revise each single pipe to tune y
 
 .. note::
     
-    The code above utilize the I/O tolls of **BatCat**, which provided as following section.
+    The code above utilize the I/O tools of **BatCat**, which provided as following section.
 
 
 IO Tools
