@@ -2,6 +2,7 @@ LICENSE
 README.rst
 setup.py
 batcat/Athena.py
+batcat/Config.py
 batcat/Docker.py
 batcat/FileSys.py
 batcat/Lambda.py

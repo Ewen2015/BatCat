@@ -77,4 +77,4 @@ The package names after a cat of my friend, Clara.
 License
 =======
 
-BatCat is licensed under the MIT License. © Contributors, 2022.
+BatCat is licensed under the MIT License. © Contributors, 2023.
