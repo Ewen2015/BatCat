@@ -37,7 +37,7 @@ Setting up a data science or machine learning workflow in the production environ
 
 1. **Data Science Experiments**: SageMaker, Git, Docker.
 2. **Storage**: S3, RedShift, Athena.
-3. **Processing Container**: Docker, Step Functions.
+3. **Processing Container**: Docker, Step Functions, ECR.
 4. **Trigger**: Lambda.
 5. **Monitor**: CloudWatch.
 
