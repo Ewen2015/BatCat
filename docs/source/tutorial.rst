@@ -114,7 +114,7 @@ To improve your machine learning code readability, we recommend `pipe <https://p
     results = model(df)
     
     # save results
-    bc.save_to_bucket(df, bucket, key)
+    bc.save_to_bucket(results, bucket, key)
 
 After the pipeline is set up, you only need to revise each single pipe to tune your feature engineering, which doesn't affect any other process in your code.
 
