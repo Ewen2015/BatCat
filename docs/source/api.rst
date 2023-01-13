@@ -8,6 +8,8 @@ Data Science Environment Setup
 
 .. autofunction:: batcat.get_logger
 
+.. autofunction:: batcat.get_config
+
 
 Simple Storage Service (S3) 
 ===========================

@@ -11,6 +11,14 @@ import json
 import .Logging import get_logger
 
 def get_config(file='config.json'):
+	"""Get configurations.
+
+	Args:
+		file (str): Configuration file, dedault 'config.json'.
+
+	Return:
+		config: A configuration dictionary.
+	"""
     logger = get_logger(logName='configure')
     config = dict()
     try:

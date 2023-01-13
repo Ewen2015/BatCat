@@ -78,6 +78,20 @@ Python Module **Logging** is one of the most underrated features. Two things (5&
     logger.critial('this is critical!')
 
 
+Configuration
+-------------
+
+Just like logging, the importance of configuration is usually underestimated by data scientist but very crutial for machine learning engineers. We suggest you to store all your environment configurations in a :code:`json` file and keep your core machine learning code independent from these configurations so that can be transfered from **development** environment to **production** one smoothly. 
+
+Without configuration, you have to revise your core code time to time and expose the code to large risks.
+
+.. code-block:: Python
+
+    import batcat as bc
+
+    config = bc.get_config(file='config.json')
+
+
 Clean Code
 ----------
 
@@ -107,6 +121,7 @@ After the pipeline is set up, you only need to revise each single pipe to tune y
 .. note::
     
     The code above utilize the I/O tools of **BatCat**, which provided as following section.
+
 
 
 IO Tools
