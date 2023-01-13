@@ -81,9 +81,9 @@ Python Module **Logging** is one of the most underrated features. Two things (5&
 Configuration
 -------------
 
-Just like logging, the importance of configuration is usually underestimated by data scientist but very crutial for machine learning engineers. We suggest you to store all your environment configurations in a :code:`json` file and keep your core machine learning code independent from these configurations so that can be transfered from **development** environment to **production** one smoothly. 
+Just like logging, the importance of configuration is usually underestimated by data scientist but very crutial for machine learning engineers. Without configuration, you have to revise your core code time to time and expose the code to large risks.
 
-Without configuration, you have to revise your core code time to time and expose the code to large risks.
+We suggest you to store all your environment configurations in a :code:`json` file and load it to your core code as a Python :code:`dictionary` each time. This allows to keep your core machine learning code independent from these configurations so that can be transfered from **development** environment to **production** one smoothly. 
 
 .. code-block:: Python
 
