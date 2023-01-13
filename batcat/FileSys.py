@@ -74,8 +74,7 @@ import batcat as bc
 if __name__ == '__main__':
 
     # setup configurations
-    with open('config.json') as json_file:
-        config = json.load(json_file)
+    config = bc.get_config()
     
     project = config['project']
     purpose = config['purpose']
@@ -104,9 +103,9 @@ if __name__ == '__main__':
 
     config = \
 """{
-    "project":  "2022-RnD-battery",
-    "purpose":  "usage-analysis",
-    "result_s3_bucket":  "2022-RnD-battery",
+    "project":  "2022-rnd-battery",
+    "purpose":  "inference",
+    "result_s3_bucket":  "2022-rnd-battery-dev",
     "partition":  "aws-cn",
     "workflow_execution_role":  "arn:[partition]:iam::[account-id]:role/[role-name]"
 }
