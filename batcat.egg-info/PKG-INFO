@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: batcat
-Version: 0.2.25
+Version: 0.2.27
 Summary: BatCat, A Cat Looks Like A Bat.
 Home-page: https://github.com/Ewen2015/BatCat
 Author: Ewen Wang
@@ -90,4 +90,4 @@ The package names after a cat of my friend, Clara.
 License
 =======
 
-BatCat is licensed under the MIT License. © Contributors, 2022.
+BatCat is licensed under the MIT License. © Contributors, 2023.

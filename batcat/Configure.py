@@ -8,7 +8,7 @@ license:    Apache License 2.0
 """
 
 import json
-import .Logging import get_logger
+from .Logging import get_logger
 
 def get_config(file='config.json'):
 	"""Get configurations.
