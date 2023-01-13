@@ -295,9 +295,9 @@ All configurations you need to setup are stored in :file:`config.json`.
 .. code-block:: json
     
     {
-        "project":  "2022-RnD-battery",
+        "project":  "2022-rnd-battery",
         "purpose":  "inference",
-        "result_s3_bucket":  "2022-RnD-battery",
+        "result_s3_bucket":  "2022-rnd-battery-dev",
         "partition":  "aws-cn",
         "workflow_execution_role":  "arn:[partition]:iam::[account-id]:role/[role-name]"
     }
