@@ -15,6 +15,19 @@ s3 = boto3.client('s3')
 
 ## i/o
 
+def pd_s3_buffer(bucket, key):
+    """Get csv buffer from AWS S3 for pandas.
+
+    Args:
+        bucket (str): Bucket name of S3. 
+        key (str): Key of S3. 
+
+    Returns:
+        buffer (pandas.DataFrame): Dataframe buffer.
+    """    
+    response = s3.get_object(Bucket=bucket, Key=key)
+    return BytesIO(response['Body'].read()) 
+
 def read_csv_from_bucket(bucket, key, encoding=None):
     """Read CSV from AWS S3.
 
@@ -68,8 +81,8 @@ def save_to_bucket(df, bucket, key):
 
 ## multiple 
 
-def list_bucket_files(bucket, prefix, suffix) -> list:
-    """Read multiple csv file names from AWS S3.
+def list_keys(bucket, prefix, suffix):
+    """Read multiple file names from AWS S3.
 
     Args:
         bucket (str): Target s3 bucket.
@@ -82,12 +95,11 @@ def list_bucket_files(bucket, prefix, suffix) -> list:
     s3 = boto3.resource('s3')
     my_bucket = s3.Bucket(bucket)
     
-    fl = []
+    keys = []
     for obj in my_bucket.objects.filter(Prefix=prefix):
         if obj.key.endswith(suffix):
-            fl.append(obj.key)
-            print(obj.key)
-    return fl
+            keys.append(obj.key)
+    return keys
 
 def copy_bucket_files(bucket, prefix, suffix, target_bucket, target_prefix, target_suffix, key_sub):
     """
