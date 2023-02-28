@@ -69,82 +69,84 @@ Next, create and attach another new policy to the role you created. As a best pr
 2. Enter the following in the **JSON** tab:
 
 .. code-block:: json
- {
-     "Version": "2012-10-17",
-     "Statement": [
-         {
-             "Sid": "VisualEditor0",
-             "Effect": "Allow",
-             "Action": [
-                 "events:PutTargets",
-                 "events:DescribeRule",
-                 "events:PutRule"
-             ],
-             "Resource": [
-                 "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTrainingJobsRule",
-                 "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTransformJobsRule",
-                 "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTuningJobsRule",
-                 "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForECSTaskRule",
-                 "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForBatchJobsRule"
-             ]
-         },
-         {
-             "Sid": "VisualEditor1",
-             "Effect": "Allow",
-             "Action": "iam:PassRole",
-             "Resource": "NOTEBOOK_ROLE_ARN",
-             "Condition": {
-                 "StringEquals": {
-                     "iam:PassedToService": "sagemaker.amazonaws.com"
+
+     {
+         "Version": "2012-10-17",
+         "Statement": [
+             {
+                 "Sid": "VisualEditor0",
+                 "Effect": "Allow",
+                 "Action": [
+                     "events:PutTargets",
+                     "events:DescribeRule",
+                     "events:PutRule"
+                 ],
+                 "Resource": [
+                     "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTrainingJobsRule",
+                     "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTransformJobsRule",
+                     "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForSageMakerTuningJobsRule",
+                     "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForECSTaskRule",
+                     "arn:aws-cn:events:*:*:rule/StepFunctionsGetEventsForBatchJobsRule"
+                 ]
+             },
+             {
+                 "Sid": "VisualEditor1",
+                 "Effect": "Allow",
+                 "Action": "iam:PassRole",
+                 "Resource": "NOTEBOOK_ROLE_ARN",
+                 "Condition": {
+                     "StringEquals": {
+                         "iam:PassedToService": "sagemaker.amazonaws.com"
+                     }
                  }
+             },
+             {
+                 "Sid": "VisualEditor2",
+                 "Effect": "Allow",
+                 "Action": [
+                     "batch:DescribeJobs",
+                     "batch:SubmitJob",
+                     "batch:TerminateJob",
+                     "dynamodb:DeleteItem",
+                     "dynamodb:GetItem",
+                     "dynamodb:PutItem",
+                     "dynamodb:UpdateItem",
+                     "ecs:DescribeTasks",
+                     "ecs:RunTask",
+                     "ecs:StopTask",
+                     "glue:BatchStopJobRun",
+                     "glue:GetJobRun",
+                     "glue:GetJobRuns",
+                     "glue:StartJobRun",
+                     "lambda:InvokeFunction",
+                     “sagemaker:AddTags”,
+                     "sagemaker:CreateEndpoint",
+                     "sagemaker:CreateEndpointConfig",
+                     "sagemaker:CreateHyperParameterTuningJob",
+                     "sagemaker:CreateModel",
+                     "sagemaker:CreateProcessingJob",
+                     "sagemaker:CreateTrainingJob",
+                     "sagemaker:CreateTransformJob",
+                     "sagemaker:DeleteEndpoint",
+                     "sagemaker:DeleteEndpointConfig",
+                     "sagemaker:DescribeHyperParameterTuningJob",
+                     "sagemaker:DescribeProcessingJob",
+                     "sagemaker:DescribeTrainingJob",
+                     "sagemaker:DescribeTransformJob",
+                     "sagemaker:ListProcessingJobs",
+                     "sagemaker:ListTags",
+                     "sagemaker:StopHyperParameterTuningJob",
+                     "sagemaker:StopProcessingJob",
+                     "sagemaker:StopTrainingJob",
+                     "sagemaker:StopTransformJob",
+                     "sagemaker:UpdateEndpoint",
+                     "sns:Publish",
+                     "sqs:SendMessage"
+                 ],
+                 "Resource": "*"
              }
-         },
-         {
-             "Sid": "VisualEditor2",
-             "Effect": "Allow",
-             "Action": [
-                 "batch:DescribeJobs",
-                 "batch:SubmitJob",
-                 "batch:TerminateJob",
-                 "dynamodb:DeleteItem",
-                 "dynamodb:GetItem",
-                 "dynamodb:PutItem",
-                 "dynamodb:UpdateItem",
-                 "ecs:DescribeTasks",
-                 "ecs:RunTask",
-                 "ecs:StopTask",
-                 "glue:BatchStopJobRun",
-                 "glue:GetJobRun",
-                 "glue:GetJobRuns",
-                 "glue:StartJobRun",
-                 "lambda:InvokeFunction",
-                 "sagemaker:CreateEndpoint",
-                 "sagemaker:CreateEndpointConfig",
-                 "sagemaker:CreateHyperParameterTuningJob",
-                 "sagemaker:CreateModel",
-                 "sagemaker:CreateProcessingJob",
-                 "sagemaker:CreateTrainingJob",
-                 "sagemaker:CreateTransformJob",
-                 "sagemaker:DeleteEndpoint",
-                 "sagemaker:DeleteEndpointConfig",
-                 "sagemaker:DescribeHyperParameterTuningJob",
-                 "sagemaker:DescribeProcessingJob",
-                 "sagemaker:DescribeTrainingJob",
-                 "sagemaker:DescribeTransformJob",
-                 "sagemaker:ListProcessingJobs",
-                 "sagemaker:ListTags",
-                 "sagemaker:StopHyperParameterTuningJob",
-                 "sagemaker:StopProcessingJob",
-                 "sagemaker:StopTrainingJob",
-                 "sagemaker:StopTransformJob",
-                 "sagemaker:UpdateEndpoint",
-                 "sns:Publish",
-                 "sqs:SendMessage"
-             ],
-             "Resource": "*"
-         }
-     ]
- }
+         ]
+     }
 
 3. Replace **NOTEBOOK_ROLE_ARN** with the ARN for your notebook that you created in the previous step in the above Policy.
 4. Choose **Review policy** and give the policy a name such as :code:`AmazonSageMaker-StepFunctionsWorkflowExecutionPolicy`.
@@ -175,22 +177,23 @@ Next, create and attach another new policy to the role you created.
 2. Enter the following in the **JSON** tab:
 
 .. code-block:: json
- {
-   "Version": "2012-10-17",
-   "Statement": [
+
      {
-       "Effect": "Allow",
-       "Action": [
-         "ec2:DescribeNetworkInterfaces",
-         "ec2:CreateNetworkInterface",
-         "ec2:DeleteNetworkInterface",
-         "ec2:DescribeInstances",
-         "ec2:AttachNetworkInterface"
-       ],
-       "Resource": "*"
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Effect": "Allow",
+           "Action": [
+             "ec2:DescribeNetworkInterfaces",
+             "ec2:CreateNetworkInterface",
+             "ec2:DeleteNetworkInterface",
+             "ec2:DescribeInstances",
+             "ec2:AttachNetworkInterface"
+           ],
+           "Resource": "*"
+         }
+       ]
      }
-   ]
- }
 
 4. Choose **Review policy** and give the policy a name such as :code:`LambdaTriggerStepFuncRole`.
 5. Choose **Create policy**.

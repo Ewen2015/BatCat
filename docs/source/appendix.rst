@@ -119,6 +119,7 @@ Next, create and attach another new policy to the role you created. As a best pr
                      "glue:GetJobRuns",
                      "glue:StartJobRun",
                      "lambda:InvokeFunction",
+                     “sagemaker:AddTags”,
                      "sagemaker:CreateEndpoint",
                      "sagemaker:CreateEndpointConfig",
                      "sagemaker:CreateHyperParameterTuningJob",
