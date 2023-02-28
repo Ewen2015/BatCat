@@ -1,4 +1,5 @@
 buil/
 dist/
+.ipynb_checkpoints/
 batcat.egg-info/
 build/lib/batcat/
