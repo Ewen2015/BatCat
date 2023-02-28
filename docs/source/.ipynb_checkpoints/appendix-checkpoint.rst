@@ -25,6 +25,7 @@ Only a small fraction of real-world ML systems is composed of the ML code, as sh
 Identity and Access Management (IAM)
 ====================================
 
+Reference: For more information, please check `Build a machine learning workflow using Step Functions and SageMaker <https://sagemaker-examples.readthedocs.io/en/latest/step-functions-data-science-sdk/machine_learning_workflow_abalone/machine_learning_workflow_abalone.html>`_.
 
 1. Add permissions to your notebook role in IAM
 -----------------------------------------------
