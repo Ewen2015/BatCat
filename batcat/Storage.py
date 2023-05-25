@@ -59,6 +59,32 @@ def read_excel_from_bucket(bucket, key, sheet_name=0, header=0):
                        header=header)
     return df 
 
+def read_excel_list_from_bucket(bucket, key_list):
+    """Read all sheets in all Excels in a key list from AWS S3.
+
+    Args:
+        bucket (str): Bucket name of S3. 
+        key_list (list): Key list of S3. 
+
+    Returns:
+        df (pandas.DataFrame): Dataframe.
+    """
+    df_list = []
+
+    for key in key_list:
+        print(key)
+        d = read_excel_from_bucket(bucket=bucket, key=key, sheet_name=None)
+        if isinstance(d, dict):
+            print('dict')
+            dl = list(d.items())
+            dlv = [i[1] for i in dl] 
+            df_list.extend(dlv)
+        else:
+            df_list.append(d)
+
+    df = pd.concat(df_list)
+    return df
+
 def save_to_bucket(df, bucket, key):
     """Save DataFrame to AWS S3.
 
