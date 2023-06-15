@@ -15,7 +15,6 @@ import boto3
 import joblib
 import tarfile
 import sagemaker
-from sagemaker.estimator import Estimator
 import subprocess
 
 
