@@ -261,6 +261,9 @@ SageMaker is AWS's managed machine learning service. With SageMaker, you can dep
 
 API Gateway is AWS's API management service. It allows you to create REST APIs, deploy them, monitor them, and manage access to them. You can use API Gateway to create an API for your SageMaker endpoint and manage access to it.
 
+.. image:: images/api.svg
+  :align: center
+
 A typical deployment workflow would be:
 
 1. Train your model and save it - either using SageMaker training jobs or on your own environment.
