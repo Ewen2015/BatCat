@@ -250,12 +250,61 @@ Unlike RedShift, Athena is a serverless service and does not need any infrastruc
 Deployment on Cloud
 ===================
 
-We notice there are many combinations of services on AWS can serve the machine learning deployment, like 1) Lambda, ECR, 2) Lambda, EFS, 3) Lambda, SageMaker, Step Functions, etc. Here we provide one practice as following.
+We notice there are many combinations of services on AWS can serve the machine learning deployment, like 1) Lambda, ECR, 2) Lambda, EFS, 3) Lambda, SageMaker, Step Functions, 4) SageMaker built-in methods etc. Here we provide two practices as following.
 
-**Services on AWS**: ECR, SageMaker Processing, Step Functions, and Lambda. 
+As an API
+---------
 
-Background
-----------
+**Services on AWS**: SageMaker, API Gateway. 
+
+SageMaker is AWS's managed machine learning service. With SageMaker, you can deploy trained ML models as inference endpoints. These are REST APIs that can be called to get predictions from your model on new data. SageMaker takes care of provisioning resources, scaling your endpoint, and monitoring.
+
+API Gateway is AWS's API management service. It allows you to create REST APIs, deploy them, monitor them, and manage access to them. You can use API Gateway to create an API for your SageMaker endpoint and manage access to it.
+
+A typical deployment workflow would be:
+
+1. Train your model and save it - either using SageMaker training jobs or on your own environment.
+2. Create a model package with the artifacts required to deploy your model. This includes files like model.tar.gz, code, and dependencies.
+3. Create an endpoint configuration which specifies hardware resources like instance type.
+4. Create an inference endpoint from the model package and endpoint configuration. This deploys your model as a REST API.
+5. (Optional) Use API Gateway to create an HTTP API for your endpoint and add features like caching, throttling, access control, etc.
+6. Call your endpoint/API to get predictions from your model.
+7. Monitor and scale your endpoint as needed to handle changing traffic.
+
+.. code-block:: python
+
+    import batcat as bc
+    from sklearn.linear_model import LogisticRegression
+    
+    # Train model
+    lr = LogisticRegression()
+    lr.fit(X_train, y_train)
+    
+    # Deploy model
+    endpoint_name = bc.deploy_model(model=lr, model_name='battery-lr', bucket='2022-rnd-battery')
+    
+    # Invoke and test model
+    results = bc.invoke(endpoint_name=endpoint_name, input_data=X_test)
+    
+
+.. note::
+    
+    There are a few key benefits of an API-first approach for machine learning:
+    
+    1. Easy integration - Exposing your ML model through an API allows it to be easily integrated into applications. The API acts as an abstraction layer that hides the complexity of the model and lets applications get predictions through a simple API call.
+    2. Flexibility - An API gives flexibility to use the model from different client environments. You can have web clients, mobile clients, cron jobs, etc all accessing the same model API. Without an API, the model would be locked into a single integration.
+    3. Scalability - An API allows you to decouple the model deployment from individual client integrations. If you have 10 web apps accessing a model API, you only need to deploy one model endpoint. Versus deploying the model separately for each application. This is more resource efficient and scalable.
+    4. Monitoring - Monitoring an API is easier than monitoring multiple model integrations. You get aggregated metrics on API calls, latency, errors, etc. This gives more visibility into how the model is performing in production.
+    5. Caching - You can enable API caching to improve response times and reduce load on the model. Caching at the API layer is not possible if the model is integrated directly into applications.
+    6. Access Management - Use API Gateway to control access to your model API. Manage which clients can access the API, throttling policies, quotas, etc. This gives more security and control than individually managing access for each model integration.
+    
+    So in summary, an API-first approach leads to more robust, scalable, flexible, and secure ML deployments. The API acts as the single point of entry for all applications to access the model. And API management features can be leveraged to gain visibility, enhance performance, and control access. An API-first ML architecture is a best practice for production environments.
+    
+
+As a Datapipeline
+-----------------
+
+**Services on AWS**: ECR, SageMaker, Step Functions, and Lambda. 
 
 Before we dive in the topic, let's align on the meaning of "deployment on cloud". This basicly involves **microservice** like container and **serverless**. In the AWS context, it related services:
 
@@ -277,7 +326,7 @@ So here's BatCat. It provides templates to setup docker images, workflows of Ste
 **BatCat** takes all steps in a machine learning product as processing jobs -- data cleaning, preprocessing, feature engineering, predicting. Note that the training step is not in production stage but development stage so not inlcuded here.
 
 Initialize
-----------
+~~~~~~~~~~
 
 1. Create related roles and attach policies to it. 
     Like any other AWS services, roles and policies setup is one of the most disappointing parts when using it. Refer to :ref:`Identity and Access Management <appendix:Identity and Access Management (IAM)>` for more information.
@@ -338,7 +387,7 @@ Then we obtain a :file:`deploy/` file structure as following.
         setup_stepfunctions_inference.py
 
 Deploy it!
-----------
+~~~~~~~~~~
 
 1. Add your Python packages to the :file:`requirements.txt`.
 2. Run :file:`setup_docker.sh`.
