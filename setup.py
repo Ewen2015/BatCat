@@ -26,7 +26,8 @@ REQUIRED = [
     'pyathena==2.3.0', 
     'redshift_connector==2.0.888', 
     'sqlalchemy==1.3.23',
-    'psycopg2-binary==2.9.1'
+    'psycopg2-binary==2.9.1',
+    'joblib==1.2.0'
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
