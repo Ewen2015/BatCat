@@ -15,6 +15,7 @@ import boto3
 import joblib
 import tarfile
 import sagemaker
+from sagemaker.estimator import Estimator
 import subprocess
 
 
@@ -54,13 +55,11 @@ def input_fn(request_body, request_content_type):
     else:
         raise ValueError("This model only supports application/json input")
 
-        
 def predict_fn(input_data, model):
     return model.predict(input_data)
 
-
 def output_fn(prediction, content_type):
-    res = prediction[0]
+    res = prediction.tolist()
     respJSON = {'Output': res}
     return respJSON
 """
@@ -70,7 +69,7 @@ def output_fn(prediction, content_type):
 
     return None
 
-def upload_model_to_s3(model_name='model', model_suffix='.joblib', bucket='[project]'):
+def upload_model_to_s3(model_name='model', model_suffix='.joblib', bucket='[bucket]'):
     boto_session = boto3.session.Session()
     s3 = boto_session.resource('s3')
     
@@ -91,23 +90,21 @@ def upload_model_to_s3(model_name='model', model_suffix='.joblib', bucket='[proj
 
 def deploy_model(model, 
                  model_name='model',
-                 project='[project]',
-                 role='arn:aws-cn:iam::[account-id]:role/[role-name]'):
+                 bucket='[bucket]'):
     """ Deploy a SKLearn model to SageMaker Endpoint.
     
     Args:
         model: An SKLearn model.
         model_name (str): The model name.
-        project (str): The project name, which is also the S3 bucket name in BatCat convention.
-        role (str): The Execution Role ARN, which should include S3 Full Access, SageMaker Full Access, and ECR Full Access.
+        bucket (str): The bucket to store model, which is also the project name in BatCat convention.
+
     Return:
         None
     """
-    
     ## Model Setup    
     save_model(model=model)
     template_inference()
-    model_artifacts = upload_model_to_s3(bucket=project)
+    model_artifacts = upload_model_to_s3(bucket=bucket)
     
     ## SKLearn Image Setup
     client = boto3.client(service_name="sagemaker")
@@ -115,6 +112,7 @@ def deploy_model(model,
     boto_session = boto3.session.Session()
     region = boto_session.region_name
     sagemaker_session = sagemaker.Session()
+    role = sagemaker.get_execution_role()
     
     # retrieve sklearn image
     image_uri = sagemaker.image_uris.retrieve(
@@ -167,7 +165,6 @@ def deploy_model(model,
     )
     print("Endpoint Arn: " + create_endpoint_response["EndpointArn"])
 
-
     #Monitor creation
     describe_endpoint_response = client.describe_endpoint(EndpointName=endpoint_name)
     while describe_endpoint_response["EndpointStatus"] == "Creating":
@@ -177,5 +174,18 @@ def deploy_model(model,
     print(describe_endpoint_response)
     return endpoint_name
 
-if __name__ == '__main__':
-    main()
+
+def invoke(endpoint_name, input_data):
+    runtime_client = boto3.client('sagemaker-runtime')
+    content_type = "application/json"
+    
+    request_body = {"Input": input_data}
+    data = json.loads(json.dumps(request_body))
+    payload = json.dumps(data)
+
+    response = runtime_client.invoke_endpoint(
+        EndpointName=endpoint_name,
+        ContentType=content_type,
+        Body=payload)
+    result = json.loads(response['Body'].read().decode())['Output']
+    return result
