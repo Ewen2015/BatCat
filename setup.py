@@ -19,7 +19,7 @@ REQUIRED = [
     'botocore==1.21.57',
     'protobuf==3.19.5',
     'awscli==1.20.57', 
-    'requests==2.26.0', 
+    'requests==2.31.0', 
     'sagemaker==2.59.8', 
     'stepfunctions==2.2.0',
     'sagemaker-experiments==0.1.35', 
