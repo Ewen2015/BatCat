@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: batcat
-Version: 0.2.31
+Version: 0.2.40
 Summary: BatCat, A Cat Looks Like A Bat.
 Home-page: https://github.com/Ewen2015/BatCat
 Author: Ewen Wang
@@ -28,55 +28,20 @@ Services of AWS covered:
 Philosophy of BatCat's MLOps
 ============================
 
-BatCat practices MLOps in **3 layers (ASA)**:
+**BatCat** is designed to make the data scientist's life easier when practicing **machine learning operations (MLOps)** on **Amazon Web Services (AWS)**.
 
-- **AWS Lambda**: a serverless, event-driven compute service
-- **AWS S3 (Simple Storage Service)**: provides object storage service
-- **Amazon Athena**: a serverless, interactive query service on S3
-- **Amazon Redshift**: a data warehouse product
-- **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
+Services of AWS included:
 
-1. Algorithm level
-------------------
+1. **AWS Lambda**: a serverless, event-driven compute service
+2. **AWS S3 (Simple Storage Service)**: provides object storage service
+3. **AWS Glue**: is a serverless data integration service that makes data preparation simpler, faster, and cheaper. 
+4. **Amazon Athena**: a serverless, interactive query service on S3
+5. **Amazon Redshift**: a data warehouse product
+6. **Amazon SageMaker Processing**: allows you to run steps for data pre- or post-processing, feature engineering, data validation, or model evaluation workloads on Amazon SageMaker.
+7. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
+8. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
+9. **Secrets Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
 
-Tool: `GossipCat <https://github.com/Ewen2015/GossipCat>`_, `TensorBoard <https://www.tensorflow.org/tensorboard>`_
-
-.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/gc_learning_curve.png
-    :width: 600
-    :align: center
-
-.. image:: https://www.tensorflow.org/tensorboard/images/tensorboard.gif
-    :width: 600
-    :align: center
-
-2. System level
----------------
-
-Tool: AWS CloudWatch
-
-AWS CloudWatch provides standard monitoring and operational data with dashboards, which satisfies the requirements of MLOps in system level. Generally, the following operational data are presented in the dashboard:
-
-- SageMaker CPU Ultilization
-- S3 bucket size
-- Lambda
-    - invocations
-    - erros
-- StepFunction
-    - execution time
-    - execution failed
-- Cost
-- Log group
-
-.. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/aws_cloudwatch.png
-    :width: 600
-    :align: center
-
-3. Application level
---------------------
-
-Tool: DataOps
-
-BatCat realizes application level MLOps by monitoring the distributions of data inputs (data source) and data outputs (predictions). As the applicaiton levle MLOps is a part of the whole DataOps, it should algin with the practice of DataOps according to each organziation or company.
 
 Story of the BatCat
 ===================

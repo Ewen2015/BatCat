@@ -46,6 +46,13 @@ Athena
 
 .. autofunction:: batcat.read_data_from_athena
 
+SageMaker
+=========
+
+.. autofunction:: batcat.deploy_model
+
+.. autofunction:: batcat.invoke
+
 
 Lambda
 ======

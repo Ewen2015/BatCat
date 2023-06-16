@@ -16,3 +16,4 @@ from .Athena import *
 from .Docker import *
 from .Stepfunctions import *
 from .Lambda import *
+from .SageMaker import *

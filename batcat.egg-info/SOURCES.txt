@@ -8,6 +8,7 @@ batcat/FileSys.py
 batcat/Lambda.py
 batcat/Logging.py
 batcat/Redshift.py
+batcat/SageMaker.py
 batcat/Stepfunctions.py
 batcat/Storage.py
 batcat/__init__.py

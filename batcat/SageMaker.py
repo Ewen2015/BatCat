@@ -20,6 +20,16 @@ import subprocess
 
 
 def save_model(model, model_name='model', model_suffix='.joblib'):
+    """Saves a machine learning model using Joblib.
+
+    Args:
+        model (object): The trained machine learning model.
+        model_name (str, optional): The name to save the model under. Defaults to 'model'.
+        model_suffix (str, optional): The file extension to save the model with. Defaults to '.joblib'.
+
+    Returns:
+        None
+    """
     model_path = model_name + model_suffix
     with open(model_path, 'wb') as f:
         joblib.dump(model, f)
@@ -30,6 +40,7 @@ def template_inference():
 
     Args:
         None
+
     Yields:
         A template AWS SageMaker inference file to the current directory. 
     """
@@ -70,6 +81,16 @@ def output_fn(prediction, content_type):
     return None
 
 def upload_model_to_s3(model_name='model', model_suffix='.joblib', bucket='[bucket]'):
+    """Uploads a machine learning model to an S3 bucket.
+
+    Args:
+        model_name (str, optional): The name to save the model under. Defaults to 'model'.
+        model_suffix (str, optional): The file extension to save the model with. Defaults to '.joblib'.
+        bucket (str): The S3 bucket to upload the model to.
+
+    Returns: 
+        model_artifacts (str): The S3 path where the model is uploaded.
+    """
     boto_session = boto3.session.Session()
     s3 = boto_session.resource('s3')
     
@@ -176,6 +197,15 @@ def deploy_model(model,
 
 
 def invoke(endpoint_name, input_data):
+    """Invokes a SageMaker endpoint with input data.
+
+    Args:
+        endpoint_name (str): The name of the SageMaker endpoint.
+        input_data (list): The input data to send to the endpoint.
+
+    Returns:
+        result (list): The response from the SageMaker endpoint. 
+    """
     runtime_client = boto3.client('sagemaker-runtime')
     content_type = "application/json"
     
@@ -189,3 +219,6 @@ def invoke(endpoint_name, input_data):
         Body=payload)
     result = json.loads(response['Body'].read().decode())['Output']
     return result
+
+if __name__ == '__main__':
+    main()
