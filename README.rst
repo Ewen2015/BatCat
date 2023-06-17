@@ -24,7 +24,7 @@ Services of AWS included:
 3. **AWS Glue**: is a serverless data integration service that makes data preparation simpler, faster, and cheaper. 
 4. **Amazon Athena**: a serverless, interactive query service on S3
 5. **Amazon Redshift**: a data warehouse product
-6. **Amazon SageMaker Processing**: allows you to run steps for data pre- or post-processing, feature engineering, data validation, or model evaluation workloads on Amazon SageMaker.
+6. **Amazon SageMaker**: a cloud machine-learning platform that enables developers to create, train, and deploy machine-learning models in the cloud.
 7. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
 8. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
 9. **Secrets Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
