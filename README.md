@@ -18,19 +18,17 @@ Services of AWS covered:
 2. **AWS S3 (Simple Storage Service)**: provides object storage service
 3. **Amazon Athena**: a serverless, interactive query service on S3
 4. **Amazon Redshift**: a data warehouse product
-5. **Amazon SageMaker Processing**: allows you to run steps for data pre- or post-processing, feature engineering, data validation, or model evaluation workloads on Amazon SageMaker.
+5. **Amazon SageMaker**: a cloud machine-learning platform that enables developers to create, train, and deploy machine-learning models in the cloud.
 6. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
 7. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
-8. **Secret Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
+8. **Secrets Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
 
-Philosophy of BatCat's MLOps
+Install
 ---
 
-BatCat practices MLOps in **3 layers (ASA)**:
-
-1. **Algorithm level**: which is on machine learning algorithm itself, it cares about learning curve, iteration rounds, metrics, etc. 
-2. **System level**: which treats the machine learning project as a system itself, it focuses on resources ultized and health of the machine learning pipeline.
-3. **Application level**: which put the machine learning system as one of parts in a large process, it connects data producers from upstream and data consumers from downstreams. 
+```python
+pip install batcat
+```
 
 
 Story of the BatCat
