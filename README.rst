@@ -21,13 +21,19 @@ Services of AWS included:
 
 1. **AWS Lambda**: a serverless, event-driven compute service
 2. **AWS S3 (Simple Storage Service)**: provides object storage service
-3. **AWS Glue**: is a serverless data integration service that makes data preparation simpler, faster, and cheaper. 
-4. **Amazon Athena**: a serverless, interactive query service on S3
-5. **Amazon Redshift**: a data warehouse product
-6. **Amazon SageMaker**: a cloud machine-learning platform that enables developers to create, train, and deploy machine-learning models in the cloud.
-7. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
-8. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
-9. **Secrets Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
+3. **Amazon Athena**: a serverless, interactive query service on S3
+4. **Amazon Redshift**: a data warehouse product
+5. **Amazon SageMaker**: a cloud machine-learning platform that enables developers to create, train, and deploy machine-learning models in the cloud.
+6. **Elastic Container Registry (ECR)**: is a fully managed Docker container registry that makes it easy to store, share, and deploy container images.
+7. **AWS Step Functions**: a low-code, visual workflow service that developers use to build distributed applications, automate IT and business processes, and build data and machine learning pipelines using AWS services.
+8. **Secrets Manager**: is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.
+
+Install
+=======
+
+.. code-block:: python
+
+    pip install batcat
 
 
 Story of the BatCat
@@ -36,7 +42,7 @@ Story of the BatCat
 The package names after a cat of my friend, Clara. 
 
 .. image:: https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg
-    :width: 400
+    :width: 600
     :align: center
 
 License
