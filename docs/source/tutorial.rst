@@ -292,7 +292,9 @@ A typical deployment workflow would be:
     lr.fit(X_train, y_train)
     
     # Deploy model
-    endpoint_name = bc.deploy_model(model=lr, model_name='battery-lr', bucket='2022-rnd-battery')
+    response = bc.deploy_model(model=lr, model_name='battery-lr', bucket='2022-rnd-battery')
+
+    endpoint_name = response['EndpointName']
     
     # Invoke and test model
     results = bc.invoke(endpoint_name=endpoint_name, input_data=X_test)

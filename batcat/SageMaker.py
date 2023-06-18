@@ -15,7 +15,6 @@ import boto3
 import joblib
 import tarfile
 import sagemaker
-from sagemaker.estimator import Estimator
 import subprocess
 
 
@@ -112,20 +111,26 @@ def upload_model_to_s3(model_name='model', model_suffix='.joblib', bucket='[buck
 def deploy_model(model, 
                  model_name='model',
                  bucket='[bucket]'):
-    """ Deploy a SKLearn model to SageMaker Endpoint.
+    """ Deploy an scikit-learn model to SageMaker Endpoint.
     
     Args:
-        model: An SKLearn model.
+        model: An scikit-learn model.
         model_name (str): The model name.
         bucket (str): The bucket to store model, which is also the project name in BatCat convention.
 
     Return:
-        None
+        reponse (dict): The model, endpoint configuration, endpoint information. 
     """
+    response = dict()
+    response["ModelName"] = model_name
+    print("Model Name: " + response["ModelName"])
+
     ## Model Setup    
     save_model(model=model)
     template_inference()
     model_artifacts = upload_model_to_s3(bucket=bucket)
+    response["ModelArtifacts"] = model_artifacts
+    print("Model Artifacts: " + response["ModelArtifacts"])
     
     ## SKLearn Image Setup
     client = boto3.client(service_name="sagemaker")
@@ -147,7 +152,9 @@ def deploy_model(model,
     ## Deploy Endpoint
     #Step 1: Model Creation
     model_name = model_name.upper() + strftime("-%Y%m%d-%H%M%S", gmtime())
-    print("Model name: " + model_name)
+    response["ModelVersion"] = model_name
+    print("Model Name (Version): " + response["ModelVersion"])
+
     create_model_response = client.create_model(
         ModelName=model_name,
         Containers=[
@@ -161,7 +168,8 @@ def deploy_model(model,
         ],
         ExecutionRoleArn=role,
     )
-    print("Model Arn: " + create_model_response["ModelArn"])
+    response["ModelArn"] = create_model_response["ModelArn"]
+    print("Model Arn: " + response["ModelArn"])
     
     #Step 2: EPC Creation
     epc_name = "EPC-" + model_name 
@@ -176,7 +184,10 @@ def deploy_model(model,
             },
         ],
     )
-    print("Endpoint Configuration Arn: " + endpoint_config_response["EndpointConfigArn"])
+    response["EndpointConfigName"] = epc_name
+    response["EndpointConfigArn"] = endpoint_config_response["EndpointConfigArn"]
+    print("Endpoint Configuration Name: " + response["EndpointConfigName"])
+    print("Endpoint Configuration Arn: " + response["EndpointConfigArn"])
     
     #Step 3: EP Creation
     endpoint_name = "EP-" + model_name
@@ -184,7 +195,10 @@ def deploy_model(model,
         EndpointName=endpoint_name,
         EndpointConfigName=epc_name,
     )
-    print("Endpoint Arn: " + create_endpoint_response["EndpointArn"])
+    response["EndpointName"] = endpoint_name
+    response["EndpointArn"] = create_endpoint_response["EndpointArn"]
+    print("Endpoint Name: " + response["EndpointName"])
+    print("Endpoint Arn: " + response["EndpointArn"])
 
     #Monitor creation
     describe_endpoint_response = client.describe_endpoint(EndpointName=endpoint_name)
@@ -193,7 +207,8 @@ def deploy_model(model,
         print(describe_endpoint_response["EndpointStatus"])
         time.sleep(15)
     print(describe_endpoint_response)
-    return endpoint_name
+
+    return response
 
 
 def invoke(endpoint_name, input_data):
