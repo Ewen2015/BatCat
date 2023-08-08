@@ -101,5 +101,8 @@ batcat
 
     return None
 
+def main():
+    template_docker()
+
 if __name__ == '__main__':
     main()
