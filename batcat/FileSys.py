@@ -129,7 +129,7 @@ if __name__ == '__main__':
 """#!/bin/bash
 
 python -m venv venv
-venv\Scripts\activate
+venv\\Scripts\\activate
 ipython kernel install --user --name=venv
 
 # jupyter-kernelspec uninstall venv
