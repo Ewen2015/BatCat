@@ -123,8 +123,26 @@ if __name__ == '__main__':
             f.write(config)
         except Exception as e:
             pass
-
     os.chdir('../')
+
+    venv = \
+"""#!/bin/bash
+
+python -m venv venv
+venv\Scripts\activate
+ipython kernel install --user --name=venv
+
+# jupyter-kernelspec uninstall venv
+"""
+
+    os.chdir('notebook')
+    with open('setup_venv.sh', 'a') as f:
+        try:
+            f.write(venv)
+        except Exception as e:
+            pass 
+    os.chdir('../')
+
 
     os.chdir('script')
     config = 'config.json'
