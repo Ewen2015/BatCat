@@ -18,7 +18,6 @@ REQUIRED = [
     'boto3==1.18.57',
     'botocore==1.21.57',
     'protobuf==3.19.5',
-    'awscli==1.20.57', 
     'sagemaker==2.59.8', 
     'stepfunctions==2.2.0',
     'sagemaker-experiments==0.1.35', 
@@ -27,6 +26,7 @@ REQUIRED = [
     'sqlalchemy==1.3.23',
     'psycopg2-binary==2.9.1',
     'joblib==1.2.0',
+    'awscli', 
     'requests', 
 ]
 
