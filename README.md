@@ -29,10 +29,6 @@ Install
 ```python
 pip install batcat
 ```
-Flowchart
-----------------------
-
-![flowchart](/image/ML_Flowchart.svg)
 
 Story of the BatCat
 ---
