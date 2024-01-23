@@ -26,6 +26,7 @@ REQUIRED = [
     'sqlalchemy==1.3.23',
     'psycopg2-binary==2.9.1',
     'joblib==1.2.0',
+    'awscli', 
     'requests', 
 ]
 
