@@ -43,13 +43,27 @@ def processing_output_path(purpose, timestamp=True, local=False):
 
 def setup_workflow(project='[project]',
                    purpose='[purpose]',
-                   workflow_execution_role='arn:aws-cn:iam::[account-id]:role/[role-name]'):
+                   workflow_execution_role='arn:aws-cn:iam::[account-id]:role/[role-name]',
+                   instance_type='ml.t3.medium',
+                   ecr_uri_suffix = 'amazonaws.com.cn',
+                   ecr_tag = ':latest',
+                   network_config=None, 
+                   enable_network_isolation=False, 
+                   security_group_ids=None, 
+                   subnets=None):
     """Setup all needed for a step function with sagemaker.
 
     Args: 
         project (str): project name under sagemaker.
         purpose (str): subproject.
         workflow_execution_role (str): arn to execute step functions.
+        instance_type (str): instance type for processing job, default as 'ml.t3.medium'; for better performance, try 'ml.m5.4xlarge'.
+        ecr_uri_suffix (str): ECR URI suffix, default as 'amazonaws.com.cn'.
+        ecr_tag (str): ECR tag, default as ':latest'.
+        network_config (sagemaker.network.NetworkConfig): network configuration for processing job.
+        enable_network_isolation (bool): whether to enable network isolation.
+        security_group_ids (list): security group ids for processing job.
+        subnets (list): subnets for processing job.
 
     Returns:
         workflow (stepfunctions.workflow.Workflow): a workflow instance.
@@ -69,7 +83,6 @@ def setup_workflow(project='[project]',
     s3_output = session.default_bucket()
 
     # Code storage
-    # ==================
     s3_prefix = '{}/{}'.format(project, purpose)
     s3_prefix_code = '{}/code'.format(s3_prefix)
     s3CodePath = 's3://{}/{}/code'.format(s3_output, s3_prefix)   
@@ -86,17 +99,34 @@ def setup_workflow(project='[project]',
     # ECR environment
     # ====================================
     ecr_repository = project
-    uri_suffix = 'amazonaws.com.cn'
-    tag = ':latest'
-    ecr_repository_uri = '{}.dkr.ecr.{}.{}/{}'.format(account_id, region, uri_suffix, ecr_repository + tag)
+    ecr_repository_uri = '{}.dkr.ecr.{}.{}/{}'.format(account_id, region, ecr_uri_suffix, ecr_repository + ecr_tag)
 
+    # Network
+    # ====================================
+    if network_config is not None:
+        network_config = sagemaker.network.NetworkConfig(
+            enable_network_isolation=enable_network_isolation, 
+            security_group_ids=security_group_ids,
+            subnets=subnets
+        )
+    
     # SageMaker Experiments setup
     # ========================================================================================
     experiment = Experiment.create(experiment_name="{}-{}".format(project, int(time.time())), 
-                                   description="machine learning project", 
+                                   description="Machine Learning Project",
                                    sagemaker_boto_client=boto3.client('sagemaker'))
     print(experiment)
 
+    # setup script processor
+    script_processor = ScriptProcessor(command=['python3'],
+                                       image_uri=ecr_repository_uri,
+                                       role=role,
+                                       instance_count=1,
+                                       instance_type=instance_type,
+                                       network_config=network_config)
+
+    # Step
+    # ========================================================================================
     execution_input = ExecutionInput(
         schema={
             "ProcessingJobName": str,
@@ -104,16 +134,6 @@ def setup_workflow(project='[project]',
         }
     )
 
-    # setup script processor
-    script_processor = ScriptProcessor(command=['python3'],
-                                       image_uri=ecr_repository_uri,
-                                       role=role,
-                                       instance_count=1,
-                                       instance_type='ml.m5.4xlarge')
-
-    # Step
-    # ========================================================================================
-    
     optimizing_step = steps.ProcessingStep(
         "Processing Step",
         processor=script_processor,
