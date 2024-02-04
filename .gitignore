@@ -4,3 +4,5 @@ dist/*
 batcat.egg-info/*
 build/lib/batcat/*
 .ipynb_checkpoints/setup-checkpoint.py
+.github/*
+.vscode/*
