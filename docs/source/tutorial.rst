@@ -302,16 +302,11 @@ A typical deployment workflow would be:
 
 .. note::
     
-    There are a few key benefits of an **API-first** approach for machine learning:
-    
-    1. **Easy integration** - Exposing your ML model through an API allows it to be easily integrated into applications. The API acts as an abstraction layer that hides the complexity of the model and lets applications get predictions through a simple API call.
-    2. **Flexibility** - An API gives flexibility to use the model from different client environments. You can have web clients, mobile clients, cron jobs, etc all accessing the same model API. Without an API, the model would be locked into a single integration.
-    3. **Scalability** - An API allows you to decouple the model deployment from individual client integrations. If you have 10 web apps accessing a model API, you only need to deploy one model endpoint. Versus deploying the model separately for each application. This is more resource efficient and scalable.
-    4. **Monitoring** - Monitoring an API is easier than monitoring multiple model integrations. You get aggregated metrics on API calls, latency, errors, etc. This gives more visibility into how the model is performing in production.
-    5. **Caching** - You can enable API caching to improve response times and reduce load on the model. Caching at the API layer is not possible if the model is integrated directly into applications.
-    6. **Access Management** - Use API Gateway to control access to your model API. Manage which clients can access the API, throttling policies, quotas, etc. This gives more security and control than individually managing access for each model integration.
-    
-    So in summary, an API-first approach leads to more robust, scalable, flexible, and secure ML deployments. The API acts as the single point of entry for all applications to access the model. And API management features can be leveraged to gain visibility, enhance performance, and control access. An **API-first ML architecture** is a best practice for production environments.
+   The three key benefits of an API-first approach in data science and machine learning projects are:
+
+   1. **Easy Integration**: APIs allow for seamless integration of machine learning models into various applications.
+   2. **Flexibility**: APIs provide the flexibility to access the model from different client environments, promoting reusability.
+   3. **Scalability**: Deploying a model through an API streamlines resource management and handles growing traffic more effectively.
     
 
 Pipeline as a Product
