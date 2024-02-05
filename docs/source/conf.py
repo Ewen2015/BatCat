@@ -23,7 +23,7 @@ copyright = '2024, Ewen Wang'
 author = 'Ewen Wang'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.x'
+release = '0.2.49'
 
 
 # -- General configuration ---------------------------------------------------
@@ -32,7 +32,7 @@ release = '0.2.x'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'sphinx.ext.napoleon',
-              'sphinx.ext.autosectionlabel', 'sphinx.ext.mathjax']
+              'sphinx.ext.autosectionlabel', 'sphinx.ext.mathjax', 'sphinx_rtd_theme']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -57,7 +57,7 @@ autosectionlabel_prefix_document = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
+html_theme_path = ["_themes", ]
 html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
