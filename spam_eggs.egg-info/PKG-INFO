@@ -1,15 +1,24 @@
 Metadata-Version: 2.1
-Name: batcat
-Version: 0.2.50
-Summary: BatCat, A Cat Looks Like A Bat.
+Name: spam-eggs
+Version: 2020.0.0
+Summary: Lovely Spam! Wonderful Spam!
 Home-page: https://github.com/Ewen2015/BatCat
-Author: Ewen Wang
-Author-email: wolfgangwong2012@gmail.com
-License: Apache License 2.0
-Classifier: License :: OSI Approved :: Apache Software License
-Classifier: Programming Language :: Python :: 3.9
+Author: Another person
+Author-email: Pradyun Gedam <pradyun@example.com>, Tzu-Ping Chung <tzu-ping@example.com>, different.person@example.com
+Maintainer-email: Brett Cannon <brett@example.com>
+Project-URL: Homepage, https://example.com
+Project-URL: Documentation, https://readthedocs.org
+Project-URL: Repository, https://github.com/me/spam.git
+Project-URL: Bug Tracker, https://github.com/me/spam/issues
+Project-URL: Changelog, https://github.com/me/spam/blob/master/CHANGELOG.md
+Keywords: egg,bacon,sausage,tomatoes,Lobster Thermidor
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+Provides-Extra: gui
+Provides-Extra: cli
 License-File: LICENSE
-
 
 ##############################
 BatCat, A Cat with A Bat Face!
