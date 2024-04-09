@@ -33,7 +33,7 @@ pip install batcat
 Story of the BatCat
 ---
 
-The package names after a cat of my friend, Clara. 
+The package is named after a cat named BatCat, owned by my friend Clara. 
 
 <p align="center">
 <img width="500" height="500" src="https://raw.githubusercontent.com/Ewen2015/BatCat/master/BatCat.jpeg">
