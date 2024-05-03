@@ -17,7 +17,7 @@ REQUIRED = [
     "pandas",
     "boto3==1.34.26",
     "protobuf==3.19.5",
-    "sagemaker==2.204.0",
+    "sagemaker==2.218.0",
     "stepfunctions==2.3.0",
     "sagemaker-experiments==0.1.35",
     "pyathena==2.3.0",
